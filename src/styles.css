@@ -51,6 +51,14 @@
   --sova-bad: #ff4d4f;
 }
 
+[data-sova-theme="brain"] {
+  --sova-bg: #f4f1ea;
+  --sova-surface: #fffdf8;
+  --sova-surface-soft: #ebe5d9;
+  --sova-border: #ddd4c3;
+  --sova-accent: #3f3a2f;
+}
+
 .sova-root {
   min-height: 100%;
   background: var(--sova-bg);

@@ -4,7 +4,10 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist", "src/styles.css"],
+  "files": [
+    "dist",
+    "src/styles.css"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -13,8 +16,10 @@
     "./style.css": "./src/styles.css"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.build.json",
     "prepare": "npm run build",
+    "stories": "ladle serve",
+    "stories:build": "ladle build",
     "test": "vitest run src --environment jsdom",
     "lint": "tsc -p tsconfig.json --noEmit"
   },
@@ -23,6 +28,7 @@
     "react-dom": ">=18"
   },
   "devDependencies": {
+    "@ladle/react": "^5.1.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@types/react": "^19.2.14",
