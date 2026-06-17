@@ -56,3 +56,35 @@ export type SovaColumn<Row> = { key: keyof Row & string; header: ReactNode; rend
 export function SovaTable<Row extends Record<string, ReactNode>>({ columns, rows }: { columns: SovaColumn<Row>[]; rows: Row[] }) {
   return <div className="sova-table-wrap"><table className="sova-table"><thead><tr>{columns.map(column => <th key={column.key}>{column.header}</th>)}</tr></thead><tbody>{rows.map((row, rowIndex) => <tr key={rowIndex}>{columns.map(column => <td key={column.key}>{column.render ? column.render(row) : row[column.key]}</td>)}</tr>)}</tbody></table></div>
 }
+
+export function SovaPageHeader({ eyebrow, title, description, actions, meta }: { eyebrow?: ReactNode; title: ReactNode; description?: ReactNode; actions?: ReactNode; meta?: ReactNode }) {
+  return <div className="sova-page-header"><div>{eyebrow ? <p className="sova-eyebrow">{eyebrow}</p> : null}<div className="sova-page-title-row"><h1 className="sova-page-title">{title}</h1>{meta ? <div className="sova-page-meta">{meta}</div> : null}</div>{description ? <p className="sova-page-description">{description}</p> : null}</div>{actions ? <div className="sova-actions">{actions}</div> : null}</div>
+}
+
+export type SovaKpiItem = { label: ReactNode; value: ReactNode; hint?: ReactNode; tone?: SovaTone }
+export function SovaKpiRow({ items }: { items: SovaKpiItem[] }) {
+  return <div className="sova-kpi-row">{items.map((item, index) => <SovaCard key={index} className="sova-kpi-card"><SovaStat label={item.label} value={item.value} tone={item.tone} />{item.hint ? <p className="sova-kpi-hint">{item.hint}</p> : null}</SovaCard>)}</div>
+}
+
+export function SovaToolbar({ left, right }: { left?: ReactNode; right?: ReactNode }) {
+  return <div className="sova-toolbar"><div className="sova-toolbar-left">{left}</div><div className="sova-toolbar-right">{right}</div></div>
+}
+
+export type SovaInspectorSection = { title: ReactNode; content: ReactNode }
+export function SovaInspector({ title, subtitle, actions, sections }: { title: ReactNode; subtitle?: ReactNode; actions?: ReactNode; sections: SovaInspectorSection[] }) {
+  return <aside className="sova-inspector"><div className="sova-inspector-head"><div><h2>{title}</h2>{subtitle ? <p>{subtitle}</p> : null}</div>{actions ? <div className="sova-actions">{actions}</div> : null}</div>{sections.map((section, index) => <section className="sova-inspector-section" key={index}><h3>{section.title}</h3><div>{section.content}</div></section>)}</aside>
+}
+
+export type SovaActivityItem = { title: ReactNode; detail?: ReactNode; time?: ReactNode; tone?: SovaTone }
+export function SovaActivityFeed({ items }: { items: SovaActivityItem[] }) {
+  return <div className="sova-activity-feed">{items.map((item, index) => <div className="sova-activity-item" key={index}><span className={cx('sova-activity-dot', item.tone && item.tone !== 'neutral' && `sova-activity-dot-${item.tone}`)} /><div><div className="sova-activity-title">{item.title}</div>{item.detail ? <div className="sova-activity-detail">{item.detail}</div> : null}</div>{item.time ? <span className="sova-activity-time">{item.time}</span> : null}</div>)}</div>
+}
+
+export type SovaSettingsItem = { label: ReactNode; description?: ReactNode; control?: ReactNode }
+export function SovaSettingsList({ items }: { items: SovaSettingsItem[] }) {
+  return <div className="sova-settings-list">{items.map((item, index) => <div className="sova-settings-item" key={index}><div><strong>{item.label}</strong>{item.description ? <p>{item.description}</p> : null}</div>{item.control ? <div>{item.control}</div> : null}</div>)}</div>
+}
+
+export function SovaDashboardGrid({ children, inspector }: { children: ReactNode; inspector?: ReactNode }) {
+  return <div className={cx('sova-dashboard-grid', Boolean(inspector) && 'sova-dashboard-grid-with-inspector')}><div className="sova-dashboard-main">{children}</div>{inspector ? <div className="sova-dashboard-inspector">{inspector}</div> : null}</div>
+}

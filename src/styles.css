@@ -184,3 +184,91 @@
   .sova-main { padding: 18px; }
   .sova-topbar { display: grid; }
 }
+.sova-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+.sova-page-title-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.sova-page-title { margin: 0; color: var(--sova-text); font-size: 30px; line-height: 1; letter-spacing: -0.055em; }
+.sova-page-description { max-width: 680px; margin: 8px 0 0; color: var(--sova-muted); font-size: 14px; line-height: 1.5; }
+.sova-page-meta { display: flex; align-items: center; gap: 8px; }
+
+.sova-dashboard-grid { display: grid; gap: 16px; }
+.sova-dashboard-grid-with-inspector { grid-template-columns: minmax(0, 1fr) minmax(280px, 340px); align-items: start; }
+.sova-dashboard-main { min-width: 0; display: grid; gap: 16px; }
+.sova-dashboard-inspector { min-width: 0; }
+
+.sova-kpi-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.sova-kpi-card { min-height: 104px; }
+.sova-kpi-hint { margin: 8px 0 0; color: var(--sova-muted); font-size: 12px; line-height: 1.35; }
+
+.sova-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border: 1px solid var(--sova-border);
+  border-radius: var(--sova-radius-lg);
+  background: color-mix(in srgb, var(--sova-surface) 78%, var(--sova-bg));
+}
+.sova-toolbar-left, .sova-toolbar-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+.sova-inspector {
+  position: sticky;
+  top: 18px;
+  display: grid;
+  gap: 14px;
+  border: 1px solid var(--sova-border);
+  border-radius: var(--sova-radius-lg);
+  background: var(--sova-surface);
+  padding: 15px;
+  box-shadow: var(--sova-shadow-sm);
+}
+.sova-inspector-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.sova-inspector h2 { margin: 0; font-size: 17px; letter-spacing: -0.03em; }
+.sova-inspector-head p { margin: 5px 0 0; color: var(--sova-muted); font-size: 12px; line-height: 1.4; }
+.sova-inspector-section { border-top: 1px solid var(--sova-border); padding-top: 12px; }
+.sova-inspector-section h3 { margin: 0 0 8px; color: var(--sova-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; }
+
+.sova-activity-feed { display: grid; gap: 11px; }
+.sova-activity-item { display: grid; grid-template-columns: 10px minmax(0, 1fr) auto; gap: 9px; align-items: start; }
+.sova-activity-dot { width: 8px; height: 8px; margin-top: 5px; border-radius: 999px; background: var(--sova-faint); }
+.sova-activity-dot-accent { background: var(--sova-accent); }
+.sova-activity-dot-good { background: var(--sova-good); }
+.sova-activity-dot-warn { background: var(--sova-warn); }
+.sova-activity-dot-bad { background: var(--sova-bad); }
+.sova-activity-title { color: var(--sova-text); font-size: 13px; font-weight: 700; }
+.sova-activity-detail { margin-top: 2px; color: var(--sova-muted); font-size: 12px; line-height: 1.4; }
+.sova-activity-time { color: var(--sova-faint); font-size: 11px; white-space: nowrap; }
+
+.sova-settings-list { display: grid; border: 1px solid var(--sova-border); border-radius: var(--sova-radius-lg); overflow: hidden; background: var(--sova-surface); }
+.sova-settings-item { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 13px 14px; border-bottom: 1px solid var(--sova-border); }
+.sova-settings-item:last-child { border-bottom: 0; }
+.sova-settings-item strong { display: block; font-size: 13px; color: var(--sova-text); }
+.sova-settings-item p { margin: 3px 0 0; color: var(--sova-muted); font-size: 12px; line-height: 1.35; }
+
+.sova-search {
+  min-width: 220px;
+  border: 1px solid var(--sova-border);
+  border-radius: 999px;
+  background: var(--sova-surface);
+  color: var(--sova-text);
+  padding: 8px 12px;
+  font: inherit;
+  font-size: 13px;
+}
+
+@media (max-width: 1120px) {
+  .sova-dashboard-grid-with-inspector { grid-template-columns: 1fr; }
+  .sova-inspector { position: static; }
+  .sova-kpi-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 680px) {
+  .sova-page-header, .sova-toolbar, .sova-settings-item { display: grid; }
+  .sova-kpi-row { grid-template-columns: 1fr; }
+}

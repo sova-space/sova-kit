@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/vitest'
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { SovaBadge, SovaBrand, SovaCard, SovaEmptyState, SovaNav, SovaProvider, SovaShell, SovaStat, SovaTable, SovaTopbar } from './index'
+import { SovaActivityFeed, SovaBadge, SovaBrand, SovaCard, SovaDashboardGrid, SovaEmptyState, SovaInspector, SovaKpiRow, SovaNav, SovaPageHeader, SovaProvider, SovaSettingsList, SovaShell, SovaStat, SovaTable, SovaToolbar, SovaTopbar } from './index'
 
 describe('@sova/ui', () => {
   it('applies the selected product theme', () => {
@@ -29,5 +29,27 @@ describe('@sova/ui', () => {
     expect(screen.getByText('No rows')).toBeInTheDocument()
     expect(screen.getByRole('columnheader', { name: 'Company' })).toBeInTheDocument()
     expect(screen.getByText('Arize AI')).toBeInTheDocument()
+  })
+
+  it('renders dashboard template blocks', () => {
+    render(
+      <SovaProvider theme="jobs">
+        <SovaPageHeader eyebrow="today" title="Command center" description="Review work" actions={<SovaBadge>live</SovaBadge>} />
+        <SovaKpiRow items={[{ label: 'Open', value: '24', tone: 'accent' }]} />
+        <SovaToolbar left="Filters" right={<SovaBadge tone="good">Good</SovaBadge>} />
+        <SovaDashboardGrid
+          inspector={<SovaInspector title="Selected" sections={[{ title: 'Activity', content: <SovaActivityFeed items={[{ title: 'Synced', time: '2m', tone: 'good' }]} /> }]} />}
+        >
+          <SovaSettingsList items={[{ label: 'Compact mode', description: 'Default on' }]} />
+        </SovaDashboardGrid>
+      </SovaProvider>,
+    )
+
+    expect(screen.getByText('Command center')).toBeInTheDocument()
+    expect(screen.getByText('Open')).toBeInTheDocument()
+    expect(screen.getByText('Filters')).toBeInTheDocument()
+    expect(screen.getByText('Selected')).toBeInTheDocument()
+    expect(screen.getByText('Synced')).toBeInTheDocument()
+    expect(screen.getByText('Compact mode')).toBeInTheDocument()
   })
 })
