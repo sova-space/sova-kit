@@ -88,3 +88,18 @@ export function SovaSettingsList({ items }: { items: SovaSettingsItem[] }) {
 export function SovaDashboardGrid({ children, inspector }: { children: ReactNode; inspector?: ReactNode }) {
   return <div className={cx('sova-dashboard-grid', Boolean(inspector) && 'sova-dashboard-grid-with-inspector')}><div className="sova-dashboard-main">{children}</div>{inspector ? <div className="sova-dashboard-inspector">{inspector}</div> : null}</div>
 }
+
+export type SovaProgressItem = { label: ReactNode; value: ReactNode; percent: number; tone?: SovaTone }
+export function SovaProgressList({ items }: { items: SovaProgressItem[] }) {
+  return <div className="sova-progress-list">{items.map((item, index) => <div className="sova-progress-item" key={index}><div className="sova-progress-row"><span>{item.label}</span><strong>{item.value}</strong></div><div className="sova-progress-track"><span className={cx(item.tone && item.tone !== 'neutral' && `sova-progress-${item.tone}`)} style={{ width: `${Math.max(0, Math.min(100, item.percent))}%` }} /></div></div>)}</div>
+}
+
+export type SovaSparkPoint = { value: number; tone?: SovaTone }
+export function SovaSparkBars({ points, height = 72 }: { points: SovaSparkPoint[]; height?: number }) {
+  const max = Math.max(1, ...points.map((point) => Math.abs(point.value)))
+  return <div className="sova-spark-bars" style={{ minHeight: height }}>{points.map((point, index) => <span key={index} className={cx(point.value < 0 && 'sova-spark-negative', point.tone && point.tone !== 'neutral' && `sova-spark-${point.tone}`)} style={{ height: `${Math.max(8, Math.round((Math.abs(point.value) / max) * height))}px` }} />)}</div>
+}
+
+export function SovaSplitCard({ title, description, main, side }: { title: ReactNode; description?: ReactNode; main: ReactNode; side: ReactNode }) {
+  return <SovaCard className="sova-split-card"><div className="sova-split-head"><div><h2 className="sova-card-title">{title}</h2>{description ? <p className="sova-card-description">{description}</p> : null}</div></div><div className="sova-split-body"><div>{main}</div><aside>{side}</aside></div></SovaCard>
+}

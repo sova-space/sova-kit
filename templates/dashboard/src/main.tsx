@@ -1,0 +1,60 @@
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import {
+  SovaActivityFeed,
+  SovaBadge,
+  SovaBrand,
+  SovaButton,
+  SovaCard,
+  SovaDashboardGrid,
+  SovaInspector,
+  SovaKpiRow,
+  SovaNav,
+  SovaPageHeader,
+  SovaProgressList,
+  SovaProvider,
+  SovaShell,
+  SovaSparkBars,
+  SovaSplitCard,
+  SovaTable,
+  SovaToolbar,
+  SovaTopbar,
+} from '@sova/kit'
+import '@sova/kit/style.css'
+import './style.css'
+
+const rows = [
+  { name: 'Primary queue', status: <SovaBadge tone="good">Ready</SovaBadge>, source: 'api', score: '91' },
+  { name: 'Needs review', status: <SovaBadge tone="warn">Watch</SovaBadge>, source: 'manual', score: '68' },
+  { name: 'Blocked source', status: <SovaBadge tone="bad">Blocked</SovaBadge>, source: 'sync', score: '12' },
+]
+
+function App() {
+  return (
+    <SovaProvider theme="jobs">
+      <SovaShell
+        sidebar={
+          <>
+            <SovaBrand mark="SV" eyebrow="sova space" title="New Bot" />
+            <SovaNav items={[{ label: 'Overview', active: true }, { label: 'Queue' }, { label: 'Sources' }, { label: 'Settings' }]} />
+          </>
+        }
+      >
+        <SovaTopbar eyebrow="operator dashboard" title="Command center" actions={<><SovaBadge tone="good">Live</SovaBadge><SovaButton variant="primary">Sync</SovaButton></>} />
+        <div className="sova-surface-band">
+          <SovaPageHeader eyebrow="today" title="What needs attention" description="Copy this template into a bot repo, then replace fake rows with product data." />
+          <SovaKpiRow items={[{ label: 'Open', value: '24', tone: 'accent' }, { label: 'Ready', value: '12', tone: 'good' }, { label: 'Watch', value: '7', tone: 'warn' }, { label: 'Blocked', value: '2', tone: 'bad' }]} />
+        </div>
+        <SovaDashboardGrid
+          inspector={<SovaInspector title="Selected" subtitle="Right rail for action detail." sections={[{ title: 'Activity', content: <SovaActivityFeed items={[{ title: 'Template loaded', time: 'now', tone: 'good' }]} /> }]} />}
+        >
+          <SovaToolbar left={<input className="sova-search" placeholder="Search…" />} right={<><SovaBadge>All</SovaBadge><SovaBadge tone="good">Ready</SovaBadge></>} />
+          <SovaSplitCard title="Health" description="Replace with your real chart." main={<SovaSparkBars points={[4, 7, 5, 9, -2, 12, 8].map((value) => ({ value }))} />} side={<SovaProgressList items={[{ label: 'Coverage', value: '80%', percent: 80, tone: 'good' }, { label: 'Noise', value: '18%', percent: 18, tone: 'warn' }]} />} />
+          <SovaCard title="Work queue"><SovaTable columns={[{ key: 'name', header: 'Name' }, { key: 'status', header: 'Status' }, { key: 'source', header: 'Source' }, { key: 'score', header: 'Score' }]} rows={rows} /></SovaCard>
+        </SovaDashboardGrid>
+      </SovaShell>
+    </SovaProvider>
+  )
+}
+
+createRoot(document.getElementById('root')!).render(<StrictMode><App /></StrictMode>)

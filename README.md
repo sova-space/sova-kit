@@ -1,15 +1,26 @@
 # @sova/kit
 
-Common Sova kit for shared UI and later reusable helpers.
+Common Sova kit for shared bot UIs.
+
+Live demo: https://sova-space.github.io/sova-kit/
 
 Current scope: Sova Operator UI foundation.
 
 - React UI primitives
+- Dashboard blocks: KPI row, toolbar, inspector, activity feed, progress list, spark bars
 - Product themes: jobs, finance, trading, brain
 - Shared CSS tokens
 - Ladle design preview
+- Copyable dashboard starter in `templates/dashboard`
 
 Keep product logic, API clients, routes, and charts inside product apps until duplication is real.
+
+## Use in an app
+
+```tsx
+import { SovaProvider, SovaShell } from '@sova/kit'
+import '@sova/kit/style.css'
+```
 
 ## Preview components
 
@@ -18,7 +29,16 @@ npm install
 npm run stories
 ```
 
-Open the Ladle URL to inspect themes, cards, badges, tables, and dashboard mockups.
+Open the Ladle URL to inspect themes, blocks, and dashboard mockups.
+
+## New dashboard starter
+
+```bash
+cp -R templates/dashboard ../my-bot-ui
+cd ../my-bot-ui
+npm install
+npm run dev
+```
 
 ## Verify
 

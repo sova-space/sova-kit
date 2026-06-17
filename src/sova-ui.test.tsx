@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/vitest'
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { SovaActivityFeed, SovaBadge, SovaBrand, SovaCard, SovaDashboardGrid, SovaEmptyState, SovaInspector, SovaKpiRow, SovaNav, SovaPageHeader, SovaProvider, SovaSettingsList, SovaShell, SovaStat, SovaTable, SovaToolbar, SovaTopbar } from './index'
+import { SovaActivityFeed, SovaBadge, SovaBrand, SovaCard, SovaDashboardGrid, SovaEmptyState, SovaInspector, SovaKpiRow, SovaNav, SovaPageHeader, SovaProgressList, SovaProvider, SovaSettingsList, SovaShell, SovaSparkBars, SovaSplitCard, SovaStat, SovaTable, SovaToolbar, SovaTopbar } from './index'
 
 describe('@sova/ui', () => {
   it('applies the selected product theme', () => {
@@ -40,6 +40,7 @@ describe('@sova/ui', () => {
         <SovaDashboardGrid
           inspector={<SovaInspector title="Selected" sections={[{ title: 'Activity', content: <SovaActivityFeed items={[{ title: 'Synced', time: '2m', tone: 'good' }]} /> }]} />}
         >
+          <SovaSplitCard title="Health" main={<SovaSparkBars points={[{ value: 3 }, { value: -1 }, { value: 5 }]} />} side={<SovaProgressList items={[{ label: 'Coverage', value: '80%', percent: 80, tone: 'good' }]} />} />
           <SovaSettingsList items={[{ label: 'Compact mode', description: 'Default on' }]} />
         </SovaDashboardGrid>
       </SovaProvider>,
