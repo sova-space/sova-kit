@@ -557,7 +557,27 @@
 .sova-component-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; align-content: flex-start; }
 .sova-component-stack { display: grid; gap: 12px; align-content: start; min-width: 0; }
 .sova-component-stack > *, .sova-component-row > * { max-width: 100%; }
-.sova-logo-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
-.sova-project-logo { display: grid; gap: 8px; justify-items: center; align-content: center; min-height: 118px; border: 1px solid var(--sova-border); border-radius: 14px; background: var(--sova-surface-soft); padding: 14px; }
-.sova-project-logo img { width: 62px; height: 62px; object-fit: contain; border-radius: 16px; box-shadow: var(--sova-shadow-soft); }
-.sova-project-logo span { color: var(--sova-muted); font-size: 12px; font-weight: 800; }
+
+/* Core components story polish */
+.sova-section-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
+.sova-section-heading h2 { margin: 0; font-size: 20px; letter-spacing: -.035em; }
+.sova-core-hero { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr); gap: 14px; align-items: stretch; }
+.sova-component-card-feature { position: relative; overflow: hidden; background: radial-gradient(circle at 12% 0%, color-mix(in srgb, var(--sova-accent) 13%, transparent), transparent 42%), var(--sova-surface); }
+.sova-component-card-feature::after { content: ""; position: absolute; inset: auto 18px 18px auto; width: 120px; height: 120px; border-radius: 999px; background: color-mix(in srgb, var(--sova-accent) 6%, transparent); pointer-events: none; }
+.sova-action-strip { position: relative; z-index: 1; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 12px; border: 1px solid var(--sova-border); border-radius: 16px; background: color-mix(in srgb, var(--sova-surface) 72%, transparent); }
+.sova-identity-row { position: relative; z-index: 1; display: grid; grid-template-columns: auto auto minmax(0, 1fr) auto; align-items: center; gap: 12px; margin-top: 14px; padding: 12px; border: 1px solid var(--sova-border); border-radius: 16px; background: color-mix(in srgb, var(--sova-surface-soft) 58%, transparent); }
+.sova-identity-row strong { display: block; font-size: 13px; color: var(--sova-text); }
+.sova-identity-row span { display: block; margin-top: 2px; color: var(--sova-muted); font-size: 12px; }
+.sova-form-layout { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr); gap: 14px; align-items: start; }
+.sova-form-panel { min-width: 0; }
+.sova-form-panel .sova-card-description { max-width: 520px; }
+.sova-form-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.sova-form-side { display: grid; gap: 12px; }
+.sova-form-side .sova-slider { margin-top: 4px; padding-top: 12px; border-top: 1px solid var(--sova-border); }
+.sova-feedback-layout { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; align-items: stretch; }
+.sova-feedback-primary { min-width: 0; display: grid; align-content: start; gap: 14px; }
+.sova-toast-stack { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.sova-feedback-primary .sova-empty { border: 1px dashed var(--sova-border); border-radius: 14px; background: color-mix(in srgb, var(--sova-surface-soft) 42%, transparent); }
+@media (max-width: 980px) { .sova-core-hero, .sova-form-layout, .sova-feedback-layout { grid-template-columns: 1fr; } }
+@media (max-width: 640px) { .sova-section-heading, .sova-identity-row { display: grid; } .sova-form-two, .sova-toast-stack { grid-template-columns: 1fr; } }
+

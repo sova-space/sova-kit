@@ -70,12 +70,6 @@ const storyWrap: React.CSSProperties = { display: 'grid', gap: 18, padding: 20 }
 const grid: React.CSSProperties = { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 14 }
 
 
-const projectLogos = [
-  { name: 'Brain', src: new URL('../logos/optimized/Brain.png', import.meta.url).href },
-  { name: 'Finance', src: new URL('../logos/optimized/Finance.png', import.meta.url).href },
-  { name: 'Trading', src: new URL('../logos/optimized/Trading.png', import.meta.url).href },
-]
-
 function StoryFrame({ theme, children }: { theme: SovaTheme; children: ReactNode }) {
   return <SovaProvider theme={theme}><div style={{ minHeight: 260, padding: 18 }}>{children}</div></SovaProvider>
 }
@@ -202,7 +196,7 @@ export const CoreComponents = () => (
       <SovaPageHeader
         eyebrow="single source"
         title="Core components"
-        description="One expanded page for foundation, project logos, layout, navigation, common components, tables, states and reusable charts."
+        description="One expanded page for foundation, layout, navigation, common components, tables, states and reusable charts."
         meta={<SovaBadge dot pulse tone="good">production v1</SovaBadge>}
         actions={<><SovaButton variant="primary">Primary action</SovaButton><SovaButton>Secondary</SovaButton></>}
       />
@@ -226,9 +220,6 @@ export const CoreComponents = () => (
               <div className="sova-token-swatch"><i style={{ background: 'var(--sova-bad)' }} /><strong>Bad</strong></div>
             </div>
           </SovaCard>
-          <SovaCard title="Project logos">
-            <div className="sova-logo-strip">{projectLogos.map((logo) => <div className="sova-project-logo" key={logo.name}><img src={logo.src} alt={`${logo.name} logo`} /><span>{logo.name}</span></div>)}</div>
-          </SovaCard>
         </div>
         <SovaKpiRow items={[{ label: 'Open', value: '12' }, { label: 'Good', value: '+24%', tone: 'good' }, { label: 'Warn', value: '3', tone: 'warn' }, { label: 'Bad', value: '-2', tone: 'bad' }]} />
       </section>
@@ -248,44 +239,87 @@ export const CoreComponents = () => (
         </SovaShell>
       </section>
 
-      <section className="sova-system-section">
-        <h2>Core components</h2>
-        <div className="sova-core-grid">
-          <SovaCard className="sova-component-card" title="Buttons, badges, icons, avatar">
-            <div className="sova-component-row">
-              <SovaButton variant="primary">Primary</SovaButton><SovaButton>Secondary</SovaButton>
-              <SovaBadge dot pulse tone="good">live</SovaBadge><SovaBadge variant="outline" tone="accent">filter</SovaBadge><SovaBadge variant="ghost">quiet</SovaBadge>
-              <SovaIcon tone="accent">↗</SovaIcon><SovaAvatar name="Nazar Khimin" status="good" />
+      <section className="sova-system-section sova-core-showcase">
+        <div className="sova-section-heading">
+          <div>
+            <p className="sova-eyebrow">common layer</p>
+            <h2>Core components</h2>
+          </div>
+          <SovaBadge dot tone="good">reusable primitives</SovaBadge>
+        </div>
+        <div className="sova-core-hero">
+          <SovaCard className="sova-component-card sova-component-card-feature" title="Actions and identity" description="Buttons, badges, icon accents and avatars should feel compact, calm and product-ready.">
+            <div className="sova-action-strip">
+              <SovaButton variant="primary">Primary action</SovaButton>
+              <SovaButton>Secondary</SovaButton>
+              <SovaBadge dot pulse tone="good">live</SovaBadge>
+              <SovaBadge variant="outline" tone="accent">filter</SovaBadge>
+              <SovaBadge variant="ghost">quiet</SovaBadge>
+            </div>
+            <div className="sova-identity-row">
+              <SovaIcon tone="accent">↗</SovaIcon>
+              <SovaAvatar name="Nazar Khimin" status="good" />
+              <div><strong>Operator pattern</strong><span>Short labels, tiny metadata, visible state.</span></div>
               <SovaTooltip label="Tooltip text"><SovaBadge variant="outline">hover/focus</SovaBadge></SovaTooltip>
             </div>
           </SovaCard>
-          <SovaCard className="sova-component-card" title="Forms and controls">
-            <SovaFormGroup title="Filter group" description="Textfields, dropdowns, single dates and ranges.">
-              <SovaInput label="Textfield" placeholder="Search or enter value" hint="Hint copy" />
+          <SovaCard className="sova-component-card" title="Navigation rhythm" description="A small control set that does not overpower the page.">
+            <SovaTabs value="overview" items={[{ label: 'Overview', value: 'overview' }, { label: 'Queue', value: 'queue', badge: <SovaBadge size="xs">3</SovaBadge> }]} />
+            <SovaDivider label="density" />
+            <SovaProgressList items={[{ label: 'Coverage', value: '92%', percent: 92, tone: 'good' }, { label: 'Risk', value: '18%', percent: 18, tone: 'warn' }]} />
+          </SovaCard>
+        </div>
+      </section>
+
+      <section className="sova-system-section sova-forms-showcase">
+        <div className="sova-section-heading">
+          <div>
+            <p className="sova-eyebrow">input surface</p>
+            <h2>Forms and controls</h2>
+          </div>
+          <SovaBadge variant="outline">desktop first</SovaBadge>
+        </div>
+        <div className="sova-form-layout">
+          <SovaCard className="sova-form-panel" title="Filter group" description="Fields are grouped, aligned and easy to scan.">
+            <SovaFormGroup title="Search and range" description="Use this pattern for dashboard filters and settings.">
+              <div className="sova-form-two"><SovaInput label="Textfield" placeholder="Search or enter value" hint="Hint copy" /><SovaSelect label="Dropdown" value="ready" options={[{ label: 'Ready', value: 'ready' }, { label: 'Watch', value: 'watch' }]} /></div>
               <SovaSearchBar placeholder="Search rows" actions={<SovaBadge>⌘K</SovaBadge>} />
-              <SovaSelect label="Dropdown" value="ready" options={[{ label: 'Ready', value: 'ready' }, { label: 'Watch', value: 'watch' }]} />
-              <SovaDatePicker label="Single date" value="2026-06-18" />
-              <SovaDateRangePicker label="Date range" start="2026-06-01" end="2026-06-18" />
+              <div className="sova-form-two"><SovaDatePicker label="Single date" value="2026-06-18" /><SovaDateRangePicker label="Date range" start="2026-06-01" end="2026-06-18" /></div>
             </SovaFormGroup>
           </SovaCard>
-          <SovaCard className="sova-component-card" title="Choices and sliders">
-            <div className="sova-component-stack">
-              <SovaCheckbox label="Checkbox" description="Multi-select item" checked />
-              <SovaRadio name="system-radio" value="one" label="Radio" description="Single choice" checked />
-              <SovaToggle label="Toggle" description="Fast on/off setting" checked />
-              <SovaSlider label="Threshold" value={64} />
-              <SovaTabs value="overview" items={[{ label: 'Overview', value: 'overview' }, { label: 'Queue', value: 'queue', badge: <SovaBadge size="xs">3</SovaBadge> }]} />
-            </div>
+          <SovaCard className="sova-form-panel sova-form-side" title="Controls" description="Choices stay close to the setting they affect.">
+            <SovaCheckbox label="Checkbox" description="Multi-select item" checked />
+            <SovaRadio name="system-radio" value="one" label="Radio" description="Single choice" checked />
+            <SovaToggle label="Toggle" description="Fast on/off setting" checked />
+            <SovaSlider label="Threshold" value={64} />
           </SovaCard>
-          <SovaCard className="sova-component-card" title="Feedback and states">
-            <div className="sova-component-stack">
-              <SovaBanner title="Banner" description="Important persistent feedback." />
-              <SovaToast tone="good" title="Toast" description="Short status feedback." />
-              <SovaLoading label="Syncing" />
-              <SovaSkeleton lines={3} />
-              <SovaEmptyState title="No rows" description="Empty state copy with next action nearby." />
-            </div>
+        </div>
+      </section>
+
+      <section className="sova-system-section sova-feedback-showcase">
+        <div className="sova-section-heading">
+          <div>
+            <p className="sova-eyebrow">system feedback</p>
+            <h2>Feedback and states</h2>
+          </div>
+          <SovaBadge tone="warn" variant="outline">states</SovaBadge>
+        </div>
+        <div className="sova-feedback-layout">
+          <SovaCard className="sova-feedback-primary" title="Persistent feedback" description="Banners explain durable state; toasts confirm one action.">
+            <SovaBanner tone="accent" title="Banner" description="Important persistent feedback with optional actions." actions={<SovaButton>Review</SovaButton>} />
+            <div className="sova-toast-stack"><SovaToast tone="good" title="Synced" description="Short status feedback." /><SovaToast tone="warn" title="Needs review" description="One concise next step." /></div>
           </SovaCard>
+          <SovaCard className="sova-feedback-primary" title="Loading and empty" description="Avoid dead screens: show progress and a next action.">
+            <SovaLoading label="Syncing latest data" />
+            <SovaSkeleton lines={3} />
+            <SovaEmptyState title="No rows" description="Empty state copy with next action nearby." />
+          </SovaCard>
+        </div>
+      </section>
+
+      <section className="sova-system-section">
+        <h2>Disclosure and utility components</h2>
+        <div className="sova-core-grid">
           <SovaCard className="sova-component-card" title="Disclosure / overlays / carousel">
             <div className="sova-component-stack">
               <SovaAccordion items={[{ title: 'Accordion row', content: 'Expandable dense content.', defaultOpen: true }]} />
