@@ -2,9 +2,11 @@ import type { ReactNode } from 'react'
 import {
   SovaActivityFeed,
   SovaBadge,
+  SovaAreaChart,
   SovaBarChart,
   SovaBrand,
   SovaButton,
+  SovaCandlestickChart,
   SovaCard,
   SovaChartCard,
   SovaDashboardGrid,
@@ -18,6 +20,7 @@ import {
   SovaNav,
   SovaPageHeader,
   SovaProgressList,
+  SovaRadarChart,
   SovaProvider,
   SovaSettingsList,
   SovaShell,
@@ -27,6 +30,7 @@ import {
   SovaStackedBar,
   SovaTable,
   SovaToolbar,
+  SovaTreemapChart,
   SovaTopbar,
   type SovaTheme,
 } from './index'
@@ -217,6 +221,18 @@ export const AnalyticsCharts = () => (
               { source: 'Cashflow', target: 'Other', value: 13 },
             ]}
           />
+        </SovaChartCard>
+        <SovaChartCard className="sova-chart-card-wide" title="Area trend" description="ECharts area line for richer time-series, balances and PnL.">
+          <SovaAreaChart labels={['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']} values={[12, 18, 15, 27, 24, 34]} />
+        </SovaChartCard>
+        <SovaChartCard title="Radar" description="Multi-metric fit/health scoring.">
+          <SovaRadarChart metrics={[{ label: 'Fit', value: 86, max: 100 }, { label: 'Salary', value: 72, max: 100 }, { label: 'Remote', value: 92, max: 100 }, { label: 'Risk', value: 34, max: 100 }, { label: 'Speed', value: 68, max: 100 }]} />
+        </SovaChartCard>
+        <SovaChartCard title="Treemap" description="Dense composition when many buckets exist.">
+          <SovaTreemapChart items={[{ name: 'Food', value: 42, tone: 'warn' }, { name: 'Housing', value: 31, tone: 'accent' }, { name: 'Savings', value: 27, tone: 'good' }, { name: 'Other', value: 12, tone: 'bad' }]} />
+        </SovaChartCard>
+        <SovaChartCard className="sova-chart-card-wide" title="Candlestick" description="Trading-specific chart primitive for OHLC data.">
+          <SovaCandlestickChart points={[{ label: 'Mon', open: 12, close: 18, low: 10, high: 20 }, { label: 'Tue', open: 18, close: 16, low: 14, high: 21 }, { label: 'Wed', open: 16, close: 24, low: 15, high: 26 }, { label: 'Thu', open: 24, close: 21, low: 19, high: 28 }, { label: 'Fri', open: 21, close: 29, low: 20, high: 31 }]} />
         </SovaChartCard>
       </div>
     </div>

@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import {
   SovaActivityFeed,
+  SovaAreaChart,
   SovaBadge,
   SovaBarChart,
   SovaBrand,
@@ -55,6 +56,7 @@ function App() {
           <SovaToolbar left={<input className="sova-search" placeholder="Search…" />} right={<><SovaBadge>All</SovaBadge><SovaBadge tone="good">Ready</SovaBadge></>} />
           <SovaSplitCard title="Health" description="Line + donut primitives for real app data." main={<div className="sova-chart-grid"><SovaLineChart points={[4, 7, 5, 9, 8, 12, 10, 15]} /><SovaDonutChart center="80%" segments={[{ label: 'Ready', value: 80, tone: 'good' }, { label: 'Noise', value: 18, tone: 'warn' }, { label: 'Blocked', value: 2, tone: 'bad' }]} /></div>} side={<SovaProgressList items={[{ label: 'Coverage', value: '80%', percent: 80, tone: 'good' }, { label: 'Noise', value: '18%', percent: 18, tone: 'warn' }]} />} />
           <SovaChartCard title="Volume" description="Bar chart for comparison across sources/categories."><SovaBarChart items={[{ label: 'Mon', value: 12, tone: 'accent' }, { label: 'Tue', value: 18, tone: 'good' }, { label: 'Wed', value: 9, tone: 'warn' }, { label: 'Thu', value: 22, tone: 'accent' }]} /></SovaChartCard>
+          <SovaChartCard title="Trend" description="ECharts area chart for richer time-series."><SovaAreaChart labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri']} values={[12, 18, 14, 22, 26]} /></SovaChartCard>
           <SovaChartCard title="Sankey" description="ECharts-powered flow for finance/jobs/trading analytics."><SovaSankeyChart height={260} nodes={[{ name: 'Source', tone: 'accent' }, { name: 'Review', tone: 'warn' }, { name: 'Ready', tone: 'good' }, { name: 'Blocked', tone: 'bad' }]} links={[{ source: 'Source', target: 'Review', value: 20 }, { source: 'Review', target: 'Ready', value: 14 }, { source: 'Review', target: 'Blocked', value: 6 }]} /></SovaChartCard>
           <SovaCard title="Work queue"><SovaTable columns={[{ key: 'name', header: 'Name' }, { key: 'status', header: 'Status' }, { key: 'source', header: 'Source' }, { key: 'score', header: 'Score' }]} rows={rows} /></SovaCard>
         </SovaDashboardGrid>

@@ -177,6 +177,7 @@ export function SovaEChart({ option, height = 260, className }: { option: EChart
   useEffect(() => {
     const element = elementRef.current
     if (!element) return undefined
+    if (window.navigator.userAgent.toLowerCase().includes('jsdom')) return undefined
     let disposed = false
     let chart: EChartsType | undefined
     const resize = () => chart?.resize()
@@ -195,6 +196,9 @@ export function SovaEChart({ option, height = 260, className }: { option: EChart
   return <div ref={elementRef} className={cx('sova-echart', className)} style={{ minHeight: height }} />
 }
 
+const sovaChartText = '#70706a'
+const sovaChartGrid = '#deded6'
+
 export type SovaSankeyNode = { name: string; tone?: SovaTone }
 export type SovaSankeyLink = { source: string; target: string; value: number }
 export function SovaSankeyChart({ nodes, links, height = 300 }: { nodes: SovaSankeyNode[]; links: SovaSankeyLink[]; height?: number }) {
@@ -211,10 +215,57 @@ export function SovaSankeyChart({ nodes, links, height = 300 }: { nodes: SovaSan
       data: nodes.map((node) => ({ name: node.name, itemStyle: { color: toneHex(node.tone) } })),
       links,
       lineStyle: { color: 'gradient', opacity: 0.38, curveness: 0.52 },
-      label: { color: '#70706a', fontSize: 11, fontWeight: 700 },
+      label: { color: sovaChartText, fontSize: 11, fontWeight: 700 },
     }],
   } as EChartsOption
   return <SovaEChart option={option} height={height} className="sova-sankey-chart" />
+}
+
+export function SovaAreaChart({ labels, values, tone = 'accent', height = 260 }: { labels: string[]; values: number[]; tone?: SovaTone; height?: number }) {
+  const color = toneHex(tone)
+  const option: EChartsOption = {
+    color: [color],
+    tooltip: { trigger: 'axis' },
+    grid: { top: 18, right: 12, bottom: 24, left: 34 },
+    xAxis: { type: 'category', data: labels, boundaryGap: false, axisLabel: { color: sovaChartText, fontSize: 10 }, axisLine: { lineStyle: { color: sovaChartGrid } }, axisTick: { show: false } },
+    yAxis: { type: 'value', axisLabel: { color: sovaChartText, fontSize: 10 }, splitLine: { lineStyle: { color: sovaChartGrid, opacity: 0.45 } } },
+    series: [{ type: 'line', data: values, smooth: true, symbol: 'circle', symbolSize: 5, lineStyle: { width: 3 }, areaStyle: { opacity: 0.14 } }],
+  } as EChartsOption
+  return <SovaEChart option={option} height={height} className="sova-area-chart" />
+}
+
+export type SovaRadarMetric = { label: string; value: number; max?: number }
+export function SovaRadarChart({ metrics, tone = 'accent', height = 260 }: { metrics: SovaRadarMetric[]; tone?: SovaTone; height?: number }) {
+  const max = Math.max(1, ...metrics.map((metric) => metric.max ?? metric.value))
+  const option: EChartsOption = {
+    color: [toneHex(tone)],
+    tooltip: {},
+    radar: { indicator: metrics.map((metric) => ({ name: metric.label, max: metric.max ?? max })), axisName: { color: sovaChartText, fontSize: 11 }, splitLine: { lineStyle: { color: sovaChartGrid } }, splitArea: { areaStyle: { color: ['transparent', 'rgba(112,112,106,.04)'] } } },
+    series: [{ type: 'radar', data: [{ value: metrics.map((metric) => metric.value), name: 'score', areaStyle: { opacity: 0.16 } }], symbolSize: 4, lineStyle: { width: 2 } }],
+  } as EChartsOption
+  return <SovaEChart option={option} height={height} className="sova-radar-chart" />
+}
+
+export type SovaTreemapItem = { name: string; value: number; tone?: SovaTone; children?: SovaTreemapItem[] }
+export function SovaTreemapChart({ items, height = 280 }: { items: SovaTreemapItem[]; height?: number }) {
+  const decorate = (item: SovaTreemapItem): Record<string, unknown> => ({ ...item, itemStyle: { color: toneHex(item.tone) }, children: item.children?.map(decorate) })
+  const option: EChartsOption = {
+    tooltip: { formatter: '{b}: {c}' },
+    series: [{ type: 'treemap', data: items.map(decorate), roam: false, nodeClick: false, breadcrumb: { show: false }, label: { color: '#fff', fontSize: 12, fontWeight: 700 }, upperLabel: { show: true, height: 22, color: '#fff' }, itemStyle: { borderColor: '#fff', borderWidth: 2, gapWidth: 2 } }],
+  } as EChartsOption
+  return <SovaEChart option={option} height={height} className="sova-treemap-chart" />
+}
+
+export type SovaCandlePoint = { label: string; open: number; close: number; low: number; high: number }
+export function SovaCandlestickChart({ points, height = 280 }: { points: SovaCandlePoint[]; height?: number }) {
+  const option: EChartsOption = {
+    tooltip: { trigger: 'axis' },
+    grid: { top: 18, right: 12, bottom: 24, left: 42 },
+    xAxis: { type: 'category', data: points.map((point) => point.label), axisLabel: { color: sovaChartText, fontSize: 10 }, axisLine: { lineStyle: { color: sovaChartGrid } }, axisTick: { show: false } },
+    yAxis: { scale: true, axisLabel: { color: sovaChartText, fontSize: 10 }, splitLine: { lineStyle: { color: sovaChartGrid, opacity: 0.45 } } },
+    series: [{ type: 'candlestick', data: points.map((point) => [point.open, point.close, point.low, point.high]), itemStyle: { color: toneHex('good'), color0: toneHex('bad'), borderColor: toneHex('good'), borderColor0: toneHex('bad') } }],
+  } as EChartsOption
+  return <SovaEChart option={option} height={height} className="sova-candlestick-chart" />
 }
 
 export function SovaChartCard({ title, description, children, footer, className }: { title: ReactNode; description?: ReactNode; children: ReactNode; footer?: ReactNode; className?: string }) {
