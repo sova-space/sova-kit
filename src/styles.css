@@ -527,7 +527,9 @@
 
 
 .sova-date-input { min-width: 0; color-scheme: light; }
-.sova-date-range > div { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 8px; }
+.sova-date-range > div { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.sova-date-range .sova-date-input { flex: 1 1 118px; min-width: 0; padding-inline: 8px; font-size: 12px; }
+.sova-date-range .sova-date-input::-webkit-calendar-picker-indicator { margin-inline-start: 2px; padding: 0; }
 .sova-date-range em { color: var(--sova-muted); font-style: normal; font-weight: 800; }
 .sova-checklist-coverage { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; }
 .sova-checklist-row { display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; gap: 8px; align-items: start; border: 1px solid var(--sova-border); border-radius: 12px; background: var(--sova-surface); padding: 9px 10px; }
@@ -543,7 +545,8 @@
 .sova-token-swatch { border: 1px solid var(--sova-border); border-radius: 12px; background: var(--sova-surface); padding: 10px; display: grid; gap: 8px; }
 .sova-token-swatch i { display: block; height: 28px; border-radius: 8px; border: 1px solid var(--sova-border); }
 .sova-token-swatch strong { font-size: 12px; }
-@media (max-width: 640px) { .sova-date-range > div { grid-template-columns: 1fr; } .sova-date-range em { display: none; } }
+@media (max-width: 760px) { .sova-form-two { grid-template-columns: 1fr; } }
+@media (max-width: 520px) { .sova-date-range > div { display: grid; grid-template-columns: 1fr; } .sova-date-range em { display: none; } }
 
 
 .sova-system-page { display: grid; gap: 28px; padding: 24px; max-width: 1560px; margin: 0 auto; }
@@ -553,6 +556,19 @@
 .sova-system-page .sova-card { min-width: 0; }
 .sova-system-page .sova-chart-card { min-height: 260px; }
 .sova-system-page .sova-chart-card-wide { grid-column: span 2; }
+.sova-system-page .sova-shell { min-height: auto; border: 1px solid var(--sova-border); border-radius: var(--sova-radius-lg); overflow: hidden; }
+.sova-system-page .sova-sidebar,
+.sova-system-page .sova-rail {
+  position: static;
+  height: auto;
+  min-height: 0;
+}
+.sova-system-page .sova-sidebar-scroll,
+.sova-system-page .sova-rail-scroll {
+  max-height: none;
+  overflow: visible;
+}
+.sova-system-page .sova-main { padding: 18px; }
 @media (max-width: 860px) { .sova-system-page { padding: 12px; } .sova-system-page .sova-chart-card-wide { grid-column: span 1; } }
 
 
@@ -576,7 +592,9 @@
 .sova-form-layout { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr); gap: 14px; align-items: start; }
 .sova-form-panel { min-width: 0; }
 .sova-form-panel .sova-card-description { max-width: 520px; }
-.sova-form-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.sova-form-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; align-items: stretch; }
+.sova-form-two .sova-field { grid-template-rows: auto minmax(40px, auto) minmax(16px, auto); }
+.sova-form-two .sova-field:not(:has(small, em))::after { content: ""; min-height: 16px; }
 .sova-form-side { display: grid; gap: 12px; }
 .sova-form-side .sova-slider { margin-top: 4px; padding-top: 12px; border-top: 1px solid var(--sova-border); }
 .sova-feedback-layout { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; align-items: stretch; }
