@@ -1,0 +1,109 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn-svelte/tailwind.css";
+@import "@fontsource-variable/inter";
+
+:root {
+  font-family: "Inter Variable", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--foreground);
+  background: var(--background);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --radius: 0.75rem;
+  --background: oklch(0.985 0.003 247.858);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.955 0.012 247.858);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.62 0.18 264);
+  --chart-2: oklch(0.66 0.16 145);
+  --chart-3: oklch(0.72 0.16 70);
+  --chart-4: oklch(0.63 0.2 27);
+  --chart-5: oklch(0.61 0.17 305);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.955 0.012 247.858);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+[data-sova-theme="jobs"] { --primary: oklch(0.44 0.18 264); --ring: oklch(0.66 0.16 264); }
+[data-sova-theme="finance"] { --primary: oklch(0.46 0.15 145); --ring: oklch(0.66 0.16 145); }
+[data-sova-theme="trading"] { --primary: oklch(0.50 0.16 38); --ring: oklch(0.70 0.17 70); }
+[data-sova-theme="brain"] { --primary: oklch(0.42 0.18 305); --ring: oklch(0.66 0.16 305); }
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; }
+button, input, textarea, select { font: inherit; }
+
+.sova-app {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, color-mix(in oklab, var(--primary) 10%, transparent), transparent 34rem),
+    linear-gradient(180deg, oklch(0.99 0 0), var(--background));
+}
+
+.sova-shell {
+  display: grid;
+  grid-template-columns: 248px minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.sova-sidebar {
+  border-right: 1px solid var(--border);
+  background: color-mix(in oklab, var(--card) 88%, transparent);
+  padding: 18px;
+}
+
+.sova-main { padding: 22px; display: grid; gap: 18px; align-content: start; }
+.sova-topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.sova-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 22px; }
+.sova-mark { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: var(--primary); color: var(--primary-foreground); font-weight: 800; }
+.sova-eyebrow { color: var(--muted-foreground); font-size: 0.72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.sova-title { margin: 0; font-size: clamp(1.6rem, 3vw, 2.65rem); line-height: 1; letter-spacing: -0.055em; }
+.sova-description { max-width: 780px; color: var(--muted-foreground); font-size: 0.95rem; line-height: 1.6; }
+.sova-nav { display: grid; gap: 4px; }
+.sova-nav a { color: var(--muted-foreground); text-decoration: none; border-radius: 10px; padding: 9px 10px; font-size: .9rem; font-weight: 650; }
+.sova-nav a.active, .sova-nav a:hover { background: var(--accent); color: var(--accent-foreground); }
+.sova-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.sova-content-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 14px; align-items: start; }
+.sova-card-stack { display: grid; gap: 14px; }
+.sova-metric { font-size: 1.65rem; font-weight: 780; letter-spacing: -0.045em; }
+.sova-muted { color: var(--muted-foreground); }
+.sova-bars { display: flex; align-items: end; gap: 6px; height: 118px; padding-top: 12px; }
+.sova-bars span { flex: 1; min-width: 12px; border-radius: 7px 7px 2px 2px; background: var(--primary); opacity: .88; }
+.sova-progress-row { display: grid; gap: 7px; }
+.sova-progress-label { display: flex; justify-content: space-between; font-size: .82rem; font-weight: 700; }
+.sova-pill-row { display: flex; flex-wrap: wrap; gap: 8px; }
+
+@media (max-width: 980px) {
+  .sova-shell { grid-template-columns: 1fr; }
+  .sova-sidebar { position: static; border-right: 0; border-bottom: 1px solid var(--border); }
+  .sova-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sova-content-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 620px) {
+  .sova-main { padding: 16px; }
+  .sova-grid { grid-template-columns: 1fr; }
+  .sova-topbar { align-items: flex-start; flex-direction: column; }
+}

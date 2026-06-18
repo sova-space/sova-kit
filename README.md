@@ -1,244 +1,98 @@
-# Sova Kit
+<h1 align="center">Sova Kit</h1>
 
-Shared React UI kit for Sova Space operator dashboards.
+<p align="center">
+  Svelte 5 operator UI foundation for Sova Space dashboards, built on shadcn-svelte.
+</p>
 
-Sova Kit gives Jobs Bot, Finance Bot, Trading Bot and Brain Bot the same compact product language without forcing the apps into one monorepo.
+<p align="center">
+  <a href="https://sova-space.github.io/sova-kit/"><strong>Live demo</strong></a>
+  ·
+  <a href="https://github.com/huntabyte/shadcn-svelte">shadcn-svelte</a>
+</p>
 
-Live demo: https://sova-space.github.io/sova-kit/
+<p align="center">
+  <a href="https://github.com/sova-space/sova-kit/actions/workflows/pages.yml">
+    <img alt="Live demo" src="https://github.com/sova-space/sova-kit/actions/workflows/pages.yml/badge.svg" />
+  </a>
+  <img alt="Svelte" src="https://img.shields.io/badge/Svelte-5-ff3e00?labelColor=111827" />
+  <img alt="shadcn-svelte" src="https://img.shields.io/badge/shadcn--svelte-core-111827?labelColor=111827" />
+  <img alt="Tailwind" src="https://img.shields.io/badge/Tailwind-v4-38bdf8?labelColor=111827" />
+</p>
 
-Start with the `CoreComponents` story in the live demo. It unifies foundation tokens, project logos, common components, tables and reusable charts on one page.
+---
 
-## Why this exists
+## Direction
 
-Each bot owns its product logic, API calls and domain-specific screens. Sova Kit owns the repeated dashboard layer:
+Sova Kit is moving from the old hand-rolled React UI kit to a Svelte 5 foundation based on [huntabyte/shadcn-svelte](https://github.com/huntabyte/shadcn-svelte).
 
-- shell / sidebar / topbar
-- cards, badges, buttons and KPI strips
-- common table surfaces
-- inspector rails, activity feeds and settings lists
-- compact native charts
-- advanced ECharts wrappers for heavy analytics
-- copyable dashboard starter
+Reason: shadcn-svelte is already production-shaped: open component code, strong defaults, CSS-variable theming, accessible Bits UI primitives, a large component catalog and a real CLI/registry workflow.
 
-## Install in an app
+## What we keep from shadcn-svelte
 
-```tsx
-import {
-  SovaProvider,
-  SovaShell,
-  SovaTableCard,
-  SovaBadge,
-} from '@sova/kit'
-import '@sova/kit/style.css'
-```
+- Svelte 5 + Vite.
+- shadcn-svelte `Vega` preset: classic shadcn/ui look with Inter.
+- Tailwind CSS v4 token system.
+- Open-code components copied into `src/lib/components/ui`.
+- `bits-ui` behavior under the hood for overlays, controls and menus.
+- `tailwind-variants`, `tailwind-merge` and `clsx` for predictable variants.
+- shadcn component style as the base visual language.
 
-## Core components
+## What Sova adds
 
-Layout:
-- `SovaProvider`
-- `SovaShell`
-- `SovaTopbar`
-- `SovaBrand`
-- `SovaNav`
-- `SovaPageHeader`
-- `SovaDashboardGrid`
-- `SovaInspector`
+Sova should stay a thin operator-dashboard layer on top of shadcn-svelte:
 
-Primitives:
-- `SovaCard`
-- `SovaButton`
-- `SovaBadge`
-- `SovaStat`
-- `SovaEmptyState`
-- `SovaIcon`
-- `SovaAvatar`
+- app themes: jobs / finance / trading / brain
+- compact dashboard shell
+- KPI strips
+- table-first work queues
+- right inspector / sheet patterns
+- chart cards and signal panels
+- short labels, low-noise dashboard copy
 
-Forms and controls:
-- `SovaInput`
-- `SovaSearchBar`
-- `SovaSelect`
-- `SovaDatePicker`
-- `SovaDateRangePicker`
-- `SovaFormGroup`
-- `SovaCheckbox`
-- `SovaRadio`
-- `SovaToggle`
-- `SovaSlider`
-- `SovaTabs`
-- `SovaDivider`
+Keep product logic, API clients, routes and domain-specific flows inside product apps.
 
-Feedback and overlays:
-- `SovaBanner`
-- `SovaToast`
-- `SovaSkeleton`
-- `SovaLoading`
-- `SovaTooltip`
-- `SovaModal`
-- `SovaDrawer`
-- `SovaAccordion`
-- `SovaCarousel`
-- `SovaFooter`
+## Installed core
 
-Common data surfaces:
-- `SovaTable`
-- `SovaTableCard`
-- `SovaToolbar`
-- `SovaActivityFeed`
-- `SovaSettingsList`
-- `SovaProgressList`
-- `SovaKpiRow`
+The current Svelte build includes these shadcn-svelte components:
 
-Charts:
-- Native/light: `SovaSparkBars`, `SovaLineChart`, `SovaDonutChart`, `SovaBarChart`, `SovaRankingChart`, `SovaStackedBar`, `SovaHeatmap`, `SovaFlowChart`
-- ECharts/heavy: `SovaEChart`, `SovaSankeyChart`, `SovaAreaChart`, `SovaMultiLineChart`, `SovaScatterChart`, `SovaGaugeChart`, `SovaRadarChart`, `SovaTreemapChart`, `SovaCandlestickChart`
-
-Themes:
-- `jobs`
-- `finance`
-- `trading`
-- `brain`
-
-## Production defaults
-
-### Foundation and inspiration
-
-Inspiration checklist: https://www.checklist.design/category-components
-
-Sova Kit should cover the reusable operator-dashboard version of:
-- typography
-- colors
-- responsive grids/pages
-- icons
-- buttons
-- checkboxes, radio and toggles
-- text fields
-- form groups
-- modals/drawers
-- tables
-- tooltips
-- data visualizations
-- header/footer navigation
-- carousel
-- dividers
-- dropdowns/selects
-- date picker and date range picker
-
-### Component foundation
-
-Sova Kit covers the practical component set for Sova apps: accordion, avatar, badge, banner, button, card, carousel, checkbox, drawer, footer, icon, input, loading, modal, navigation, radio, searchbar, skeleton, slider, table, tabs, toast, toggle, tooltip, divider, dropdown/select, single date picker, date range picker and form group.
-
-Not every component should appear in every bot. Use the shared component when the pattern repeats; keep product-specific flows inside the product app.
-
-### KPI strips
-
-KPI cards are compact by default. Use them for fast scanning, not big hero cards.
-
-```tsx
-<SovaKpiRow
-  items={[
-    { label: 'Open', value: '24', tone: 'accent' },
-    { label: 'Ready', value: '12', tone: 'good' },
-    { label: 'Watch', value: '7', tone: 'warn' },
-    { label: 'Blocked', value: '2', tone: 'bad' },
-  ]}
-/>
-```
-
-Use `density="normal"` only when the metric has useful hint copy.
-
-### Badges
-
-Use badges for state, filters and short metadata.
-
-```tsx
-<SovaBadge tone="good" dot pulse>live</SovaBadge>
-<SovaBadge tone="warn" dot>watch</SovaBadge>
-<SovaBadge variant="outline" tone="accent">filter</SovaBadge>
-<SovaBadge variant="ghost">quiet</SovaBadge>
-```
-
-Rules:
-- `soft + dot`: normal status
-- `outline`: filters
-- `solid`: rare primary labels
-- `ghost`: quiet inline metadata
-- `pulse`: live/active only
-- sizes: `xs`, `sm`, `md`
-
-### Tables
-
-Use `SovaTableCard` for common queue/list screens. Product apps own the data; Sova Kit owns the visual table language.
-
-```tsx
-<SovaTableCard
-  title="Work queue"
-  description="Shared table surface."
-  density="compact"
-  columns={[
-    { key: 'name', header: 'Name' },
-    { key: 'status', header: 'Status', render: row => <SovaBadge tone="good">{row.status}</SovaBadge> },
-    { key: 'score', header: 'Score', align: 'right', mono: true },
-  ]}
-  rows={[{ name: 'Arize AI', status: 'good fit', score: 82 }]}
-/>
-```
-
-`SovaTable` supports:
-- typed columns
-- custom render functions
-- compact density
-- caption
-- empty state
-- sticky header
-- row click
-- right/center alignment
-- mono numeric cells
-
-### Charts
-
-Use these defaults before inventing product-specific chart UI:
-
-- trend: `SovaLineChart` or `SovaAreaChart`
-- multi-series trend: `SovaMultiLineChart`
-- comparison: `SovaRankingChart`
-- vertical bars: `SovaBarChart`
-- composition: `SovaDonutChart` or `SovaTreemapChart`
-- part-to-whole: `SovaStackedBar`
-- activity intensity: `SovaHeatmap`
-- flow: `SovaFlowChart` or `SovaSankeyChart`
-- score/health: `SovaGaugeChart`
-- correlation/risk-reward: `SovaScatterChart`
-- trading OHLC: `SovaCandlestickChart`
-
-ECharts is dynamically imported by `SovaEChart`, so normal consumers do not eagerly load it unless advanced charts are rendered.
+| Area | Components |
+| --- | --- |
+| Actions | Button, Badge |
+| Surfaces | Card, Alert, Separator, Skeleton |
+| Forms | Input, Textarea, Select, Checkbox, Radio Group, Switch |
+| Navigation | Tabs, Dropdown Menu, Sidebar |
+| Data | Table, Progress |
+| Overlays | Dialog, Sheet, Tooltip |
 
 ## Local development
 
 ```bash
-npm install
-npm run stories
+PATH=/opt/homebrew/bin:$PATH npm install
+PATH=/opt/homebrew/bin:$PATH npm run dev
 ```
 
 Build and verify:
 
 ```bash
-npm test
-npm run build
-npm run lint
-npm run stories:build -- --base /sova-kit/
+PATH=/opt/homebrew/bin:$PATH npm run check
+PATH=/opt/homebrew/bin:$PATH npm run build
+PATH=/opt/homebrew/bin:$PATH npm run build:pages
 ```
 
-## Dashboard starter
+## Add more shadcn-svelte components
 
 ```bash
-cp -R templates/dashboard ../my-bot-ui
-cd ../my-bot-ui
-npm install
-npm run dev
+PATH=/opt/homebrew/bin:$PATH npx shadcn-svelte@latest add <component>
 ```
 
-The starter includes shell, KPI strip, toolbar, chart cards, inspector rail and a common table card.
+Useful next components:
+
+- `command` for command palette
+- `popover` for compact filters
+- `calendar` / `date-picker` when finance/jobs date filters need it
+- `data-table` when table sorting/filtering becomes real
+- `chart` only when the Svelte chart pattern is better than product-specific chart code
 
 ## Repo policy
 
-Keep product logic, API clients, routes and highly domain-specific charts inside product apps until duplication is real. Shared UI primitives, common tables, badges, dashboard frames and reusable chart wrappers belong here.
+This repo is now Svelte-first. Do not add React wrappers around Svelte components. If an existing product still uses the old React package, migrate that product deliberately instead of building a bridge layer.
