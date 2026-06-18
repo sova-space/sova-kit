@@ -6,14 +6,16 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist",
-    "src/styles.css"
+    "src/styles.css",
+    "tailwind-preset.mjs"
   ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
-    "./style.css": "./src/styles.css"
+    "./style.css": "./src/styles.css",
+    "./tailwind-preset": "./tailwind-preset.mjs"
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",

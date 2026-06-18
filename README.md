@@ -8,7 +8,7 @@ Sova Kit gives Jobs Bot, Finance Bot, Trading Bot and Brain Bot the same compact
 
 Live demo: https://sova-space.github.io/sova-kit/
 
-Start with the `CoreComponents` story in the live demo. It unifies foundation tokens, project logos, common components, tables and reusable charts on one page.
+Start with the `CoreComponents` story in the live demo. It unifies foundation tokens, common components, tables and reusable charts on one page.
 
 ## Why this exists
 
@@ -33,6 +33,30 @@ import {
 } from '@sova/kit'
 import '@sova/kit/style.css'
 ```
+
+## Tailwind Plan B
+
+Sova Kit does not require Tailwind. The primary API is still the React components plus `@sova/kit/style.css`.
+
+For Sova apps that already use Tailwind, use the optional preset to share Sova tokens in local app-only utility classes:
+
+```js
+// tailwind.config.js
+import sovaPreset from '@sova/kit/tailwind-preset'
+
+export default {
+  presets: [sovaPreset],
+  content: ['./src/**/*.{ts,tsx}'],
+}
+```
+
+Example app-only utility usage:
+
+```tsx
+<div className="rounded-sova-lg border border-sova-border bg-sova-surface text-sova-text shadow-sova-sm" />
+```
+
+Rule: do not expose Tailwind classes as the Sova Kit public API. Keep exported components stable and semantic; use Tailwind only as a consumer-app convenience layer.
 
 ## Core components
 
