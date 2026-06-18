@@ -6,6 +6,8 @@ Sova Kit gives Jobs Bot, Finance Bot, Trading Bot and Brain Bot the same compact
 
 Live demo: https://sova-space.github.io/sova-kit/
 
+Start with the `SovaSystem` story in the live demo. It unifies foundation tokens, Checklist.design coverage, common components, tables and reusable charts on one page.
+
 ## Why this exists
 
 Each bot owns its product logic, API calls and domain-specific screens. Sova Kit owns the repeated dashboard layer:
@@ -56,7 +58,9 @@ Forms and controls:
 - `SovaSearchBar`
 - `SovaSelect`
 - `SovaDatePicker`
+- `SovaDateRangePicker`
 - `SovaFormGroup`
+- `SovaChecklistCoverage`
 - `SovaCheckbox`
 - `SovaRadio`
 - `SovaToggle`
@@ -118,11 +122,11 @@ Sova Kit should cover the reusable operator-dashboard version of:
 - carousel
 - dividers
 - dropdowns/selects
-- date picker
+- date picker and date range picker
 
 ### Checklist coverage
 
-The kit now covers the practical parts of the checklist.design component collection for Sova apps: accordion, avatar, badge, banner, button, card, carousel, checkbox, drawer, footer, icon, input, loading, modal, navigation, radio, searchbar, skeleton, slider, table, tabs, toast, toggle, tooltip, divider, dropdown/select, date picker and form group.
+The kit now covers the practical parts of the checklist.design component collection for Sova apps: accordion, avatar, badge, banner, button, card, carousel, checkbox, drawer, footer, icon, input, loading, modal, navigation, radio, searchbar, skeleton, slider, table, tabs, toast, toggle, tooltip, divider, dropdown/select, single date picker, date range picker, form group and explicit checklist coverage map.
 
 Not every component should appear in every bot. Use the shared component when the pattern repeats; keep product-specific flows inside the product app.
 

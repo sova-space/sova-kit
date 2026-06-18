@@ -478,3 +478,23 @@
 .sova-form-group legend { padding: 0 4px; color: var(--sova-text); font-size: 13px; font-weight: 820; }
 .sova-form-group > p { margin: -4px 0 0; color: var(--sova-muted); font-size: 12px; }
 .sova-form-group > div { display: grid; gap: 10px; }
+
+
+.sova-date-input { min-width: 0; color-scheme: light; }
+.sova-date-range > div { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 8px; }
+.sova-date-range em { color: var(--sova-muted); font-style: normal; font-weight: 800; }
+.sova-checklist-coverage { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; }
+.sova-checklist-row { display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; gap: 8px; align-items: start; border: 1px solid var(--sova-border); border-radius: 12px; background: var(--sova-surface); padding: 9px 10px; }
+.sova-checklist-row > span { color: var(--sova-good); font-weight: 900; }
+.sova-checklist-row strong { display: block; color: var(--sova-text); font-size: 12px; }
+.sova-checklist-row small { display: block; margin-top: 2px; color: var(--sova-muted); font-size: 11px; line-height: 1.35; }
+.sova-checklist-row code { align-self: center; border: 1px solid var(--sova-border); border-radius: 999px; background: var(--sova-surface-soft); color: var(--sova-muted); padding: 3px 6px; font: 700 10px/1 var(--sova-font-mono); }
+.sova-checklist-row-missing { opacity: .64; }
+.sova-checklist-row-missing > span { color: var(--sova-muted); }
+.sova-system-section { display: grid; gap: 12px; }
+.sova-system-section h2 { margin: 0; font-size: 15px; letter-spacing: -.01em; }
+.sova-token-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; }
+.sova-token-swatch { border: 1px solid var(--sova-border); border-radius: 12px; background: var(--sova-surface); padding: 10px; display: grid; gap: 8px; }
+.sova-token-swatch i { display: block; height: 28px; border-radius: 8px; border: 1px solid var(--sova-border); }
+.sova-token-swatch strong { font-size: 12px; }
+@media (max-width: 640px) { .sova-date-range > div { grid-template-columns: 1fr; } .sova-date-range em { display: none; } }

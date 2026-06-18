@@ -86,8 +86,17 @@ export function SovaSelect({ label, value, options, onChange, hint }: { label?: 
   return <label className="sova-field"><span>{label}</span><select className="sova-input" value={value} onChange={(event) => onChange?.(event.currentTarget.value)}>{options.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select>{hint ? <small>{hint}</small> : null}</label>
 }
 
-export function SovaDatePicker({ label, value, onChange, hint }: { label?: ReactNode; value?: string; onChange?: (value: string) => void; hint?: ReactNode }) {
-  return <label className="sova-field"><span>{label}</span><input className="sova-input" type="date" value={value} onChange={(event) => onChange?.(event.currentTarget.value)} />{hint ? <small>{hint}</small> : null}</label>
+export function SovaDatePicker({ label, value, onChange, hint, min, max }: { label?: ReactNode; value?: string; onChange?: (value: string) => void; hint?: ReactNode; min?: string; max?: string }) {
+  return <label className="sova-field"><span>{label}</span><input className="sova-input sova-date-input" type="date" value={value} min={min} max={max} onChange={(event) => onChange?.(event.currentTarget.value)} />{hint ? <small>{hint}</small> : null}</label>
+}
+
+export function SovaDateRangePicker({ label = 'Date range', start, end, onChange, hint, min, max }: { label?: ReactNode; start?: string; end?: string; onChange?: (range: { start: string; end: string }) => void; hint?: ReactNode; min?: string; max?: string }) {
+  return <div className="sova-field sova-date-range"><span>{label}</span><div><input aria-label="Start date" className="sova-input sova-date-input" type="date" value={start} min={min} max={max} onChange={(event) => onChange?.({ start: event.currentTarget.value, end: end ?? '' })} /><em aria-hidden="true">→</em><input aria-label="End date" className="sova-input sova-date-input" type="date" value={end} min={min} max={max} onChange={(event) => onChange?.({ start: start ?? '', end: event.currentTarget.value })} /></div>{hint ? <small>{hint}</small> : null}</div>
+}
+
+export type SovaChecklistCoverageItem = { name: ReactNode; covered?: boolean; component?: ReactNode; note?: ReactNode }
+export function SovaChecklistCoverage({ items }: { items: SovaChecklistCoverageItem[] }) {
+  return <div className="sova-checklist-coverage">{items.map((item, index) => <div key={index} className={cx('sova-checklist-row', item.covered === false && 'sova-checklist-row-missing')}><span>{item.covered === false ? '○' : '✓'}</span><div><strong>{item.name}</strong>{item.note ? <small>{item.note}</small> : null}</div>{item.component ? <code>{item.component}</code> : null}</div>)}</div>
 }
 
 export function SovaCheckbox({ label, description, checked, onChange, disabled }: { label: ReactNode; description?: ReactNode; checked?: boolean; onChange?: (checked: boolean) => void; disabled?: boolean }) {

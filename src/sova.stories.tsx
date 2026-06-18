@@ -13,9 +13,11 @@ import {
   SovaCard,
   SovaCarousel,
   SovaChartCard,
+  SovaChecklistCoverage,
   SovaCheckbox,
   SovaDashboardGrid,
   SovaDatePicker,
+  SovaDateRangePicker,
   SovaDivider,
   SovaDonutChart,
   SovaDrawer,
@@ -65,6 +67,26 @@ import './styles.css'
 
 const storyWrap: React.CSSProperties = { display: 'grid', gap: 18, padding: 20 }
 const grid: React.CSSProperties = { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 14 }
+
+const checklistCoverage = [
+  { name: 'Typography', component: 'tokens', note: 'font tokens + title/stat classes' },
+  { name: 'Colors', component: 'tokens', note: 'theme CSS variables' },
+  { name: 'Grids and pages', component: 'Shell/Grid', note: 'responsive shell and dashboard grid' },
+  { name: 'Icons', component: 'SovaIcon' },
+  { name: 'Buttons', component: 'SovaButton' },
+  { name: 'Checkboxes, radio, toggles', component: 'Choice controls' },
+  { name: 'Textfields', component: 'SovaInput' },
+  { name: 'Form groups', component: 'SovaFormGroup' },
+  { name: 'Modals', component: 'Modal/Drawer' },
+  { name: 'Tables', component: 'SovaTableCard' },
+  { name: 'Tooltips', component: 'SovaTooltip' },
+  { name: 'Data visualizations', component: 'Charts' },
+  { name: 'Header/Footer nav', component: 'Topbar/Footer/Nav' },
+  { name: 'Carousel', component: 'SovaCarousel' },
+  { name: 'Dividers', component: 'SovaDivider' },
+  { name: 'Dropdowns', component: 'SovaSelect' },
+  { name: 'Date picker', component: 'Date + range' },
+]
 
 function StoryFrame({ theme, children }: { theme: SovaTheme; children: ReactNode }) {
   return <SovaProvider theme={theme}><div style={{ minHeight: 260, padding: 18 }}>{children}</div></SovaProvider>
@@ -241,8 +263,11 @@ export const ChecklistComponents = () => (
     <div style={storyWrap}>
       <SovaPageHeader eyebrow="component checklist" title="Checklist.design coverage" description="Production-oriented primitives for the common component collection: forms, feedback, overlays, navigation, loading and content containers." meta={<SovaBadge tone="accent" variant="outline">expanded</SovaBadge>} />
       <SovaBanner tone="accent" title="Shared component set" description="Use these before inventing one-off app UI." actions={<SovaButton>Action</SovaButton>} />
+      <SovaCard title="Checklist.design coverage" description="Explicit coverage map for the requested component/foundation checklist.">
+        <SovaChecklistCoverage items={checklistCoverage} />
+      </SovaCard>
       <div style={grid}>
-        <SovaCard title="Forms"><div style={{ display: 'grid', gap: 12 }}><SovaFormGroup title="Form group" description="Grouped related inputs"><SovaInput label="Input field" placeholder="Type value" hint="Label, hint, error states" /><SovaSelect label="Dropdown" value="ready" options={[{ label: 'Ready', value: 'ready' }, { label: 'Watch', value: 'watch' }]} /><SovaDatePicker label="Date picker" value="2026-06-18" /></SovaFormGroup><SovaDivider label="choices" /><SovaSearchBar placeholder="Search rows" actions={<SovaBadge>⌘K</SovaBadge>} /><SovaCheckbox label="Checkbox" description="Multi-select option" checked /><SovaRadio name="demo-radio" value="one" label="Radio" description="Single choice" checked /><SovaToggle label="Toggle" description="Fast on/off state" checked /><SovaSlider label="Threshold" value={64} /></div></SovaCard>
+        <SovaCard title="Forms"><div style={{ display: 'grid', gap: 12 }}><SovaFormGroup title="Form group" description="Grouped related inputs"><SovaInput label="Input field" placeholder="Type value" hint="Label, hint, error states" /><SovaSelect label="Dropdown" value="ready" options={[{ label: 'Ready', value: 'ready' }, { label: 'Watch', value: 'watch' }]} /><SovaDatePicker label="Date picker" value="2026-06-18" /><SovaDateRangePicker label="Date range" start="2026-06-01" end="2026-06-18" hint="Single and range date controls share field styling." /></SovaFormGroup><SovaDivider label="choices" /><SovaSearchBar placeholder="Search rows" actions={<SovaBadge>⌘K</SovaBadge>} /><SovaCheckbox label="Checkbox" description="Multi-select option" checked /><SovaRadio name="demo-radio" value="one" label="Radio" description="Single choice" checked /><SovaToggle label="Toggle" description="Fast on/off state" checked /><SovaSlider label="Threshold" value={64} /></div></SovaCard>
         <SovaCard title="Identity + metadata"><div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}><SovaAvatar name="Nazar Khimin" status="good" /><SovaIcon tone="accent">↗</SovaIcon><SovaTooltip label="Helpful context"><SovaBadge variant="outline">tooltip</SovaBadge></SovaTooltip><SovaLoading label="Syncing" /></div></SovaCard>
         <SovaCard title="Navigation"><div style={{ display: 'grid', gap: 12 }}><SovaTabs value="one" items={[{ label: 'Overview', value: 'one' }, { label: 'Queue', value: 'two', badge: <SovaBadge size="xs">3</SovaBadge> }]} /><SovaAccordion items={[{ title: 'Accordion row', content: 'Expandable content for dense settings and help.', defaultOpen: true }]} /></div></SovaCard>
         <SovaCard title="Loading + feedback"><div style={{ display: 'grid', gap: 12 }}><SovaSkeleton lines={3} /><SovaToast tone="good" title="Saved" description="Changes were persisted." /></div></SovaCard>
@@ -313,6 +338,51 @@ export const AnalyticsCharts = () => (
           <SovaCandlestickChart points={[{ label: 'Mon', open: 12, close: 18, low: 10, high: 20 }, { label: 'Tue', open: 18, close: 16, low: 14, high: 21 }, { label: 'Wed', open: 16, close: 24, low: 15, high: 26 }, { label: 'Thu', open: 24, close: 21, low: 19, high: 28 }, { label: 'Fri', open: 21, close: 29, low: 20, high: 31 }]} />
         </SovaChartCard>
       </div>
+    </div>
+  </StoryFrame>
+)
+
+export const SovaSystem = () => (
+  <StoryFrame theme="brain">
+    <div style={storyWrap}>
+      <SovaPageHeader eyebrow="single source" title="Sova System" description="One page for foundation tokens, common components, data surfaces and reusable charts." meta={<SovaBadge dot pulse tone="good">production v1</SovaBadge>} />
+      <SovaCard title="Checklist.design coverage" description="Coverage map for the requested shared UI checklist.">
+        <SovaChecklistCoverage items={checklistCoverage} />
+      </SovaCard>
+      <section className="sova-system-section">
+        <h2>Foundation</h2>
+        <div className="sova-token-grid">
+          <div className="sova-token-swatch"><i style={{ background: 'var(--sova-accent)' }} /><strong>Accent</strong></div>
+          <div className="sova-token-swatch"><i style={{ background: 'var(--sova-good)' }} /><strong>Good</strong></div>
+          <div className="sova-token-swatch"><i style={{ background: 'var(--sova-warn)' }} /><strong>Warn</strong></div>
+          <div className="sova-token-swatch"><i style={{ background: 'var(--sova-bad)' }} /><strong>Bad</strong></div>
+        </div>
+        <SovaKpiRow items={[{ label: 'Open', value: '12' }, { label: 'Good', value: '+24%', tone: 'good' }, { label: 'Warn', value: '3', tone: 'warn' }, { label: 'Bad', value: '-2', tone: 'bad' }]} />
+      </section>
+      <section className="sova-system-section">
+        <h2>Components</h2>
+        <div style={grid}>
+          <SovaCard title="Buttons / badges"><div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}><SovaButton variant="primary">Primary</SovaButton><SovaButton>Secondary</SovaButton><SovaBadge dot pulse tone="good">live</SovaBadge><SovaBadge variant="outline" tone="accent">filter</SovaBadge></div></SovaCard>
+          <SovaCard title="Forms"><div style={{ display: 'grid', gap: 10 }}><SovaInput label="Textfield" placeholder="Search or enter value" /><SovaSelect label="Dropdown" value="ready" options={[{ label: 'Ready', value: 'ready' }, { label: 'Watch', value: 'watch' }]} /><SovaDateRangePicker start="2026-06-01" end="2026-06-18" /></div></SovaCard>
+          <SovaCard title="Choices"><div style={{ display: 'grid', gap: 10 }}><SovaCheckbox label="Checkbox" checked /><SovaRadio name="system-radio" value="one" label="Radio" checked /><SovaToggle label="Toggle" checked /></div></SovaCard>
+          <SovaCard title="Feedback"><div style={{ display: 'grid', gap: 10 }}><SovaBanner title="Banner" description="Important message" /><SovaToast title="Toast" description="Short status feedback" /><SovaSkeleton lines={2} /></div></SovaCard>
+        </div>
+      </section>
+      <section className="sova-system-section">
+        <h2>Tables and common surfaces</h2>
+        <SovaTableCard title="Common table" description="Use this for queues, transactions, positions and task lists." density="compact" columns={[{ key: 'name', header: 'Name' }, { key: 'status', header: 'Status' }, { key: 'score', header: 'Score', align: 'right', mono: true }]} rows={[{ name: 'Jobs queue', status: <SovaBadge tone="good">ready</SovaBadge>, score: '91' }, { name: 'Finance review', status: <SovaBadge tone="warn">watch</SovaBadge>, score: '73' }]} />
+      </section>
+      <section className="sova-system-section">
+        <h2>Charts</h2>
+        <div className="sova-analytics-grid">
+          <SovaChartCard title="Ranking"><SovaRankingChart items={[{ label: 'Jobs', value: 31, tone: 'accent' }, { label: 'Finance', value: 24, tone: 'good' }, { label: 'Trading', value: 18, tone: 'warn' }]} /></SovaChartCard>
+          <SovaChartCard title="Donut"><SovaDonutChart center={<span>64%</span>} segments={mixSegments} /></SovaChartCard>
+          <SovaChartCard className="sova-chart-card-wide" title="Multi-line"><SovaMultiLineChart labels={['Mon', 'Tue', 'Wed', 'Thu']} series={[{ name: 'Volume', values: [12, 18, 15, 22], tone: 'accent' }, { name: 'Quality', values: [9, 12, 17, 19], tone: 'good' }]} /></SovaChartCard>
+          <SovaChartCard title="Gauge"><SovaGaugeChart value={74} label="Health" tone="good" /></SovaChartCard>
+          <SovaChartCard title="Heatmap"><SovaHeatmap cells={weeklyCells.slice(0, 14)} columns={7} /></SovaChartCard>
+          <SovaChartCard className="sova-chart-card-wide" title="Sankey"><SovaSankeyChart height={260} nodes={[{ name: 'Input', tone: 'accent' }, { name: 'Review', tone: 'warn' }, { name: 'Done', tone: 'good' }]} links={[{ source: 'Input', target: 'Review', value: 40 }, { source: 'Review', target: 'Done', value: 28 }]} /></SovaChartCard>
+        </div>
+      </section>
     </div>
   </StoryFrame>
 )
