@@ -6,7 +6,7 @@ Sova Kit gives Jobs Bot, Finance Bot, Trading Bot and Brain Bot the same compact
 
 Live demo: https://sova-space.github.io/sova-kit/
 
-Start with the `SovaSystem` story in the live demo. It unifies foundation tokens, project logos, common components, tables and reusable charts on one page.
+Start with the `CoreComponents` story in the live demo. It unifies foundation tokens, project logos, common components, tables and reusable charts on one page.
 
 ## Why this exists
 

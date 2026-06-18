@@ -12,22 +12,22 @@ export function SovaProvider({ theme, children, className }: { theme: SovaTheme;
   return <div className={cx('sova-root', className)} data-sova-theme={theme}>{children}</div>
 }
 
-export function SovaShell({ sidebar, children, className }: { sidebar: ReactNode; children: ReactNode; className?: string }) {
-  return <div className={cx('sova-shell', className)}><aside className="sova-sidebar">{sidebar}</aside><main className="sova-main">{children}</main></div>
+export function SovaShell({ sidebar, rail, children, className }: { sidebar: ReactNode; rail?: ReactNode; children: ReactNode; className?: string }) {
+  return <div className={cx('sova-shell', Boolean(rail) && 'sova-shell-with-rail', className)}><aside className="sova-sidebar"><div className="sova-sidebar-scroll">{sidebar}</div></aside><main className="sova-main">{children}</main>{rail ? <aside className="sova-rail"><div className="sova-rail-scroll">{rail}</div></aside> : null}</div>
 }
 
 export function SovaTopbar({ eyebrow, title, actions, children }: { eyebrow?: ReactNode; title: ReactNode; actions?: ReactNode; children?: ReactNode }) {
-  return <header className="sova-topbar"><div>{eyebrow ? <p className="sova-eyebrow">{eyebrow}</p> : null}<h1 className="sova-title">{title}</h1>{children}</div>{actions ? <div className="sova-actions">{actions}</div> : null}</header>
+  return <header className="sova-topbar"><div className="sova-topbar-copy">{eyebrow ? <p className="sova-eyebrow">{eyebrow}</p> : null}<h1 className="sova-title">{title}</h1>{children}</div>{actions ? <div className="sova-actions">{actions}</div> : null}</header>
 }
 
 export function SovaBrand({ mark, eyebrow, title }: { mark: ReactNode; eyebrow?: ReactNode; title: ReactNode }) {
-  return <div className="sova-brand"><div className="sova-brand-mark">{mark}</div><div>{eyebrow ? <p className="sova-eyebrow">{eyebrow}</p> : null}<strong>{title}</strong></div></div>
+  return <div className="sova-brand"><div className="sova-brand-mark">{mark}</div><div className="sova-brand-copy">{eyebrow ? <p className="sova-eyebrow">{eyebrow}</p> : null}<strong>{title}</strong></div></div>
 }
 
 export type SovaNavItem = { label: ReactNode; href?: string; active?: boolean; icon?: ReactNode; onClick?: () => void }
 export function SovaNav({ items }: { items: SovaNavItem[] }) {
   return <nav className="sova-nav" aria-label="Main navigation">{items.map((item, index) => {
-    const content = <>{item.icon}{item.label}</>
+    const content = <>{item.icon}<span className="sova-nav-label" aria-current={item.active ? 'page' as const : undefined}>{item.label}</span></>
     const common = { className: cx('sova-nav-item', item.active && 'sova-active'), 'aria-current': item.active ? 'page' as const : undefined }
     return item.href ? <a key={`${item.href}-${index}`} href={item.href} {...common}>{content}</a> : <button key={index} type="button" onClick={item.onClick} {...common}>{content}</button>
   })}</nav>

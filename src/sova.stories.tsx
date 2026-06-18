@@ -196,12 +196,12 @@ function DashboardTemplate({ theme }: { theme: SovaTheme }) {
   )
 }
 
-export const SovaSystem = () => (
+export const CoreComponents = () => (
   <StoryFrame theme="brain">
     <div className="sova-system-page">
       <SovaPageHeader
         eyebrow="single source"
-        title="Sova System"
+        title="Core components"
         description="One expanded page for foundation, project logos, layout, navigation, common components, tables, states and reusable charts."
         meta={<SovaBadge dot pulse tone="good">production v1</SovaBadge>}
         actions={<><SovaButton variant="primary">Primary action</SovaButton><SovaButton>Secondary</SovaButton></>}

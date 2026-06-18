@@ -17,6 +17,8 @@
   --sova-warn: #c98212;
   --sova-bad: #d84c4c;
   --sova-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --sova-shadow-md: 0 16px 48px rgba(15, 23, 42, 0.12);
+  --sova-shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.10);
 }
 
 [data-sova-theme="jobs"] {
@@ -76,10 +78,40 @@
   color: var(--sova-text);
 }
 
+.sova-shell-with-rail {
+  grid-template-columns: var(--sova-sidebar-width, 240px) minmax(0, 1fr) var(--sova-rail-width, 300px);
+}
+
 .sova-sidebar {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100vh;
+  min-height: 0;
+  overflow: hidden;
   border-right: 1px solid var(--sova-border);
   background: color-mix(in srgb, var(--sova-surface) 80%, var(--sova-bg));
   padding: 18px 14px;
+}
+
+.sova-rail {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100vh;
+  min-height: 0;
+  overflow: hidden;
+  border-left: 1px solid var(--sova-border);
+  background: color-mix(in srgb, var(--sova-surface) 80%, var(--sova-bg));
+  padding: 18px 14px;
+}
+
+.sova-sidebar-scroll,
+.sova-rail-scroll {
+  min-height: 0;
+  max-height: 100%;
+  overflow-y: auto;
+  scrollbar-width: thin;
 }
 
 .sova-main {
@@ -94,6 +126,7 @@
   gap: 16px;
   margin-bottom: 18px;
 }
+.sova-topbar-copy { min-width: 0; }
 
 .sova-eyebrow {
   margin: 0 0 5px;
@@ -115,23 +148,27 @@
 
 .sova-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
-.sova-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 22px; }
+.sova-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 22px; min-width: 0; }
 .sova-brand-mark {
+  flex: 0 0 auto;
   width: 34px; height: 34px; border-radius: 11px;
   display: grid; place-items: center;
   background: var(--sova-accent); color: var(--sova-surface);
   font-weight: 800; font-size: 13px; letter-spacing: -0.03em;
 }
-.sova-brand strong { display: block; color: var(--sova-text); font-size: 15px; }
+.sova-brand-copy { min-width: 0; }
+.sova-brand strong { display: block; color: var(--sova-text); font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .sova-nav { display: grid; gap: 4px; }
 .sova-nav-item {
   width: 100%; display: flex; align-items: center; gap: 9px;
+  min-width: 0;
   border: 0; border-radius: var(--sova-radius-sm);
   padding: 10px 11px; background: transparent; color: var(--sova-muted);
   text-decoration: none; font: inherit; font-size: 14px; cursor: pointer;
 }
 .sova-nav-item:hover { background: var(--sova-surface-soft); color: var(--sova-text); }
+.sova-nav-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sova-nav-item[aria-current="page"], .sova-nav-item.sova-active { background: var(--sova-accent); color: var(--sova-surface); }
 
 .sova-card {
@@ -188,9 +225,9 @@
 .sova-empty p { margin: 0; font-size: 13px; }
 
 .sova-table-wrap { overflow-x: auto; border: 1px solid var(--sova-border); border-radius: var(--sova-radius-lg); background: var(--sova-surface); }
-.sova-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; }
+.sova-table { width: 100%; min-width: 640px; table-layout: fixed; border-collapse: separate; border-spacing: 0; font-size: 13px; }
 .sova-table caption { caption-side: top; padding: 10px 12px; color: var(--sova-muted); font-size: 12px; text-align: left; border-bottom: 1px solid var(--sova-border); }
-.sova-table th, .sova-table td { padding: 11px 10px; border-bottom: 1px solid var(--sova-border); text-align: left; vertical-align: middle; }
+.sova-table th, .sova-table td { min-width: 0; padding: 11px 10px; border-bottom: 1px solid var(--sova-border); text-align: left; vertical-align: middle; overflow: hidden; text-overflow: ellipsis; }
 .sova-table-compact th, .sova-table-compact td { padding: 7px 9px; }
 .sova-table th { color: var(--sova-muted); font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.075em; background: color-mix(in srgb, var(--sova-surface-soft) 62%, var(--sova-surface)); }
 .sova-table tbody tr:last-child td { border-bottom: 0; }
@@ -206,7 +243,9 @@
 
 @media (max-width: 820px) {
   .sova-shell { display: block; }
-  .sova-sidebar { border-right: 0; border-bottom: 1px solid var(--sova-border); }
+  .sova-sidebar, .sova-rail { position: static; height: auto; max-height: none; border-right: 0; border-bottom: 1px solid var(--sova-border); }
+  .sova-rail { border-left: 0; }
+  .sova-sidebar-scroll, .sova-rail-scroll { max-height: none; overflow: visible; }
   .sova-main { padding: 18px; }
   .sova-topbar { display: grid; }
 }
