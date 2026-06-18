@@ -1,5 +1,5 @@
 import type { EChartsOption, EChartsType } from 'echarts'
-import { useEffect, useRef, type ButtonHTMLAttributes, type HTMLAttributes, type ReactNode } from 'react'
+import { useEffect, useRef, type ButtonHTMLAttributes, type HTMLAttributes, type InputHTMLAttributes, type ReactNode } from 'react'
 
 export type SovaTheme = 'jobs' | 'finance' | 'trading' | 'brain'
 export type SovaTone = 'neutral' | 'accent' | 'good' | 'warn' | 'bad'
@@ -53,6 +53,87 @@ export function SovaStat({ label, value, tone = 'neutral' }: { label: ReactNode;
 
 export function SovaEmptyState({ title, description }: { title: ReactNode; description?: ReactNode }) {
   return <div className="sova-empty"><strong>{title}</strong>{description ? <p>{description}</p> : null}</div>
+}
+
+
+export function SovaIcon({ children, tone = 'neutral', size = 18, className }: { children: ReactNode; tone?: SovaTone; size?: number; className?: string }) {
+  return <span className={cx('sova-icon', tone !== 'neutral' && `sova-icon-${tone}`, className)} style={{ width: size, height: size, fontSize: Math.max(11, size - 4) }}>{children}</span>
+}
+
+export function SovaAvatar({ name, src, status, size = 34 }: { name: string; src?: string; status?: SovaTone; size?: number }) {
+  const initials = name.split(' ').filter(Boolean).slice(0, 2).map((part) => part[0]?.toUpperCase()).join('') || 'SV'
+  return <span className="sova-avatar" style={{ width: size, height: size }}>{src ? <img src={src} alt={name} /> : <span>{initials}</span>}{status ? <i className={cx(status !== 'neutral' && `sova-avatar-${status}`)} /> : null}</span>
+}
+
+export function SovaInput({ label, hint, error, className, ...props }: InputHTMLAttributes<HTMLInputElement> & { label?: ReactNode; hint?: ReactNode; error?: ReactNode }) {
+  return <label className={cx('sova-field', Boolean(error) && 'sova-field-error')}><span>{label}</span><input className={cx('sova-input', className)} {...props} />{error ? <em>{error}</em> : hint ? <small>{hint}</small> : null}</label>
+}
+
+export function SovaSearchBar({ placeholder = 'Search…', value, onChange, actions }: { placeholder?: string; value?: string; onChange?: (value: string) => void; actions?: ReactNode }) {
+  return <div className="sova-searchbar"><input value={value} onChange={(event) => onChange?.(event.currentTarget.value)} placeholder={placeholder} />{actions ? <div>{actions}</div> : null}</div>
+}
+
+export function SovaCheckbox({ label, description, checked, onChange, disabled }: { label: ReactNode; description?: ReactNode; checked?: boolean; onChange?: (checked: boolean) => void; disabled?: boolean }) {
+  return <label className={cx('sova-choice', disabled && 'sova-disabled')}><input type="checkbox" checked={checked} disabled={disabled} onChange={(event) => onChange?.(event.currentTarget.checked)} /><span><strong>{label}</strong>{description ? <small>{description}</small> : null}</span></label>
+}
+
+export function SovaRadio({ label, description, name, value, checked, onChange, disabled }: { label: ReactNode; description?: ReactNode; name: string; value: string; checked?: boolean; onChange?: (value: string) => void; disabled?: boolean }) {
+  return <label className={cx('sova-choice', disabled && 'sova-disabled')}><input type="radio" name={name} value={value} checked={checked} disabled={disabled} onChange={(event) => onChange?.(event.currentTarget.value)} /><span><strong>{label}</strong>{description ? <small>{description}</small> : null}</span></label>
+}
+
+export function SovaToggle({ label, description, checked, onChange, disabled }: { label: ReactNode; description?: ReactNode; checked?: boolean; onChange?: (checked: boolean) => void; disabled?: boolean }) {
+  return <label className={cx('sova-toggle-row', disabled && 'sova-disabled')}><span><strong>{label}</strong>{description ? <small>{description}</small> : null}</span><button type="button" role="switch" aria-checked={Boolean(checked)} disabled={disabled} onClick={() => onChange?.(!checked)} className="sova-toggle"><i /></button></label>
+}
+
+export type SovaTabItem = { label: ReactNode; value: string; badge?: ReactNode }
+export function SovaTabs({ items, value, onChange }: { items: SovaTabItem[]; value: string; onChange?: (value: string) => void }) {
+  return <div className="sova-tabs" role="tablist">{items.map((item) => <button key={item.value} type="button" role="tab" aria-selected={item.value === value} onClick={() => onChange?.(item.value)}>{item.label}{item.badge ? <span>{item.badge}</span> : null}</button>)}</div>
+}
+
+export function SovaBanner({ tone = 'accent', title, description, actions, onDismiss }: { tone?: SovaTone; title: ReactNode; description?: ReactNode; actions?: ReactNode; onDismiss?: () => void }) {
+  return <div className={cx('sova-banner', tone !== 'neutral' && `sova-banner-${tone}`)}><div><strong>{title}</strong>{description ? <p>{description}</p> : null}</div>{actions ? <div className="sova-actions">{actions}</div> : null}{onDismiss ? <button type="button" onClick={onDismiss} aria-label="Dismiss">×</button> : null}</div>
+}
+
+export function SovaSkeleton({ lines = 3 }: { lines?: number }) {
+  return <div className="sova-skeleton" aria-hidden="true">{Array.from({ length: lines }).map((_, index) => <span key={index} />)}</div>
+}
+
+export function SovaLoading({ label = 'Loading' }: { label?: ReactNode }) {
+  return <div className="sova-loading" role="status"><span />{label}</div>
+}
+
+export function SovaTooltip({ label, children }: { label: ReactNode; children: ReactNode }) {
+  return <span className="sova-tooltip" tabIndex={0}>{children}<span role="tooltip">{label}</span></span>
+}
+
+export function SovaAccordion({ items }: { items: Array<{ title: ReactNode; content: ReactNode; defaultOpen?: boolean }> }) {
+  return <div className="sova-accordion">{items.map((item, index) => <details key={index} open={item.defaultOpen}><summary>{item.title}<span>⌄</span></summary><div>{item.content}</div></details>)}</div>
+}
+
+export function SovaModal({ open, title, description, children, actions, onClose }: { open: boolean; title: ReactNode; description?: ReactNode; children?: ReactNode; actions?: ReactNode; onClose?: () => void }) {
+  if (!open) return null
+  return <div className="sova-modal-backdrop" role="presentation"><section className="sova-modal" role="dialog" aria-modal="true"><header><div><h2>{title}</h2>{description ? <p>{description}</p> : null}</div>{onClose ? <button type="button" onClick={onClose} aria-label="Close">×</button> : null}</header>{children ? <div className="sova-modal-body">{children}</div> : null}{actions ? <footer>{actions}</footer> : null}</section></div>
+}
+
+export function SovaDrawer({ open, title, children, actions, onClose, side = 'right' }: { open: boolean; title: ReactNode; children: ReactNode; actions?: ReactNode; onClose?: () => void; side?: 'left' | 'right' }) {
+  if (!open) return null
+  return <div className="sova-drawer-backdrop"><aside className={cx('sova-drawer', side === 'left' && 'sova-drawer-left')}><header><h2>{title}</h2>{onClose ? <button type="button" onClick={onClose} aria-label="Close">×</button> : null}</header><div>{children}</div>{actions ? <footer>{actions}</footer> : null}</aside></div>
+}
+
+export function SovaToast({ tone = 'neutral', title, description, action }: { tone?: SovaTone; title: ReactNode; description?: ReactNode; action?: ReactNode }) {
+  return <div className={cx('sova-toast', tone !== 'neutral' && `sova-toast-${tone}`)} role="status"><strong>{title}</strong>{description ? <p>{description}</p> : null}{action}</div>
+}
+
+export function SovaSlider({ label, value, min = 0, max = 100, onChange }: { label?: ReactNode; value: number; min?: number; max?: number; onChange?: (value: number) => void }) {
+  return <label className="sova-slider"><span>{label}<em>{value}</em></span><input type="range" min={min} max={max} value={value} onChange={(event) => onChange?.(Number(event.currentTarget.value))} /></label>
+}
+
+export function SovaCarousel({ items }: { items: ReactNode[] }) {
+  return <div className="sova-carousel">{items.map((item, index) => <div key={index}>{item}</div>)}</div>
+}
+
+export function SovaFooter({ brand, links }: { brand?: ReactNode; links?: Array<{ label: ReactNode; href: string }> }) {
+  return <footer className="sova-footer"><div>{brand}</div>{links ? <nav>{links.map((link, index) => <a key={index} href={link.href}>{link.label}</a>)}</nav> : null}</footer>
 }
 
 export type SovaColumn<Row> = {

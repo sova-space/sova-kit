@@ -1,37 +1,55 @@
 import type { ReactNode } from 'react'
 import {
+  SovaAccordion,
   SovaActivityFeed,
+  SovaAvatar,
   SovaBadge,
+  SovaBanner,
   SovaAreaChart,
   SovaBarChart,
   SovaBrand,
   SovaButton,
   SovaCandlestickChart,
   SovaCard,
+  SovaCarousel,
   SovaChartCard,
+  SovaCheckbox,
   SovaDashboardGrid,
   SovaDonutChart,
+  SovaDrawer,
   SovaEmptyState,
   SovaFlowChart,
   SovaHeatmap,
+  SovaIcon,
+  SovaInput,
   SovaInspector,
   SovaKpiRow,
   SovaLineChart,
+  SovaLoading,
+  SovaModal,
   SovaNav,
   SovaPageHeader,
   SovaProgressList,
+  SovaRadio,
   SovaRadarChart,
   SovaRankingChart,
   SovaProvider,
+  SovaSearchBar,
   SovaSettingsList,
   SovaShell,
+  SovaSkeleton,
+  SovaSlider,
   SovaSankeyChart,
   SovaSplitCard,
   SovaStat,
   SovaStackedBar,
   SovaTable,
   SovaTableCard,
+  SovaTabs,
+  SovaToast,
+  SovaToggle,
   SovaToolbar,
+  SovaTooltip,
   SovaTreemapChart,
   SovaTopbar,
   type SovaTheme,
@@ -207,6 +225,23 @@ export const ProductionCommon = () => (
         />
       </div>
       <SovaCard title="Empty table"><SovaTable columns={[{ key: 'name', header: 'Name' }, { key: 'status', header: 'Status' }]} rows={[]} empty="No matching rows" /></SovaCard>
+    </div>
+  </StoryFrame>
+)
+
+export const ChecklistComponents = () => (
+  <StoryFrame theme="jobs">
+    <div style={storyWrap}>
+      <SovaPageHeader eyebrow="component checklist" title="Checklist.design coverage" description="Production-oriented primitives for the common component collection: forms, feedback, overlays, navigation, loading and content containers." meta={<SovaBadge tone="accent" variant="outline">expanded</SovaBadge>} />
+      <SovaBanner tone="accent" title="Shared component set" description="Use these before inventing one-off app UI." actions={<SovaButton>Action</SovaButton>} />
+      <div style={grid}>
+        <SovaCard title="Forms"><div style={{ display: 'grid', gap: 12 }}><SovaInput label="Input field" placeholder="Type value" hint="Label, hint, error states" /><SovaSearchBar placeholder="Search rows" actions={<SovaBadge>⌘K</SovaBadge>} /><SovaCheckbox label="Checkbox" description="Multi-select option" checked /><SovaRadio name="demo-radio" value="one" label="Radio" description="Single choice" checked /><SovaToggle label="Toggle" description="Fast on/off state" checked /><SovaSlider label="Threshold" value={64} /></div></SovaCard>
+        <SovaCard title="Identity + metadata"><div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}><SovaAvatar name="Nazar Khimin" status="good" /><SovaIcon tone="accent">↗</SovaIcon><SovaTooltip label="Helpful context"><SovaBadge variant="outline">tooltip</SovaBadge></SovaTooltip><SovaLoading label="Syncing" /></div></SovaCard>
+        <SovaCard title="Navigation"><div style={{ display: 'grid', gap: 12 }}><SovaTabs value="one" items={[{ label: 'Overview', value: 'one' }, { label: 'Queue', value: 'two', badge: <SovaBadge size="xs">3</SovaBadge> }]} /><SovaAccordion items={[{ title: 'Accordion row', content: 'Expandable content for dense settings and help.', defaultOpen: true }]} /></div></SovaCard>
+        <SovaCard title="Loading + feedback"><div style={{ display: 'grid', gap: 12 }}><SovaSkeleton lines={3} /><SovaToast tone="good" title="Saved" description="Changes were persisted." /></div></SovaCard>
+        <SovaCard title="Overlays"><div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}><SovaBadge variant="outline">Modal</SovaBadge><SovaBadge variant="outline">Drawer</SovaBadge><SovaModal open={false} title="Modal" description="Dialog structure" actions={<SovaButton>Done</SovaButton>}><p style={{ margin: 0, color: 'var(--sova-muted)' }}>Modal content area.</p></SovaModal><SovaDrawer open={false} title="Drawer"><p style={{ margin: 0, color: 'var(--sova-muted)' }}>Drawer content area.</p></SovaDrawer></div></SovaCard>
+        <SovaCard title="Carousel"><SovaCarousel items={[<SovaCard key="a"><SovaStat label="One" value="1" /></SovaCard>, <SovaCard key="b"><SovaStat label="Two" value="2" /></SovaCard>]} /></SovaCard>
+      </div>
     </div>
   </StoryFrame>
 )

@@ -48,6 +48,29 @@ Primitives:
 - `SovaBadge`
 - `SovaStat`
 - `SovaEmptyState`
+- `SovaIcon`
+- `SovaAvatar`
+
+Forms and controls:
+- `SovaInput`
+- `SovaSearchBar`
+- `SovaCheckbox`
+- `SovaRadio`
+- `SovaToggle`
+- `SovaSlider`
+- `SovaTabs`
+
+Feedback and overlays:
+- `SovaBanner`
+- `SovaToast`
+- `SovaSkeleton`
+- `SovaLoading`
+- `SovaTooltip`
+- `SovaModal`
+- `SovaDrawer`
+- `SovaAccordion`
+- `SovaCarousel`
+- `SovaFooter`
 
 Common data surfaces:
 - `SovaTable`
@@ -69,6 +92,12 @@ Themes:
 - `brain`
 
 ## Production defaults
+
+### Checklist coverage
+
+The kit now covers the practical parts of the checklist.design component collection for Sova apps: accordion, avatar, badge, banner, button, card, carousel, checkbox, drawer, footer, icon, input, loading, modal, navigation, radio, searchbar, skeleton, slider, table, tabs, toast, toggle and tooltip.
+
+Not every component should appear in every bot. Use the shared component when the pattern repeats; keep product-specific flows inside the product app.
 
 ### KPI strips
 
