@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/vitest'
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { SovaActivityFeed, SovaAreaChart, SovaBadge, SovaBarChart, SovaBrand, SovaCandlestickChart, SovaCard, SovaChartCard, SovaDashboardGrid, SovaDonutChart, SovaEmptyState, SovaFlowChart, SovaHeatmap, SovaInspector, SovaKpiRow, SovaLineChart, SovaNav, SovaPageHeader, SovaProgressList, SovaProvider, SovaRadarChart, SovaRankingChart, SovaSettingsList, SovaShell, SovaSparkBars, SovaSplitCard, SovaStackedBar, SovaStat, SovaTable, SovaToolbar, SovaTopbar, SovaTreemapChart } from './index'
+import { SovaActivityFeed, SovaAreaChart, SovaBadge, SovaBarChart, SovaBrand, SovaCandlestickChart, SovaCard, SovaChartCard, SovaDashboardGrid, SovaDonutChart, SovaEmptyState, SovaFlowChart, SovaHeatmap, SovaInspector, SovaKpiRow, SovaLineChart, SovaNav, SovaPageHeader, SovaProgressList, SovaProvider, SovaRadarChart, SovaRankingChart, SovaSettingsList, SovaShell, SovaSparkBars, SovaSplitCard, SovaStackedBar, SovaStat, SovaTable, SovaTableCard, SovaToolbar, SovaTopbar, SovaTreemapChart } from './index'
 
 describe('@sova/ui', () => {
   it('applies the selected product theme', () => {
@@ -25,7 +25,7 @@ describe('@sova/ui', () => {
   })
 
   it('renders empty state and tables', () => {
-    render(<><SovaEmptyState title="No rows" description="Sync first" /><SovaTable density="compact" caption="Companies" columns={[{ key: 'company', header: 'Company' }, { key: 'score', header: 'Score', align: 'right', mono: true }]} rows={[{ company: 'Arize AI', score: 82 }]} /><SovaTable columns={[{ key: 'company', header: 'Company' }]} rows={[]} empty="Nothing matched" /></>)
+    render(<><SovaEmptyState title="No rows" description="Sync first" /><SovaTableCard title="Companies table" density="compact" caption="Companies" columns={[{ key: 'company', header: 'Company' }, { key: 'score', header: 'Score', align: 'right', mono: true }]} rows={[{ company: 'Arize AI', score: 82 }]} /><SovaTable columns={[{ key: 'company', header: 'Company' }]} rows={[]} empty="Nothing matched" /></>)
     expect(screen.getByText('No rows')).toBeInTheDocument()
     expect(screen.getByText('Companies')).toBeInTheDocument()
     expect(screen.getAllByRole('columnheader', { name: 'Company' })[0]).toBeInTheDocument()

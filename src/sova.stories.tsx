@@ -30,6 +30,7 @@ import {
   SovaStat,
   SovaStackedBar,
   SovaTable,
+  SovaTableCard,
   SovaToolbar,
   SovaTreemapChart,
   SovaTopbar,
@@ -195,14 +196,15 @@ export const ProductionCommon = () => (
             <SovaBadge size="xs">tiny</SovaBadge><SovaBadge>neutral</SovaBadge><SovaBadge dot pulse tone="good">live</SovaBadge><SovaBadge dot tone="warn">watch</SovaBadge><SovaBadge dot tone="bad">blocked</SovaBadge><SovaBadge icon="↗" tone="accent">signal</SovaBadge><SovaBadge variant="solid" tone="good">solid</SovaBadge><SovaBadge variant="outline" tone="accent">filter</SovaBadge><SovaBadge variant="ghost">quiet</SovaBadge>
           </div>
         </SovaCard>
-        <SovaCard title="Table states" description="Typed columns, rendered cells, alignment, mono numbers, empty state.">
-          <SovaTable
-            density="compact"
-            caption="Reusable table surface"
-            columns={[{ key: 'name', header: 'Name' }, { key: 'status', header: 'Status' }, { key: 'score', header: 'Score', align: 'right', mono: true }]}
-            rows={[{ name: 'Arize AI', status: <SovaBadge tone="good">good fit</SovaBadge>, score: '82' }, { name: 'Revolut', status: <SovaBadge tone="warn">watch</SovaBadge>, score: '71' }]}
-          />
-        </SovaCard>
+        <SovaTableCard
+          title="Common table component"
+          description="Typed columns, rendered cells, alignment, mono numbers, empty state. Use this before app-specific table work."
+          actions={<SovaBadge variant="outline" tone="accent">shared</SovaBadge>}
+          density="compact"
+          caption="Reusable table surface"
+          columns={[{ key: 'name', header: 'Name' }, { key: 'status', header: 'Status' }, { key: 'score', header: 'Score', align: 'right', mono: true }]}
+          rows={[{ name: 'Arize AI', status: <SovaBadge tone="good">good fit</SovaBadge>, score: '82' }, { name: 'Revolut', status: <SovaBadge tone="warn">watch</SovaBadge>, score: '71' }]}
+        />
       </div>
       <SovaCard title="Empty table"><SovaTable columns={[{ key: 'name', header: 'Name' }, { key: 'status', header: 'Status' }]} rows={[]} empty="No matching rows" /></SovaCard>
     </div>

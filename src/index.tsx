@@ -67,13 +67,17 @@ export function SovaTable<Row extends Record<string, unknown>>({ columns, rows, 
   return <div className={cx('sova-table-wrap', stickyHeader && 'sova-table-sticky', className)}><table className={cx('sova-table', density === 'compact' && 'sova-table-compact', onRowClick && 'sova-table-clickable')}>{caption ? <caption>{caption}</caption> : null}<thead><tr>{columns.map(column => <th key={column.key} style={{ width: column.width, textAlign: column.align }}>{column.header}</th>)}</tr></thead><tbody>{rows.length ? rows.map((row, rowIndex) => <tr key={rowKey ? rowKey(row, rowIndex) : rowIndex} onClick={onRowClick ? () => onRowClick(row) : undefined}>{columns.map(column => <td key={column.key} className={cx(column.mono && 'sova-table-mono')} style={{ textAlign: column.align }}>{column.render ? column.render(row) : String(row[column.key] ?? '')}</td>)}</tr>) : <tr><td className="sova-table-empty" colSpan={columns.length}>{empty}</td></tr>}</tbody></table></div>
 }
 
+export function SovaTableCard<Row extends Record<string, unknown>>({ title, description, actions, toolbar, columns, rows, ...tableProps }: { title: ReactNode; description?: ReactNode; actions?: ReactNode; toolbar?: ReactNode; columns: SovaColumn<Row>[]; rows: Row[] } & Omit<Parameters<typeof SovaTable<Row>>[0], 'columns' | 'rows'>) {
+  return <SovaCard className="sova-table-card"><div className="sova-table-card-head"><div><h2 className="sova-card-title">{title}</h2>{description ? <p className="sova-card-description">{description}</p> : null}</div>{actions ? <div className="sova-actions">{actions}</div> : null}</div>{toolbar ? <div className="sova-table-card-toolbar">{toolbar}</div> : null}<SovaTable columns={columns} rows={rows} {...tableProps} /></SovaCard>
+}
+
 export function SovaPageHeader({ eyebrow, title, description, actions, meta }: { eyebrow?: ReactNode; title: ReactNode; description?: ReactNode; actions?: ReactNode; meta?: ReactNode }) {
   return <div className="sova-page-header"><div>{eyebrow ? <p className="sova-eyebrow">{eyebrow}</p> : null}<div className="sova-page-title-row"><h1 className="sova-page-title">{title}</h1>{meta ? <div className="sova-page-meta">{meta}</div> : null}</div>{description ? <p className="sova-page-description">{description}</p> : null}</div>{actions ? <div className="sova-actions">{actions}</div> : null}</div>
 }
 
 export type SovaKpiItem = { label: ReactNode; value: ReactNode; hint?: ReactNode; tone?: SovaTone }
-export function SovaKpiRow({ items }: { items: SovaKpiItem[] }) {
-  return <div className="sova-kpi-row">{items.map((item, index) => <SovaCard key={index} className="sova-kpi-card"><SovaStat label={item.label} value={item.value} tone={item.tone} />{item.hint ? <p className="sova-kpi-hint">{item.hint}</p> : null}</SovaCard>)}</div>
+export function SovaKpiRow({ items, density = 'compact' }: { items: SovaKpiItem[]; density?: 'compact' | 'normal' }) {
+  return <div className={cx('sova-kpi-row', density === 'compact' && 'sova-kpi-row-compact')}>{items.map((item, index) => <SovaCard key={index} className="sova-kpi-card"><SovaStat label={item.label} value={item.value} tone={item.tone} />{item.hint ? <p className="sova-kpi-hint">{item.hint}</p> : null}</SovaCard>)}</div>
 }
 
 export function SovaToolbar({ left, right }: { left?: ReactNode; right?: ReactNode }) {

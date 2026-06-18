@@ -6,7 +6,6 @@ import {
   SovaBadge,
   SovaBrand,
   SovaButton,
-  SovaCard,
   SovaChartCard,
   SovaDashboardGrid,
   SovaDonutChart,
@@ -21,7 +20,7 @@ import {
   SovaSankeyChart,
   SovaShell,
   SovaSplitCard,
-  SovaTable,
+  SovaTableCard,
   SovaToolbar,
   SovaTopbar,
 } from '@sova/kit'
@@ -58,7 +57,7 @@ function App() {
           <SovaChartCard title="Comparison" description="Unified ranking plot without metric bubbles."><SovaRankingChart items={[{ label: 'Mon', value: 12, tone: 'accent' }, { label: 'Tue', value: 18, tone: 'good' }, { label: 'Wed', value: 9, tone: 'warn' }, { label: 'Thu', value: 22, tone: 'accent' }]} /></SovaChartCard>
           <SovaChartCard title="Trend" description="ECharts area chart for richer time-series."><SovaAreaChart labels={['Mon', 'Tue', 'Wed', 'Thu', 'Fri']} values={[12, 18, 14, 22, 26]} /></SovaChartCard>
           <SovaChartCard title="Sankey" description="ECharts-powered flow for finance/jobs/trading analytics."><SovaSankeyChart height={260} nodes={[{ name: 'Source', tone: 'accent' }, { name: 'Review', tone: 'warn' }, { name: 'Ready', tone: 'good' }, { name: 'Blocked', tone: 'bad' }]} links={[{ source: 'Source', target: 'Review', value: 20 }, { source: 'Review', target: 'Ready', value: 14 }, { source: 'Review', target: 'Blocked', value: 6 }]} /></SovaChartCard>
-          <SovaCard title="Work queue"><SovaTable density="compact" caption="Shared table component" columns={[{ key: 'name', header: 'Name' }, { key: 'status', header: 'Status' }, { key: 'source', header: 'Source' }, { key: 'score', header: 'Score', align: 'right', mono: true }]} rows={rows} /></SovaCard>
+          <SovaTableCard title="Work queue" description="Shared common table component." density="compact" caption="Rows" columns={[{ key: 'name', header: 'Name' }, { key: 'status', header: 'Status' }, { key: 'source', header: 'Source' }, { key: 'score', header: 'Score', align: 'right', mono: true }]} rows={rows} />
         </SovaDashboardGrid>
       </SovaShell>
     </SovaProvider>
