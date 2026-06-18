@@ -40,8 +40,8 @@ export function SovaButton({ variant = 'secondary', className, ...props }: Butto
   return <button className={cx('sova-button', variant === 'primary' && 'sova-button-primary', className)} {...props} />
 }
 
-export function SovaBadge({ tone = 'neutral', className, ...props }: HTMLAttributes<HTMLSpanElement> & { tone?: SovaTone }) {
-  return <span className={cx('sova-badge', tone !== 'neutral' && `sova-badge-${tone}`, className)} {...props} />
+export function SovaBadge({ tone = 'neutral', variant = 'soft', dot = false, className, children, ...props }: HTMLAttributes<HTMLSpanElement> & { tone?: SovaTone; variant?: 'soft' | 'solid' | 'outline'; dot?: boolean }) {
+  return <span className={cx('sova-badge', `sova-badge-${variant}`, tone !== 'neutral' && `sova-badge-${tone}`, dot && 'sova-badge-with-dot', className)} {...props}>{dot ? <span className="sova-badge-dot" aria-hidden="true" /> : null}{children}</span>
 }
 
 export function SovaStat({ label, value, tone = 'neutral' }: { label: ReactNode; value: ReactNode; tone?: SovaTone }) {
@@ -98,6 +98,44 @@ export type SovaSparkPoint = { value: number; tone?: SovaTone }
 export function SovaSparkBars({ points, height = 72 }: { points: SovaSparkPoint[]; height?: number }) {
   const max = Math.max(1, ...points.map((point) => Math.abs(point.value)))
   return <div className="sova-spark-bars" style={{ minHeight: height }}>{points.map((point, index) => <span key={index} className={cx(point.value < 0 && 'sova-spark-negative', point.tone && point.tone !== 'neutral' && `sova-spark-${point.tone}`)} style={{ height: `${Math.max(8, Math.round((Math.abs(point.value) / max) * height))}px` }} />)}</div>
+}
+
+function toneVar(tone: SovaTone | undefined) {
+  if (tone === 'good') return 'var(--sova-good)'
+  if (tone === 'warn') return 'var(--sova-warn)'
+  if (tone === 'bad') return 'var(--sova-bad)'
+  if (tone === 'accent') return 'var(--sova-accent)'
+  return 'var(--sova-muted)'
+}
+
+export function SovaLineChart({ points, tone = 'accent', height = 140, area = true }: { points: number[]; tone?: SovaTone; height?: number; area?: boolean }) {
+  const safePoints = points.length ? points : [0]
+  const width = 360
+  const pad = 10
+  const min = Math.min(...safePoints, 0)
+  const max = Math.max(...safePoints, 1)
+  const span = Math.max(1, max - min)
+  const coords = safePoints.map((value, index) => {
+    const x = pad + (index / Math.max(1, safePoints.length - 1)) * (width - pad * 2)
+    const y = pad + ((max - value) / span) * (height - pad * 2)
+    return [x, y]
+  })
+  const line = coords.map(([x, y]) => `${x},${y}`).join(' ')
+  const areaPoints = `${pad},${height - pad} ${line} ${width - pad},${height - pad}`
+  return <svg className="sova-line-chart" viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Line chart" style={{ color: toneVar(tone) }}>{area ? <polygon points={areaPoints} /> : null}<polyline points={line} /><line x1={pad} x2={width - pad} y1={height - pad} y2={height - pad} /></svg>
+}
+
+export type SovaDonutSegment = { label: ReactNode; value: number; tone?: SovaTone }
+export function SovaDonutChart({ segments, center, size = 136 }: { segments: SovaDonutSegment[]; center?: ReactNode; size?: number }) {
+  const total = Math.max(1, segments.reduce((sum, segment) => sum + Math.max(0, segment.value), 0))
+  let cursor = 0
+  const stops = segments.map((segment) => {
+    const start = cursor
+    const end = cursor + (Math.max(0, segment.value) / total) * 100
+    cursor = end
+    return `${toneVar(segment.tone)} ${start}% ${end}%`
+  }).join(', ')
+  return <div className="sova-donut-wrap"><div className="sova-donut" style={{ width: size, height: size, background: `conic-gradient(${stops})` }}><div>{center}</div></div><div className="sova-donut-legend">{segments.map((segment, index) => <div key={index}><span style={{ background: toneVar(segment.tone) }} /><strong>{segment.label}</strong><em>{segment.value}</em></div>)}</div></div>
 }
 
 export function SovaSplitCard({ title, description, main, side }: { title: ReactNode; description?: ReactNode; main: ReactNode; side: ReactNode }) {

@@ -7,14 +7,15 @@ import {
   SovaButton,
   SovaCard,
   SovaDashboardGrid,
+  SovaDonutChart,
   SovaInspector,
   SovaKpiRow,
+  SovaLineChart,
   SovaNav,
   SovaPageHeader,
   SovaProgressList,
   SovaProvider,
   SovaShell,
-  SovaSparkBars,
   SovaSplitCard,
   SovaTable,
   SovaToolbar,
@@ -49,7 +50,7 @@ function App() {
           inspector={<SovaInspector title="Selected" subtitle="Right rail for action detail." sections={[{ title: 'Activity', content: <SovaActivityFeed items={[{ title: 'Template loaded', time: 'now', tone: 'good' }]} /> }]} />}
         >
           <SovaToolbar left={<input className="sova-search" placeholder="Search…" />} right={<><SovaBadge>All</SovaBadge><SovaBadge tone="good">Ready</SovaBadge></>} />
-          <SovaSplitCard title="Health" description="Replace with your real chart." main={<SovaSparkBars points={[4, 7, 5, 9, -2, 12, 8].map((value) => ({ value }))} />} side={<SovaProgressList items={[{ label: 'Coverage', value: '80%', percent: 80, tone: 'good' }, { label: 'Noise', value: '18%', percent: 18, tone: 'warn' }]} />} />
+          <SovaSplitCard title="Health" description="Line + donut primitives for real app data." main={<div className="sova-chart-grid"><SovaLineChart points={[4, 7, 5, 9, 8, 12, 10, 15]} /><SovaDonutChart center="80%" segments={[{ label: 'Ready', value: 80, tone: 'good' }, { label: 'Noise', value: 18, tone: 'warn' }, { label: 'Blocked', value: 2, tone: 'bad' }]} /></div>} side={<SovaProgressList items={[{ label: 'Coverage', value: '80%', percent: 80, tone: 'good' }, { label: 'Noise', value: '18%', percent: 18, tone: 'warn' }]} />} />
           <SovaCard title="Work queue"><SovaTable columns={[{ key: 'name', header: 'Name' }, { key: 'status', header: 'Status' }, { key: 'source', header: 'Source' }, { key: 'score', header: 'Score' }]} rows={rows} /></SovaCard>
         </SovaDashboardGrid>
       </SovaShell>

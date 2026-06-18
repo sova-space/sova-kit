@@ -6,16 +6,17 @@ import {
   SovaButton,
   SovaCard,
   SovaDashboardGrid,
+  SovaDonutChart,
   SovaEmptyState,
   SovaInspector,
   SovaKpiRow,
+  SovaLineChart,
   SovaNav,
   SovaPageHeader,
   SovaProgressList,
   SovaProvider,
   SovaSettingsList,
   SovaShell,
-  SovaSparkBars,
   SovaSplitCard,
   SovaStat,
   SovaTable,
@@ -117,8 +118,20 @@ function DashboardTemplate({ theme }: { theme: SovaTheme }) {
           <SovaToolbar left={<Search placeholder="Search rows" />} right={<><SovaBadge>All</SovaBadge><SovaBadge tone="good">Good</SovaBadge><SovaBadge tone="warn">Watch</SovaBadge></>} />
           <SovaSplitCard
             title="Signal panel"
-            description="Chart frame + short progress list. Apps own real data/charts; kit owns shape."
-            main={<SovaSparkBars points={[6, 9, 5, 12, -4, 10, 14, 9, 16, -2, 18, 22].map((value) => ({ value }))} />}
+            description="Generic chart frame for app data: trend line + donut breakdown + compact health stats. Product apps can replace internals with Chart.js/Recharts later."
+            main={
+              <div className="sova-chart-grid">
+                <SovaLineChart points={[6, 9, 5, 12, 8, 14, 11, 18, 15, 22, 20, 26]} tone={theme === 'trading' ? 'good' : 'accent'} />
+                <SovaDonutChart
+                  center={<><span>{copy.money}</span><small style={{ color: 'var(--sova-muted)', fontSize: 11 }}>signal</small></>}
+                  segments={[
+                    { label: 'Ready', value: 54, tone: 'good' },
+                    { label: 'Watch', value: 28, tone: 'warn' },
+                    { label: 'Blocked', value: 18, tone: 'bad' },
+                  ]}
+                />
+              </div>
+            }
             side={<SovaProgressList items={[{ label: 'Coverage', value: '74%', percent: 74, tone: 'accent' }, { label: 'Confidence', value: '61%', percent: 61, tone: 'good' }, { label: 'Risk', value: '22%', percent: 22, tone: 'warn' }]} />}
           />
           <SovaCard title="Work queue" description="Table-first surface. Product apps own domain data; kit owns layout language.">
@@ -148,9 +161,9 @@ export const Components = () => (
   <StoryFrame theme="jobs">
     <div style={storyWrap}>
       <SovaKpiRow items={[{ label: 'Neutral', value: '12' }, { label: 'Good', value: '+24%', tone: 'good' }, { label: 'Warn', value: '3', tone: 'warn' }, { label: 'Bad', value: '-2', tone: 'bad' }]} />
-      <SovaSplitCard title="Mini chart" description="Tiny chart placeholder for app-specific chart libraries." main={<SovaSparkBars points={[3, 8, 6, 10, -2, 14, 9].map((value) => ({ value }))} />} side={<SovaProgressList items={[{ label: 'Done', value: '80%', percent: 80, tone: 'good' }, { label: 'Watch', value: '20%', percent: 20, tone: 'warn' }]} />} />
+      <SovaSplitCard title="Mini chart" description="Line + donut primitives for compact dashboards." main={<div className="sova-chart-grid"><SovaLineChart points={[3, 8, 6, 10, 9, 14, 13, 18]} /><SovaDonutChart center="72%" segments={[{ label: 'Ready', value: 72, tone: 'good' }, { label: 'Watch', value: 18, tone: 'warn' }, { label: 'Blocked', value: 10, tone: 'bad' }]} /></div>} side={<SovaProgressList items={[{ label: 'Done', value: '80%', percent: 80, tone: 'good' }, { label: 'Watch', value: '20%', percent: 20, tone: 'warn' }]} />} />
       <div style={grid}>
-        <SovaCard title="Badges"><div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}><SovaBadge>neutral</SovaBadge><SovaBadge tone="accent">accent</SovaBadge><SovaBadge tone="good">good</SovaBadge><SovaBadge tone="warn">warn</SovaBadge><SovaBadge tone="bad">bad</SovaBadge></div></SovaCard>
+        <SovaCard title="Badges"><div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}><SovaBadge dot>neutral</SovaBadge><SovaBadge dot tone="accent">accent</SovaBadge><SovaBadge dot tone="good">good</SovaBadge><SovaBadge dot tone="warn">warn</SovaBadge><SovaBadge dot tone="bad">bad</SovaBadge><SovaBadge variant="solid" tone="accent">solid</SovaBadge><SovaBadge variant="outline" tone="good">outline</SovaBadge></div></SovaCard>
         <SovaCard title="Actions"><div style={{ display: 'flex', gap: 8 }}><SovaButton variant="primary">Primary</SovaButton><SovaButton>Secondary</SovaButton></div></SovaCard>
         <SovaCard title="Empty"><SovaEmptyState title="Nothing here" description="Sync or add a source first." /></SovaCard>
       </div>
