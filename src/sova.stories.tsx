@@ -149,7 +149,7 @@ function DashboardTemplate({ theme }: { theme: SovaTheme }) {
             side={<SovaProgressList items={[{ label: 'Coverage', value: '74%', percent: 74, tone: 'accent' }, { label: 'Confidence', value: '61%', percent: 61, tone: 'good' }, { label: 'Risk', value: '22%', percent: 22, tone: 'warn' }]} />}
           />
           <SovaCard title="Work queue" description="Table-first surface. Product apps own domain data; kit owns layout language.">
-            <SovaTable columns={[{ key: 'name', header: 'Name' }, { key: 'status', header: 'Status' }, { key: 'source', header: 'Source' }, { key: 'score', header: 'Score' }]} rows={rows} />
+            <SovaTable density="compact" stickyHeader caption="Common table component: compact, typed columns, rendered cells, sticky header ready." columns={[{ key: 'name', header: 'Name' }, { key: 'status', header: 'Status' }, { key: 'source', header: 'Source' }, { key: 'score', header: 'Score', align: 'right', mono: true }]} rows={rows} />
           </SovaCard>
           <SovaCard title="Settings preview">
             <SovaSettingsList items={[{ label: 'Manual sync', description: 'Show as topbar action.', control: <SovaButton>Run</SovaButton> }, { label: 'Compact mode', description: 'Default for Sova dashboards.', control: <SovaBadge tone="good">on</SovaBadge> }]} />
@@ -177,10 +177,34 @@ export const Components = () => (
       <SovaKpiRow items={[{ label: 'Neutral', value: '12' }, { label: 'Good', value: '+24%', tone: 'good' }, { label: 'Warn', value: '3', tone: 'warn' }, { label: 'Bad', value: '-2', tone: 'bad' }]} />
       <SovaSplitCard title="Mini chart" description="Line + donut primitives for compact dashboards." main={<div className="sova-chart-grid"><SovaLineChart points={[3, 8, 6, 10, 9, 14, 13, 18]} /><SovaDonutChart center="72%" segments={[{ label: 'Ready', value: 72, tone: 'good' }, { label: 'Watch', value: 18, tone: 'warn' }, { label: 'Blocked', value: 10, tone: 'bad' }]} /></div>} side={<SovaProgressList items={[{ label: 'Done', value: '80%', percent: 80, tone: 'good' }, { label: 'Watch', value: '20%', percent: 20, tone: 'warn' }]} />} />
       <div style={grid}>
-        <SovaCard title="Badges"><div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}><SovaBadge dot>neutral</SovaBadge><SovaBadge dot tone="accent">accent</SovaBadge><SovaBadge dot tone="good">good</SovaBadge><SovaBadge dot tone="warn">warn</SovaBadge><SovaBadge dot tone="bad">bad</SovaBadge><SovaBadge variant="solid" tone="accent">solid</SovaBadge><SovaBadge variant="outline" tone="good">outline</SovaBadge></div></SovaCard>
+        <SovaCard title="Badges"><div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}><SovaBadge size="xs">xs</SovaBadge><SovaBadge dot pulse tone="good">live</SovaBadge><SovaBadge icon="↗" tone="accent">signal</SovaBadge><SovaBadge dot tone="warn">watch</SovaBadge><SovaBadge dot tone="bad">blocked</SovaBadge><SovaBadge variant="solid" tone="accent">solid</SovaBadge><SovaBadge variant="outline" tone="good">outline</SovaBadge><SovaBadge variant="ghost">ghost</SovaBadge></div></SovaCard>
         <SovaCard title="Actions"><div style={{ display: 'flex', gap: 8 }}><SovaButton variant="primary">Primary</SovaButton><SovaButton>Secondary</SovaButton></div></SovaCard>
         <SovaCard title="Empty"><SovaEmptyState title="Nothing here" description="Sync or add a source first." /></SovaCard>
       </div>
+    </div>
+  </StoryFrame>
+)
+
+export const ProductionCommon = () => (
+  <StoryFrame theme="jobs">
+    <div style={storyWrap}>
+      <SovaPageHeader eyebrow="common components" title="Production-ready defaults" description="Badges and tables are shared across Jobs, Finance, Trading and Brain. Keep apps domain-specific, but reuse these surfaces." meta={<SovaBadge dot pulse tone="good">ready</SovaBadge>} />
+      <div style={grid}>
+        <SovaCard title="Badge system" description="Status metadata, filters and compact labels.">
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <SovaBadge size="xs">tiny</SovaBadge><SovaBadge>neutral</SovaBadge><SovaBadge dot pulse tone="good">live</SovaBadge><SovaBadge dot tone="warn">watch</SovaBadge><SovaBadge dot tone="bad">blocked</SovaBadge><SovaBadge icon="↗" tone="accent">signal</SovaBadge><SovaBadge variant="solid" tone="good">solid</SovaBadge><SovaBadge variant="outline" tone="accent">filter</SovaBadge><SovaBadge variant="ghost">quiet</SovaBadge>
+          </div>
+        </SovaCard>
+        <SovaCard title="Table states" description="Typed columns, rendered cells, alignment, mono numbers, empty state.">
+          <SovaTable
+            density="compact"
+            caption="Reusable table surface"
+            columns={[{ key: 'name', header: 'Name' }, { key: 'status', header: 'Status' }, { key: 'score', header: 'Score', align: 'right', mono: true }]}
+            rows={[{ name: 'Arize AI', status: <SovaBadge tone="good">good fit</SovaBadge>, score: '82' }, { name: 'Revolut', status: <SovaBadge tone="warn">watch</SovaBadge>, score: '71' }]}
+          />
+        </SovaCard>
+      </div>
+      <SovaCard title="Empty table"><SovaTable columns={[{ key: 'name', header: 'Name' }, { key: 'status', header: 'Status' }]} rows={[]} empty="No matching rows" /></SovaCard>
     </div>
   </StoryFrame>
 )

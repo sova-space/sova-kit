@@ -41,8 +41,10 @@ export function SovaButton({ variant = 'secondary', className, ...props }: Butto
   return <button className={cx('sova-button', variant === 'primary' && 'sova-button-primary', className)} {...props} />
 }
 
-export function SovaBadge({ tone = 'neutral', variant = 'soft', dot = false, className, children, ...props }: HTMLAttributes<HTMLSpanElement> & { tone?: SovaTone; variant?: 'soft' | 'solid' | 'outline'; dot?: boolean }) {
-  return <span className={cx('sova-badge', `sova-badge-${variant}`, tone !== 'neutral' && `sova-badge-${tone}`, dot && 'sova-badge-with-dot', className)} {...props}>{dot ? <span className="sova-badge-dot" aria-hidden="true" /> : null}{children}</span>
+export type SovaBadgeVariant = 'soft' | 'solid' | 'outline' | 'ghost'
+export type SovaBadgeSize = 'xs' | 'sm' | 'md'
+export function SovaBadge({ tone = 'neutral', variant = 'soft', size = 'sm', dot = false, pulse = false, icon, className, children, ...props }: HTMLAttributes<HTMLSpanElement> & { tone?: SovaTone; variant?: SovaBadgeVariant; size?: SovaBadgeSize; dot?: boolean; pulse?: boolean; icon?: ReactNode }) {
+  return <span className={cx('sova-badge', `sova-badge-${variant}`, `sova-badge-${size}`, tone !== 'neutral' && `sova-badge-${tone}`, dot && 'sova-badge-with-dot', pulse && 'sova-badge-pulse', className)} {...props}>{dot ? <span className="sova-badge-dot" aria-hidden="true" /> : null}{icon ? <span className="sova-badge-icon" aria-hidden="true">{icon}</span> : null}<span>{children}</span></span>
 }
 
 export function SovaStat({ label, value, tone = 'neutral' }: { label: ReactNode; value: ReactNode; tone?: SovaTone }) {
@@ -53,9 +55,16 @@ export function SovaEmptyState({ title, description }: { title: ReactNode; descr
   return <div className="sova-empty"><strong>{title}</strong>{description ? <p>{description}</p> : null}</div>
 }
 
-export type SovaColumn<Row> = { key: keyof Row & string; header: ReactNode; render?: (row: Row) => ReactNode }
-export function SovaTable<Row extends Record<string, ReactNode>>({ columns, rows }: { columns: SovaColumn<Row>[]; rows: Row[] }) {
-  return <div className="sova-table-wrap"><table className="sova-table"><thead><tr>{columns.map(column => <th key={column.key}>{column.header}</th>)}</tr></thead><tbody>{rows.map((row, rowIndex) => <tr key={rowIndex}>{columns.map(column => <td key={column.key}>{column.render ? column.render(row) : row[column.key]}</td>)}</tr>)}</tbody></table></div>
+export type SovaColumn<Row> = {
+  key: keyof Row & string
+  header: ReactNode
+  render?: (row: Row) => ReactNode
+  align?: 'left' | 'center' | 'right'
+  width?: string | number
+  mono?: boolean
+}
+export function SovaTable<Row extends Record<string, unknown>>({ columns, rows, caption, empty = 'No rows', density = 'normal', stickyHeader = false, rowKey, onRowClick, className }: { columns: SovaColumn<Row>[]; rows: Row[]; caption?: ReactNode; empty?: ReactNode; density?: 'compact' | 'normal'; stickyHeader?: boolean; rowKey?: (row: Row, index: number) => string | number; onRowClick?: (row: Row) => void; className?: string }) {
+  return <div className={cx('sova-table-wrap', stickyHeader && 'sova-table-sticky', className)}><table className={cx('sova-table', density === 'compact' && 'sova-table-compact', onRowClick && 'sova-table-clickable')}>{caption ? <caption>{caption}</caption> : null}<thead><tr>{columns.map(column => <th key={column.key} style={{ width: column.width, textAlign: column.align }}>{column.header}</th>)}</tr></thead><tbody>{rows.length ? rows.map((row, rowIndex) => <tr key={rowKey ? rowKey(row, rowIndex) : rowIndex} onClick={onRowClick ? () => onRowClick(row) : undefined}>{columns.map(column => <td key={column.key} className={cx(column.mono && 'sova-table-mono')} style={{ textAlign: column.align }}>{column.render ? column.render(row) : String(row[column.key] ?? '')}</td>)}</tr>) : <tr><td className="sova-table-empty" colSpan={columns.length}>{empty}</td></tr>}</tbody></table></div>
 }
 
 export function SovaPageHeader({ eyebrow, title, description, actions, meta }: { eyebrow?: ReactNode; title: ReactNode; description?: ReactNode; actions?: ReactNode; meta?: ReactNode }) {
