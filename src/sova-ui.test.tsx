@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/vitest'
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { SovaActivityFeed, SovaAreaChart, SovaBadge, SovaBarChart, SovaBrand, SovaCandlestickChart, SovaCard, SovaChartCard, SovaDashboardGrid, SovaDonutChart, SovaEmptyState, SovaFlowChart, SovaHeatmap, SovaInspector, SovaKpiRow, SovaLineChart, SovaNav, SovaPageHeader, SovaProgressList, SovaProvider, SovaRadarChart, SovaRankingChart, SovaSettingsList, SovaShell, SovaSparkBars, SovaSplitCard, SovaStackedBar, SovaStat, SovaTable, SovaTableCard, SovaToolbar, SovaTopbar, SovaTreemapChart } from './index'
+import { SovaActivityFeed, SovaAreaChart, SovaBadge, SovaBarChart, SovaBrand, SovaCandlestickChart, SovaCard, SovaChartCard, SovaDashboardGrid, SovaDonutChart, SovaEmptyState, SovaFilterBar, SovaFlowChart, SovaHeatmap, SovaInspector, SovaKpiRow, SovaLineChart, SovaNav, SovaPageHeader, SovaProgressList, SovaProvider, SovaRadarChart, SovaRankingChart, SovaSettingsList, SovaShell, SovaSparkBars, SovaSplitCard, SovaStackedBar, SovaStat, SovaTable, SovaTableCard, SovaToolbar, SovaTopbar, SovaTreemapChart } from './index'
 
 describe('@sova/ui', () => {
   it('applies the selected product theme', () => {
@@ -25,11 +25,12 @@ describe('@sova/ui', () => {
   })
 
   it('renders empty state and tables', () => {
-    render(<><SovaEmptyState title="No rows" description="Sync first" /><SovaTableCard title="Companies table" density="compact" caption="Companies" columns={[{ key: 'company', header: 'Company' }, { key: 'score', header: 'Score', align: 'right', mono: true }]} rows={[{ company: 'Arize AI', score: 82 }]} /><SovaTable columns={[{ key: 'company', header: 'Company' }]} rows={[]} empty="Nothing matched" /></>)
+    render(<><SovaEmptyState title="No rows" description="Sync first" action={<button>Sync</button>} /><SovaTableCard title="Companies table" density="compact" caption="Companies" columns={[{ key: 'company', header: 'Company' }, { key: 'score', header: 'Score', align: 'right', mono: true }]} rows={[{ id: 'arize', company: 'Arize AI', score: 82 }]} rowKey={(row) => row.id as string} selectedRowKey="arize" /><SovaTable columns={[{ key: 'company', header: 'Company' }]} rows={[]} empty="Nothing matched" /></>)
     expect(screen.getByText('No rows')).toBeInTheDocument()
     expect(screen.getByText('Companies')).toBeInTheDocument()
     expect(screen.getAllByRole('columnheader', { name: 'Company' })[0]).toBeInTheDocument()
     expect(screen.getByText('Arize AI')).toBeInTheDocument()
+    expect(screen.getByText('Arize AI').closest('tr')).toHaveAttribute('aria-selected', 'true')
     expect(screen.getByText('Nothing matched')).toBeInTheDocument()
   })
 
@@ -38,7 +39,7 @@ describe('@sova/ui', () => {
       <SovaProvider theme="jobs">
         <SovaPageHeader eyebrow="today" title="Command center" description="Review work" actions={<SovaBadge>live</SovaBadge>} />
         <SovaKpiRow items={[{ label: 'Open', value: '24', tone: 'accent' }]} />
-        <SovaToolbar left="Filters" right={<SovaBadge tone="good">Good</SovaBadge>} />
+        <SovaToolbar left={<SovaFilterBar label="Fit" value="good" options={[{ label: 'All', value: 'all', count: 4 }, { label: 'Good', value: 'good', count: 2, tone: 'good' }]} />} right={<SovaBadge tone="good">Good</SovaBadge>} />
         <SovaDashboardGrid
           inspector={<SovaInspector title="Selected" sections={[{ title: 'Activity', content: <SovaActivityFeed items={[{ title: 'Synced', time: '2m', tone: 'good' }]} /> }]} />}
         >
@@ -51,7 +52,8 @@ describe('@sova/ui', () => {
 
     expect(screen.getByText('Command center')).toBeInTheDocument()
     expect(screen.getByText('Open')).toBeInTheDocument()
-    expect(screen.getByText('Filters')).toBeInTheDocument()
+    expect(screen.getByText('Fit')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Good 2' })).toHaveAttribute('aria-pressed', 'true')
     expect(screen.getByText('Selected')).toBeInTheDocument()
     expect(screen.getByText('Synced')).toBeInTheDocument()
     expect(screen.getByText('Compact mode')).toBeInTheDocument()

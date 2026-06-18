@@ -63,8 +63,8 @@ export function SovaStat({ label, value, tone = 'neutral' }: { label: ReactNode;
   return <div className={cx('sova-stat', tone !== 'neutral' && `sova-stat-${tone}`)}><span className="sova-stat-label">{label}</span><strong className="sova-stat-value">{value}</strong></div>
 }
 
-export function SovaEmptyState({ title, description }: { title: ReactNode; description?: ReactNode }) {
-  return <div className="sova-empty"><strong>{title}</strong>{description ? <p>{description}</p> : null}</div>
+export function SovaEmptyState({ title, description, action, icon }: { title: ReactNode; description?: ReactNode; action?: ReactNode; icon?: ReactNode }) {
+  return <div className="sova-empty">{icon ? <div className="sova-empty-icon" aria-hidden="true">{icon}</div> : null}<strong>{title}</strong>{description ? <p>{description}</p> : null}{action ? <div className="sova-empty-action">{action}</div> : null}</div>
 }
 
 
@@ -189,8 +189,8 @@ export type SovaColumn<Row> = {
   width?: string | number
   mono?: boolean
 }
-export function SovaTable<Row extends Record<string, unknown>>({ columns, rows, caption, empty = 'No rows', density = 'normal', stickyHeader = false, rowKey, onRowClick, className }: { columns: SovaColumn<Row>[]; rows: Row[]; caption?: ReactNode; empty?: ReactNode; density?: 'compact' | 'normal'; stickyHeader?: boolean; rowKey?: (row: Row, index: number) => string | number; onRowClick?: (row: Row) => void; className?: string }) {
-  return <div className={cx('sova-table-wrap', stickyHeader && 'sova-table-sticky', className)}><table className={cx('sova-table', density === 'compact' && 'sova-table-compact', onRowClick && 'sova-table-clickable')}>{caption ? <caption>{caption}</caption> : null}<thead><tr>{columns.map(column => <th key={column.key} style={{ width: column.width, textAlign: column.align }}>{column.header}</th>)}</tr></thead><tbody>{rows.length ? rows.map((row, rowIndex) => <tr key={rowKey ? rowKey(row, rowIndex) : rowIndex} onClick={onRowClick ? () => onRowClick(row) : undefined}>{columns.map(column => <td key={column.key} className={cx(column.mono && 'sova-table-mono')} style={{ textAlign: column.align }}>{column.render ? column.render(row) : String(row[column.key] ?? '')}</td>)}</tr>) : <tr><td className="sova-table-empty" colSpan={columns.length}>{empty}</td></tr>}</tbody></table></div>
+export function SovaTable<Row extends Record<string, unknown>>({ columns, rows, caption, empty = 'No rows', density = 'normal', stickyHeader = false, rowKey, selectedRowKey, isRowSelected, onRowClick, className }: { columns: SovaColumn<Row>[]; rows: Row[]; caption?: ReactNode; empty?: ReactNode; density?: 'compact' | 'normal'; stickyHeader?: boolean; rowKey?: (row: Row, index: number) => string | number; selectedRowKey?: string | number | null; isRowSelected?: (row: Row, index: number) => boolean; onRowClick?: (row: Row) => void; className?: string }) {
+  return <div className={cx('sova-table-wrap', stickyHeader && 'sova-table-sticky', className)}><table className={cx('sova-table', density === 'compact' && 'sova-table-compact', onRowClick && 'sova-table-clickable')}>{caption ? <caption>{caption}</caption> : null}<thead><tr>{columns.map(column => <th key={column.key} style={{ width: column.width, textAlign: column.align }}>{column.header}</th>)}</tr></thead><tbody>{rows.length ? rows.map((row, rowIndex) => { const key = rowKey ? rowKey(row, rowIndex) : rowIndex; const selected = isRowSelected ? isRowSelected(row, rowIndex) : selectedRowKey != null && key === selectedRowKey; return <tr key={key} className={cx(selected && 'sova-table-row-selected')} aria-selected={selected || undefined} onClick={onRowClick ? () => onRowClick(row) : undefined}>{columns.map(column => <td key={column.key} className={cx(column.mono && 'sova-table-mono')} style={{ textAlign: column.align }}>{column.render ? column.render(row) : String(row[column.key] ?? '')}</td>)}</tr> }) : <tr><td className="sova-table-empty" colSpan={columns.length}>{empty}</td></tr>}</tbody></table></div>
 }
 
 export function SovaTableCard<Row extends Record<string, unknown>>({ title, description, actions, toolbar, columns, rows, ...tableProps }: { title: ReactNode; description?: ReactNode; actions?: ReactNode; toolbar?: ReactNode; columns: SovaColumn<Row>[]; rows: Row[] } & Omit<Parameters<typeof SovaTable<Row>>[0], 'columns' | 'rows'>) {
@@ -208,6 +208,12 @@ export function SovaKpiRow({ items, density = 'compact' }: { items: SovaKpiItem[
 
 export function SovaToolbar({ left, right }: { left?: ReactNode; right?: ReactNode }) {
   return <div className="sova-toolbar"><div className="sova-toolbar-left">{left}</div><div className="sova-toolbar-right">{right}</div></div>
+}
+
+export type SovaFilterOption = { label: ReactNode; value: string; count?: number; tone?: SovaTone; disabled?: boolean }
+export function SovaFilterBar({ label, options, value, onChange }: { label?: ReactNode; options: SovaFilterOption[]; value?: string; onChange?: (value: string) => void }) {
+  const [currentValue, setCurrentValue] = useDemoValue(value, options[0]?.value ?? '', onChange)
+  return <div className="sova-filterbar" role="group" aria-label={typeof label === 'string' ? label : 'Filters'}>{label ? <span className="sova-filterbar-label">{label}</span> : null}{options.map((option) => <button key={option.value} type="button" className={cx('sova-filter-chip', currentValue === option.value && 'sova-active', option.tone && option.tone !== 'neutral' && `sova-filter-chip-${option.tone}`)} disabled={option.disabled} aria-label={typeof option.label === 'string' && typeof option.count === 'number' ? `${option.label} ${option.count}` : undefined} aria-pressed={currentValue === option.value} onClick={() => setCurrentValue(option.value)}><span>{option.label}</span>{typeof option.count === 'number' ? <em>{option.count}</em> : null}</button>)}</div>
 }
 
 export type SovaInspectorSection = { title: ReactNode; content: ReactNode }
