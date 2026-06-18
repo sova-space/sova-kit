@@ -469,3 +469,12 @@
 .sova-slider { display: grid; gap: 8px; color: var(--sova-muted); font-size: 12px; } .sova-slider span { display: flex; justify-content: space-between; gap: 8px; } .sova-slider em { color: var(--sova-text); font-style: normal; font-family: var(--sova-font-mono); } .sova-slider input { accent-color: var(--sova-accent); }
 .sova-carousel { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(220px, 75%); gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; } .sova-carousel > div { scroll-snap-align: start; }
 .sova-footer { display: flex; justify-content: space-between; gap: 16px; padding: 18px 0 0; color: var(--sova-muted); font-size: 12px; } .sova-footer nav { display: flex; gap: 12px; flex-wrap: wrap; } .sova-footer a { color: inherit; text-decoration: none; } .sova-footer a:hover { color: var(--sova-accent); }
+
+
+.sova-divider { display: flex; align-items: center; gap: 10px; color: var(--sova-muted); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+.sova-divider::before, .sova-divider::after { content: ""; height: 1px; flex: 1; background: var(--sova-border); }
+.sova-divider:empty::before { flex: 1; } .sova-divider:empty::after { display: none; }
+.sova-form-group { display: grid; gap: 10px; min-width: 0; margin: 0; padding: 12px; border: 1px solid var(--sova-border); border-radius: var(--sova-radius-lg); background: color-mix(in srgb, var(--sova-surface) 76%, var(--sova-bg)); }
+.sova-form-group legend { padding: 0 4px; color: var(--sova-text); font-size: 13px; font-weight: 820; }
+.sova-form-group > p { margin: -4px 0 0; color: var(--sova-muted); font-size: 12px; }
+.sova-form-group > div { display: grid; gap: 10px; }

@@ -54,11 +54,15 @@ Primitives:
 Forms and controls:
 - `SovaInput`
 - `SovaSearchBar`
+- `SovaSelect`
+- `SovaDatePicker`
+- `SovaFormGroup`
 - `SovaCheckbox`
 - `SovaRadio`
 - `SovaToggle`
 - `SovaSlider`
 - `SovaTabs`
+- `SovaDivider`
 
 Feedback and overlays:
 - `SovaBanner`
@@ -83,7 +87,7 @@ Common data surfaces:
 
 Charts:
 - Native/light: `SovaSparkBars`, `SovaLineChart`, `SovaDonutChart`, `SovaBarChart`, `SovaRankingChart`, `SovaStackedBar`, `SovaHeatmap`, `SovaFlowChart`
-- ECharts/heavy: `SovaEChart`, `SovaSankeyChart`, `SovaAreaChart`, `SovaRadarChart`, `SovaTreemapChart`, `SovaCandlestickChart`
+- ECharts/heavy: `SovaEChart`, `SovaSankeyChart`, `SovaAreaChart`, `SovaMultiLineChart`, `SovaScatterChart`, `SovaGaugeChart`, `SovaRadarChart`, `SovaTreemapChart`, `SovaCandlestickChart`
 
 Themes:
 - `jobs`
@@ -93,9 +97,32 @@ Themes:
 
 ## Production defaults
 
+### Foundation and inspiration
+
+Inspiration checklist: https://www.checklist.design/category-components
+
+Sova Kit should cover the reusable operator-dashboard version of:
+- typography
+- colors
+- responsive grids/pages
+- icons
+- buttons
+- checkboxes, radio and toggles
+- text fields
+- form groups
+- modals/drawers
+- tables
+- tooltips
+- data visualizations
+- header/footer navigation
+- carousel
+- dividers
+- dropdowns/selects
+- date picker
+
 ### Checklist coverage
 
-The kit now covers the practical parts of the checklist.design component collection for Sova apps: accordion, avatar, badge, banner, button, card, carousel, checkbox, drawer, footer, icon, input, loading, modal, navigation, radio, searchbar, skeleton, slider, table, tabs, toast, toggle and tooltip.
+The kit now covers the practical parts of the checklist.design component collection for Sova apps: accordion, avatar, badge, banner, button, card, carousel, checkbox, drawer, footer, icon, input, loading, modal, navigation, radio, searchbar, skeleton, slider, table, tabs, toast, toggle, tooltip, divider, dropdown/select, date picker and form group.
 
 Not every component should appear in every bot. Use the shared component when the pattern repeats; keep product-specific flows inside the product app.
 
@@ -169,12 +196,15 @@ Use `SovaTableCard` for common queue/list screens. Product apps own the data; So
 Use these defaults before inventing product-specific chart UI:
 
 - trend: `SovaLineChart` or `SovaAreaChart`
+- multi-series trend: `SovaMultiLineChart`
 - comparison: `SovaRankingChart`
 - vertical bars: `SovaBarChart`
 - composition: `SovaDonutChart` or `SovaTreemapChart`
 - part-to-whole: `SovaStackedBar`
 - activity intensity: `SovaHeatmap`
 - flow: `SovaFlowChart` or `SovaSankeyChart`
+- score/health: `SovaGaugeChart`
+- correlation/risk-reward: `SovaScatterChart`
 - trading OHLC: `SovaCandlestickChart`
 
 ECharts is dynamically imported by `SovaEChart`, so normal consumers do not eagerly load it unless advanced charts are rendered.

@@ -15,10 +15,14 @@ import {
   SovaChartCard,
   SovaCheckbox,
   SovaDashboardGrid,
+  SovaDatePicker,
+  SovaDivider,
   SovaDonutChart,
   SovaDrawer,
   SovaEmptyState,
   SovaFlowChart,
+  SovaFormGroup,
+  SovaGaugeChart,
   SovaHeatmap,
   SovaIcon,
   SovaInput,
@@ -27,6 +31,7 @@ import {
   SovaLineChart,
   SovaLoading,
   SovaModal,
+  SovaMultiLineChart,
   SovaNav,
   SovaPageHeader,
   SovaProgressList,
@@ -35,11 +40,13 @@ import {
   SovaRankingChart,
   SovaProvider,
   SovaSearchBar,
+  SovaSelect,
   SovaSettingsList,
   SovaShell,
   SovaSkeleton,
   SovaSlider,
   SovaSankeyChart,
+  SovaScatterChart,
   SovaSplitCard,
   SovaStat,
   SovaStackedBar,
@@ -235,7 +242,7 @@ export const ChecklistComponents = () => (
       <SovaPageHeader eyebrow="component checklist" title="Checklist.design coverage" description="Production-oriented primitives for the common component collection: forms, feedback, overlays, navigation, loading and content containers." meta={<SovaBadge tone="accent" variant="outline">expanded</SovaBadge>} />
       <SovaBanner tone="accent" title="Shared component set" description="Use these before inventing one-off app UI." actions={<SovaButton>Action</SovaButton>} />
       <div style={grid}>
-        <SovaCard title="Forms"><div style={{ display: 'grid', gap: 12 }}><SovaInput label="Input field" placeholder="Type value" hint="Label, hint, error states" /><SovaSearchBar placeholder="Search rows" actions={<SovaBadge>⌘K</SovaBadge>} /><SovaCheckbox label="Checkbox" description="Multi-select option" checked /><SovaRadio name="demo-radio" value="one" label="Radio" description="Single choice" checked /><SovaToggle label="Toggle" description="Fast on/off state" checked /><SovaSlider label="Threshold" value={64} /></div></SovaCard>
+        <SovaCard title="Forms"><div style={{ display: 'grid', gap: 12 }}><SovaFormGroup title="Form group" description="Grouped related inputs"><SovaInput label="Input field" placeholder="Type value" hint="Label, hint, error states" /><SovaSelect label="Dropdown" value="ready" options={[{ label: 'Ready', value: 'ready' }, { label: 'Watch', value: 'watch' }]} /><SovaDatePicker label="Date picker" value="2026-06-18" /></SovaFormGroup><SovaDivider label="choices" /><SovaSearchBar placeholder="Search rows" actions={<SovaBadge>⌘K</SovaBadge>} /><SovaCheckbox label="Checkbox" description="Multi-select option" checked /><SovaRadio name="demo-radio" value="one" label="Radio" description="Single choice" checked /><SovaToggle label="Toggle" description="Fast on/off state" checked /><SovaSlider label="Threshold" value={64} /></div></SovaCard>
         <SovaCard title="Identity + metadata"><div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}><SovaAvatar name="Nazar Khimin" status="good" /><SovaIcon tone="accent">↗</SovaIcon><SovaTooltip label="Helpful context"><SovaBadge variant="outline">tooltip</SovaBadge></SovaTooltip><SovaLoading label="Syncing" /></div></SovaCard>
         <SovaCard title="Navigation"><div style={{ display: 'grid', gap: 12 }}><SovaTabs value="one" items={[{ label: 'Overview', value: 'one' }, { label: 'Queue', value: 'two', badge: <SovaBadge size="xs">3</SovaBadge> }]} /><SovaAccordion items={[{ title: 'Accordion row', content: 'Expandable content for dense settings and help.', defaultOpen: true }]} /></div></SovaCard>
         <SovaCard title="Loading + feedback"><div style={{ display: 'grid', gap: 12 }}><SovaSkeleton lines={3} /><SovaToast tone="good" title="Saved" description="Changes were persisted." /></div></SovaCard>
@@ -286,6 +293,15 @@ export const AnalyticsCharts = () => (
         </SovaChartCard>
         <SovaChartCard className="sova-chart-card-wide" title="Area trend" description="ECharts area line for richer time-series, balances and PnL.">
           <SovaAreaChart labels={['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']} values={[12, 18, 15, 27, 24, 34]} />
+        </SovaChartCard>
+        <SovaChartCard className="sova-chart-card-wide" title="Multi-series trend" description="Compare volume, quality and risk over the same timeline.">
+          <SovaMultiLineChart labels={['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']} series={[{ name: 'Volume', values: [12, 18, 15, 27, 24, 34], tone: 'accent' }, { name: 'Quality', values: [8, 12, 17, 19, 22, 26], tone: 'good' }, { name: 'Risk', values: [6, 9, 7, 13, 10, 8], tone: 'warn' }]} />
+        </SovaChartCard>
+        <SovaChartCard title="Gauge" description="Single health/confidence score.">
+          <SovaGaugeChart value={74} label="Health" tone="good" />
+        </SovaChartCard>
+        <SovaChartCard title="Scatter" description="Risk/reward, salary/fit, confidence/return.">
+          <SovaScatterChart points={[{ x: 12, y: 72, label: 'A', tone: 'good' }, { x: 22, y: 48, label: 'B', tone: 'warn' }, { x: 30, y: 82, label: 'C', tone: 'accent' }, { x: 41, y: 35, label: 'D', tone: 'bad' }]} />
         </SovaChartCard>
         <SovaChartCard title="Radar" description="Multi-metric fit/health scoring.">
           <SovaRadarChart metrics={[{ label: 'Fit', value: 86, max: 100 }, { label: 'Salary', value: 72, max: 100 }, { label: 'Remote', value: 92, max: 100 }, { label: 'Risk', value: 34, max: 100 }, { label: 'Speed', value: 68, max: 100 }]} />

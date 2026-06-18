@@ -73,6 +73,23 @@ export function SovaSearchBar({ placeholder = 'Search…', value, onChange, acti
   return <div className="sova-searchbar"><input value={value} onChange={(event) => onChange?.(event.currentTarget.value)} placeholder={placeholder} />{actions ? <div>{actions}</div> : null}</div>
 }
 
+export function SovaDivider({ label }: { label?: ReactNode }) {
+  return <div className="sova-divider" role="separator">{label ? <span>{label}</span> : null}</div>
+}
+
+export function SovaFormGroup({ title, description, children }: { title?: ReactNode; description?: ReactNode; children: ReactNode }) {
+  return <fieldset className="sova-form-group">{title ? <legend>{title}</legend> : null}{description ? <p>{description}</p> : null}<div>{children}</div></fieldset>
+}
+
+export type SovaSelectOption = { label: ReactNode; value: string }
+export function SovaSelect({ label, value, options, onChange, hint }: { label?: ReactNode; value?: string; options: SovaSelectOption[]; onChange?: (value: string) => void; hint?: ReactNode }) {
+  return <label className="sova-field"><span>{label}</span><select className="sova-input" value={value} onChange={(event) => onChange?.(event.currentTarget.value)}>{options.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select>{hint ? <small>{hint}</small> : null}</label>
+}
+
+export function SovaDatePicker({ label, value, onChange, hint }: { label?: ReactNode; value?: string; onChange?: (value: string) => void; hint?: ReactNode }) {
+  return <label className="sova-field"><span>{label}</span><input className="sova-input" type="date" value={value} onChange={(event) => onChange?.(event.currentTarget.value)} />{hint ? <small>{hint}</small> : null}</label>
+}
+
 export function SovaCheckbox({ label, description, checked, onChange, disabled }: { label: ReactNode; description?: ReactNode; checked?: boolean; onChange?: (checked: boolean) => void; disabled?: boolean }) {
   return <label className={cx('sova-choice', disabled && 'sova-disabled')}><input type="checkbox" checked={checked} disabled={disabled} onChange={(event) => onChange?.(event.currentTarget.checked)} /><span><strong>{label}</strong>{description ? <small>{description}</small> : null}</span></label>
 }
@@ -360,6 +377,42 @@ export function SovaTreemapChart({ items, height = 280 }: { items: SovaTreemapIt
     series: [{ type: 'treemap', data: items.map(decorate), roam: false, nodeClick: false, breadcrumb: { show: false }, label: { color: '#fff', fontSize: 12, fontWeight: 700 }, upperLabel: { show: true, height: 22, color: '#fff' }, itemStyle: { borderColor: '#fff', borderWidth: 2, gapWidth: 2 } }],
   } as EChartsOption
   return <SovaEChart option={option} height={height} className="sova-treemap-chart" />
+}
+
+export type SovaSeries = { name: string; values: number[]; tone?: SovaTone }
+export function SovaMultiLineChart({ labels, series, height = 280 }: { labels: string[]; series: SovaSeries[]; height?: number }) {
+  const option: EChartsOption = {
+    color: series.map((item) => toneHex(item.tone)),
+    tooltip: { trigger: 'axis' },
+    legend: { top: 0, right: 0, textStyle: { color: sovaChartText, fontSize: 11 } },
+    grid: { top: 34, right: 12, bottom: 24, left: 36 },
+    xAxis: { type: 'category', data: labels, boundaryGap: false, axisLabel: { color: sovaChartText, fontSize: 10 }, axisLine: { lineStyle: { color: sovaChartGrid } }, axisTick: { show: false } },
+    yAxis: { type: 'value', axisLabel: { color: sovaChartText, fontSize: 10 }, splitLine: { lineStyle: { color: sovaChartGrid, opacity: 0.45 } } },
+    series: series.map((item) => ({ name: item.name, type: 'line', data: item.values, smooth: true, symbolSize: 4, lineStyle: { width: 2 } })),
+  } as EChartsOption
+  return <SovaEChart option={option} height={height} className="sova-multiline-chart" />
+}
+
+export type SovaScatterPoint = { x: number; y: number; label?: string; tone?: SovaTone }
+export function SovaScatterChart({ points, height = 280 }: { points: SovaScatterPoint[]; height?: number }) {
+  const option: EChartsOption = {
+    tooltip: { formatter: (params: unknown) => {
+      const point = params as { data?: [number, number, string?] }
+      return point.data?.[2] ? `${point.data[2]}: ${point.data[0]}, ${point.data[1]}` : `${point.data?.[0]}, ${point.data?.[1]}`
+    } },
+    grid: { top: 18, right: 12, bottom: 28, left: 36 },
+    xAxis: { axisLabel: { color: sovaChartText, fontSize: 10 }, splitLine: { lineStyle: { color: sovaChartGrid, opacity: 0.35 } } },
+    yAxis: { axisLabel: { color: sovaChartText, fontSize: 10 }, splitLine: { lineStyle: { color: sovaChartGrid, opacity: 0.35 } } },
+    series: [{ type: 'scatter', symbolSize: 12, data: points.map((point) => ({ value: [point.x, point.y, point.label], itemStyle: { color: toneHex(point.tone) } })) }],
+  } as EChartsOption
+  return <SovaEChart option={option} height={height} className="sova-scatter-chart" />
+}
+
+export function SovaGaugeChart({ value, label = 'Score', tone = 'accent', height = 240 }: { value: number; label?: string; tone?: SovaTone; height?: number }) {
+  const option: EChartsOption = {
+    series: [{ type: 'gauge', min: 0, max: 100, progress: { show: true, width: 10, itemStyle: { color: toneHex(tone) } }, axisLine: { lineStyle: { width: 10, color: [[1, '#e7e5dc']] } }, axisTick: { show: false }, splitLine: { show: false }, axisLabel: { show: false }, pointer: { width: 3, itemStyle: { color: toneHex(tone) } }, detail: { valueAnimation: true, formatter: '{value}%', color: toneHex(tone), fontSize: 24, fontWeight: 800 }, title: { offsetCenter: [0, '62%'], color: sovaChartText, fontSize: 12 }, data: [{ value, name: label }] }],
+  } as EChartsOption
+  return <SovaEChart option={option} height={height} className="sova-gauge-chart" />
 }
 
 export type SovaCandlePoint = { label: string; open: number; close: number; low: number; high: number }
