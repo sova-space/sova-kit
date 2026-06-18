@@ -13,7 +13,6 @@ import {
   SovaCard,
   SovaCarousel,
   SovaChartCard,
-  SovaChecklistCoverage,
   SovaCheckbox,
   SovaDashboardGrid,
   SovaDatePicker,
@@ -70,24 +69,11 @@ import './styles.css'
 const storyWrap: React.CSSProperties = { display: 'grid', gap: 18, padding: 20 }
 const grid: React.CSSProperties = { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 14 }
 
-const checklistCoverage = [
-  { name: 'Typography', component: 'tokens', note: 'font tokens + title/stat classes' },
-  { name: 'Colors', component: 'tokens', note: 'theme CSS variables' },
-  { name: 'Grids and pages', component: 'Shell/Grid', note: 'responsive shell and dashboard grid' },
-  { name: 'Icons', component: 'SovaIcon' },
-  { name: 'Buttons', component: 'SovaButton' },
-  { name: 'Checkboxes, radio, toggles', component: 'Choice controls' },
-  { name: 'Textfields', component: 'SovaInput' },
-  { name: 'Form groups', component: 'SovaFormGroup' },
-  { name: 'Modals', component: 'Modal/Drawer' },
-  { name: 'Tables', component: 'SovaTableCard' },
-  { name: 'Tooltips', component: 'SovaTooltip' },
-  { name: 'Data visualizations', component: 'Charts' },
-  { name: 'Header/Footer nav', component: 'Topbar/Footer/Nav' },
-  { name: 'Carousel', component: 'SovaCarousel' },
-  { name: 'Dividers', component: 'SovaDivider' },
-  { name: 'Dropdowns', component: 'SovaSelect' },
-  { name: 'Date picker', component: 'Date + range' },
+
+const projectLogos = [
+  { name: 'Brain', src: new URL('../logos/optimized/Brain.png', import.meta.url).href },
+  { name: 'Finance', src: new URL('../logos/optimized/Finance.png', import.meta.url).href },
+  { name: 'Trading', src: new URL('../logos/optimized/Trading.png', import.meta.url).href },
 ]
 
 function StoryFrame({ theme, children }: { theme: SovaTheme; children: ReactNode }) {
@@ -216,7 +202,7 @@ export const SovaSystem = () => (
       <SovaPageHeader
         eyebrow="single source"
         title="Sova System"
-        description="One expanded page for foundation, layout, navigation, common components, tables, states and reusable charts. This replaces the old separate Analytics/Checklist partial pages."
+        description="One expanded page for foundation, project logos, layout, navigation, common components, tables, states and reusable charts."
         meta={<SovaBadge dot pulse tone="good">production v1</SovaBadge>}
         actions={<><SovaButton variant="primary">Primary action</SovaButton><SovaButton>Secondary</SovaButton></>}
       />
@@ -240,13 +226,11 @@ export const SovaSystem = () => (
               <div className="sova-token-swatch"><i style={{ background: 'var(--sova-bad)' }} /><strong>Bad</strong></div>
             </div>
           </SovaCard>
+          <SovaCard title="Project logos">
+            <div className="sova-logo-strip">{projectLogos.map((logo) => <div className="sova-project-logo" key={logo.name}><img src={logo.src} alt={`${logo.name} logo`} /><span>{logo.name}</span></div>)}</div>
+          </SovaCard>
         </div>
         <SovaKpiRow items={[{ label: 'Open', value: '12' }, { label: 'Good', value: '+24%', tone: 'good' }, { label: 'Warn', value: '3', tone: 'warn' }, { label: 'Bad', value: '-2', tone: 'bad' }]} />
-      </section>
-
-      <section className="sova-system-section">
-        <h2>Checklist.design coverage</h2>
-        <SovaChecklistCoverage items={checklistCoverage} />
       </section>
 
       <section className="sova-system-section">
@@ -266,16 +250,16 @@ export const SovaSystem = () => (
 
       <section className="sova-system-section">
         <h2>Core components</h2>
-        <div className="sova-system-grid-large">
-          <SovaCard title="Buttons, badges, icons, avatar">
-            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
+        <div className="sova-core-grid">
+          <SovaCard className="sova-component-card" title="Buttons, badges, icons, avatar">
+            <div className="sova-component-row">
               <SovaButton variant="primary">Primary</SovaButton><SovaButton>Secondary</SovaButton>
               <SovaBadge dot pulse tone="good">live</SovaBadge><SovaBadge variant="outline" tone="accent">filter</SovaBadge><SovaBadge variant="ghost">quiet</SovaBadge>
               <SovaIcon tone="accent">↗</SovaIcon><SovaAvatar name="Nazar Khimin" status="good" />
               <SovaTooltip label="Tooltip text"><SovaBadge variant="outline">hover/focus</SovaBadge></SovaTooltip>
             </div>
           </SovaCard>
-          <SovaCard title="Forms and controls">
+          <SovaCard className="sova-component-card" title="Forms and controls">
             <SovaFormGroup title="Filter group" description="Textfields, dropdowns, single dates and ranges.">
               <SovaInput label="Textfield" placeholder="Search or enter value" hint="Hint copy" />
               <SovaSearchBar placeholder="Search rows" actions={<SovaBadge>⌘K</SovaBadge>} />
@@ -284,8 +268,8 @@ export const SovaSystem = () => (
               <SovaDateRangePicker label="Date range" start="2026-06-01" end="2026-06-18" />
             </SovaFormGroup>
           </SovaCard>
-          <SovaCard title="Choices and sliders">
-            <div style={{ display: 'grid', gap: 12 }}>
+          <SovaCard className="sova-component-card" title="Choices and sliders">
+            <div className="sova-component-stack">
               <SovaCheckbox label="Checkbox" description="Multi-select item" checked />
               <SovaRadio name="system-radio" value="one" label="Radio" description="Single choice" checked />
               <SovaToggle label="Toggle" description="Fast on/off setting" checked />
@@ -293,8 +277,8 @@ export const SovaSystem = () => (
               <SovaTabs value="overview" items={[{ label: 'Overview', value: 'overview' }, { label: 'Queue', value: 'queue', badge: <SovaBadge size="xs">3</SovaBadge> }]} />
             </div>
           </SovaCard>
-          <SovaCard title="Feedback and states">
-            <div style={{ display: 'grid', gap: 12 }}>
+          <SovaCard className="sova-component-card" title="Feedback and states">
+            <div className="sova-component-stack">
               <SovaBanner title="Banner" description="Important persistent feedback." />
               <SovaToast tone="good" title="Toast" description="Short status feedback." />
               <SovaLoading label="Syncing" />
@@ -302,15 +286,15 @@ export const SovaSystem = () => (
               <SovaEmptyState title="No rows" description="Empty state copy with next action nearby." />
             </div>
           </SovaCard>
-          <SovaCard title="Disclosure / overlays / carousel">
-            <div style={{ display: 'grid', gap: 12 }}>
+          <SovaCard className="sova-component-card" title="Disclosure / overlays / carousel">
+            <div className="sova-component-stack">
               <SovaAccordion items={[{ title: 'Accordion row', content: 'Expandable dense content.', defaultOpen: true }]} />
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}><SovaBadge variant="outline">Modal</SovaBadge><SovaBadge variant="outline">Drawer</SovaBadge><SovaModal open={false} title="Modal"><p>Modal body</p></SovaModal><SovaDrawer open={false} title="Drawer"><p>Drawer body</p></SovaDrawer></div>
               <SovaCarousel items={[<SovaCard key="a"><SovaStat label="Slide A" value="1" /></SovaCard>, <SovaCard key="b"><SovaStat label="Slide B" value="2" /></SovaCard>, <SovaCard key="c"><SovaStat label="Slide C" value="3" /></SovaCard>]} />
             </div>
           </SovaCard>
-          <SovaCard title="Divider and footer">
-            <div style={{ display: 'grid', gap: 12 }}><SovaDivider label="section" /><SovaFooter brand="Sova Kit" links={[{ label: 'Docs', href: '#' }, { label: 'Demo', href: '#' }]} /></div>
+          <SovaCard className="sova-component-card" title="Divider and footer">
+            <div className="sova-component-stack"><SovaDivider label="section" /><SovaFooter brand="Sova Kit" links={[{ label: 'Docs', href: '#' }, { label: 'Demo', href: '#' }]} /></div>
           </SovaCard>
         </div>
       </section>

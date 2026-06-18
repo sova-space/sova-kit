@@ -508,3 +508,13 @@
 .sova-system-page .sova-chart-card { min-height: 260px; }
 .sova-system-page .sova-chart-card-wide { grid-column: span 2; }
 @media (max-width: 860px) { .sova-system-page { padding: 12px; } .sova-system-page .sova-chart-card-wide { grid-column: span 1; } }
+
+
+.sova-core-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 14px; align-items: stretch; }
+.sova-core-grid > .sova-card, .sova-component-card { height: 100%; min-height: 0; }
+.sova-component-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; align-content: flex-start; }
+.sova-component-stack { display: grid; gap: 12px; align-content: start; }
+.sova-logo-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
+.sova-project-logo { display: grid; gap: 8px; justify-items: center; align-content: center; min-height: 118px; border: 1px solid var(--sova-border); border-radius: 14px; background: var(--sova-surface-soft); padding: 14px; }
+.sova-project-logo img { width: 62px; height: 62px; object-fit: contain; border-radius: 16px; box-shadow: var(--sova-shadow-soft); }
+.sova-project-logo span { color: var(--sova-muted); font-size: 12px; font-weight: 800; }
