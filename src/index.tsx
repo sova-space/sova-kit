@@ -1,6 +1,8 @@
 import type { EChartsOption, EChartsType } from 'echarts'
 import { useEffect, useRef, type ButtonHTMLAttributes, type HTMLAttributes, type InputHTMLAttributes, type ReactNode } from 'react'
 
+export const SOVA_KIT_VERSION = '0.1.0'
+
 export type SovaTheme = 'jobs' | 'finance' | 'trading' | 'brain'
 export type SovaTone = 'neutral' | 'accent' | 'good' | 'warn' | 'bad'
 

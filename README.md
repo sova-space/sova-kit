@@ -1,5 +1,7 @@
 # Sova Kit
 
+![version](https://img.shields.io/badge/version-0.1.0-111827)
+
 Shared React UI kit for Sova Space operator dashboards.
 
 Sova Kit gives Jobs Bot, Finance Bot, Trading Bot and Brain Bot the same compact product language without forcing the apps into one monorepo.

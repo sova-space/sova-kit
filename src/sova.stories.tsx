@@ -62,6 +62,7 @@ import {
   SovaTooltip,
   SovaTreemapChart,
   SovaTopbar,
+  SOVA_KIT_VERSION,
   type SovaTheme,
 } from './index'
 import './styles.css'
@@ -197,7 +198,7 @@ export const CoreComponents = () => (
         eyebrow="single source"
         title="Core components"
         description="One expanded page for foundation, layout, navigation, common components, tables, states and reusable charts."
-        meta={<SovaBadge dot pulse tone="good">production v1</SovaBadge>}
+        meta={<><SovaBadge dot pulse tone="good">production v1</SovaBadge><SovaBadge variant="outline">v{SOVA_KIT_VERSION}</SovaBadge></>}
         actions={<><SovaButton variant="primary">Primary action</SovaButton><SovaButton>Secondary</SovaButton></>}
       />
 
