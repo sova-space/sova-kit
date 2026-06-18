@@ -1,4 +1,5 @@
-import type { ButtonHTMLAttributes, HTMLAttributes, ReactNode } from 'react'
+import type { EChartsOption, EChartsType } from 'echarts'
+import { useEffect, useRef, type ButtonHTMLAttributes, type HTMLAttributes, type ReactNode } from 'react'
 
 export type SovaTheme = 'jobs' | 'finance' | 'trading' | 'brain'
 export type SovaTone = 'neutral' | 'accent' | 'good' | 'warn' | 'bad'
@@ -108,6 +109,14 @@ function toneVar(tone: SovaTone | undefined) {
   return 'var(--sova-muted)'
 }
 
+function toneHex(tone: SovaTone | undefined) {
+  if (tone === 'good') return '#0f9f6e'
+  if (tone === 'warn') return '#c98212'
+  if (tone === 'bad') return '#d84c4c'
+  if (tone === 'accent') return '#0f766e'
+  return '#70706a'
+}
+
 export function SovaLineChart({ points, tone = 'accent', height = 140, area = true }: { points: number[]; tone?: SovaTone; height?: number; area?: boolean }) {
   const safePoints = points.length ? points : [0]
   const width = 360
@@ -161,6 +170,51 @@ export type SovaFlowItem = { label: ReactNode; value: number; tone?: SovaTone }
 export function SovaFlowChart({ source, center, items }: { source: ReactNode; center: ReactNode; items: SovaFlowItem[] }) {
   const max = Math.max(1, ...items.map((item) => Math.abs(item.value)))
   return <div className="sova-flow"><div className="sova-flow-node">{source}</div><div className="sova-flow-center">{center}</div><div className="sova-flow-lines">{items.map((item, index) => <div key={index} className="sova-flow-line"><span style={{ height: `${Math.max(4, Math.round((Math.abs(item.value) / max) * 18))}px`, background: toneVar(item.tone) }} /><strong>{item.label}</strong><em>{item.value}</em></div>)}</div></div>
+}
+
+export function SovaEChart({ option, height = 260, className }: { option: EChartsOption; height?: number; className?: string }) {
+  const elementRef = useRef<HTMLDivElement | null>(null)
+  useEffect(() => {
+    const element = elementRef.current
+    if (!element) return undefined
+    let disposed = false
+    let chart: EChartsType | undefined
+    const resize = () => chart?.resize()
+    void import('echarts').then((echarts) => {
+      if (disposed) return
+      chart = echarts.init(element, undefined, { renderer: 'svg' })
+      chart.setOption(option)
+      window.addEventListener('resize', resize)
+    })
+    return () => {
+      disposed = true
+      window.removeEventListener('resize', resize)
+      chart?.dispose()
+    }
+  }, [option])
+  return <div ref={elementRef} className={cx('sova-echart', className)} style={{ minHeight: height }} />
+}
+
+export type SovaSankeyNode = { name: string; tone?: SovaTone }
+export type SovaSankeyLink = { source: string; target: string; value: number }
+export function SovaSankeyChart({ nodes, links, height = 300 }: { nodes: SovaSankeyNode[]; links: SovaSankeyLink[]; height?: number }) {
+  const option: EChartsOption = {
+    color: nodes.map((node) => toneHex(node.tone)),
+    tooltip: { trigger: 'item', triggerOn: 'mousemove' },
+    series: [{
+      type: 'sankey',
+      emphasis: { focus: 'adjacency' },
+      nodeAlign: 'justify',
+      nodeWidth: 12,
+      nodeGap: 12,
+      draggable: false,
+      data: nodes.map((node) => ({ name: node.name, itemStyle: { color: toneHex(node.tone) } })),
+      links,
+      lineStyle: { color: 'gradient', opacity: 0.38, curveness: 0.52 },
+      label: { color: '#70706a', fontSize: 11, fontWeight: 700 },
+    }],
+  } as EChartsOption
+  return <SovaEChart option={option} height={height} className="sova-sankey-chart" />
 }
 
 export function SovaChartCard({ title, description, children, footer, className }: { title: ReactNode; description?: ReactNode; children: ReactNode; footer?: ReactNode; className?: string }) {

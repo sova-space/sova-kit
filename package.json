@@ -38,5 +38,8 @@
     "react-dom": "^19.2.6",
     "typescript": "^5.9.3",
     "vitest": "^4.1.9"
+  },
+  "dependencies": {
+    "echarts": "^6.1.0"
   }
 }

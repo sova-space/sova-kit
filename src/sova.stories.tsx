@@ -21,6 +21,7 @@ import {
   SovaProvider,
   SovaSettingsList,
   SovaShell,
+  SovaSankeyChart,
   SovaSplitCard,
   SovaStat,
   SovaStackedBar,
@@ -182,7 +183,7 @@ export const Components = () => (
 export const AnalyticsCharts = () => (
   <StoryFrame theme="finance">
     <div style={storyWrap}>
-      <SovaPageHeader eyebrow="analytics kit" title="Best default chart set" description="Trend, composition, comparison, part-to-whole, heatmap, and flow primitives for Sova portals." meta={<SovaBadge dot tone="accent">dependency-free</SovaBadge>} />
+      <SovaPageHeader eyebrow="analytics kit" title="Best default chart set" description="Trend, composition, comparison, part-to-whole, heatmap, lightweight flow, and ECharts Sankey for Sova portals." meta={<SovaBadge dot tone="accent">ECharts powered</SovaBadge>} />
       <div className="sova-analytics-grid">
         <SovaChartCard className="sova-chart-card-wide" title="Trend" description="For PnL, balance, job volume, automation health." footer={<SovaBadge tone="good" dot>+18%</SovaBadge>}>
           <SovaLineChart points={[12, 16, 13, 18, 21, 19, 26, 24, 31, 36, 34, 42]} tone="accent" height={150} />
@@ -199,8 +200,23 @@ export const AnalyticsCharts = () => (
         <SovaChartCard title="Heatmap" description="Calendar/day intensity, scan volume, habits.">
           <SovaHeatmap cells={weeklyCells} columns={7} />
         </SovaChartCard>
-        <SovaChartCard className="sova-chart-card-wide" title="Flow" description="Cashflow, funnel, source → decision movement.">
+        <SovaChartCard className="sova-chart-card-wide" title="Lite flow" description="Small dependency-free flow for quick summaries.">
           <SovaFlowChart source="Income" center="Cashflow" items={[{ label: 'Food', value: 42, tone: 'warn' }, { label: 'Savings', value: 31, tone: 'good' }, { label: 'Bills', value: 24, tone: 'accent' }, { label: 'Other', value: 12, tone: 'bad' }]} />
+        </SovaChartCard>
+        <SovaChartCard className="sova-chart-card-wide" title="Sankey" description="ECharts-powered Sankey for real cashflow/funnel/multi-stage analytics.">
+          <SovaSankeyChart
+            height={320}
+            nodes={[
+              { name: 'Salary', tone: 'good' }, { name: 'Cashflow', tone: 'accent' }, { name: 'Food', tone: 'warn' }, { name: 'Bills', tone: 'accent' }, { name: 'Savings', tone: 'good' }, { name: 'Other', tone: 'bad' },
+            ]}
+            links={[
+              { source: 'Salary', target: 'Cashflow', value: 100 },
+              { source: 'Cashflow', target: 'Food', value: 32 },
+              { source: 'Cashflow', target: 'Bills', value: 24 },
+              { source: 'Cashflow', target: 'Savings', value: 31 },
+              { source: 'Cashflow', target: 'Other', value: 13 },
+            ]}
+          />
         </SovaChartCard>
       </div>
     </div>
