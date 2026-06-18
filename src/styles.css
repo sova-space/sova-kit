@@ -323,9 +323,11 @@
   display: block;
   overflow: visible;
 }
-.sova-line-chart polygon { fill: color-mix(in srgb, currentColor 16%, transparent); }
-.sova-line-chart polyline { fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 6px 12px color-mix(in srgb, currentColor 18%, transparent)); }
+.sova-line-chart polygon, .sova-line-area { fill: color-mix(in srgb, currentColor 16%, transparent); }
+.sova-line-chart polyline, .sova-line-path { fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 6px 12px color-mix(in srgb, currentColor 18%, transparent)); }
+.sova-line-chart circle { fill: var(--sova-surface); stroke: currentColor; stroke-width: 3; }
 .sova-line-chart line { stroke: var(--sova-border); stroke-width: 1; }
+.sova-line-chart-grid { opacity: .45; stroke-dasharray: 4 5; }
 
 .sova-donut-wrap { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 16px; }
 .sova-donut { position: relative; display: grid; place-items: center; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--sova-border); }
@@ -347,10 +349,20 @@
 .sova-chart-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
 .sova-chart-card-footer { display: flex; align-items: center; gap: 8px; color: var(--sova-muted); font-size: 12px; }
 
-.sova-bar-chart { display: grid; grid-template-columns: repeat(auto-fit, minmax(34px, 1fr)); align-items: end; gap: 9px; padding-top: 8px; }
-.sova-bar-item { min-width: 0; display: grid; gap: 6px; align-items: end; text-align: center; color: var(--sova-muted); font-size: 11px; }
-.sova-bar-column { display: flex; align-items: end; justify-content: center; min-height: inherit; border-radius: 999px; background: color-mix(in srgb, var(--sova-surface-soft) 72%, transparent); overflow: hidden; }
-.sova-bar-column span { width: 100%; max-width: 22px; border-radius: 4px 4px 2px 2px; opacity: .92; box-shadow: 0 8px 20px color-mix(in srgb, currentColor 14%, transparent); }
+.sova-bar-chart {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(34px, 1fr));
+  align-items: end;
+  gap: 10px;
+  padding: 10px 2px 0;
+  background:
+    linear-gradient(to top, var(--sova-border) 1px, transparent 1px) left bottom / 100% 1px no-repeat,
+    repeating-linear-gradient(to top, transparent 0 37px, color-mix(in srgb, var(--sova-border) 42%, transparent) 38px);
+}
+.sova-bar-item { min-width: 0; display: grid; grid-template-rows: 1fr auto auto; gap: 6px; align-items: end; text-align: center; color: var(--sova-muted); font-size: 11px; }
+.sova-bar-column { display: flex; align-items: end; justify-content: center; min-height: inherit; overflow: visible; }
+.sova-bar-column span { width: 100%; max-width: 24px; border-radius: 3px 3px 1px 1px; opacity: .94; box-shadow: none; }
 .sova-bar-item strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--sova-muted); font-size: 11px; font-weight: 700; }
 .sova-bar-item em { color: var(--sova-faint); font-size: 10px; font-style: normal; }
 
@@ -390,3 +402,10 @@
 .sova-echart { width: 100%; min-width: 0; }
 .sova-echart > div { border-radius: var(--sova-radius-md); }
 .sova-sankey-chart { min-height: 300px; }
+
+.sova-ranking-chart { display: grid; gap: 10px; }
+.sova-ranking-row { display: grid; grid-template-columns: minmax(72px, .7fr) minmax(0, 1.6fr) auto; align-items: center; gap: 10px; }
+.sova-ranking-row strong { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--sova-text); font-size: 12px; }
+.sova-ranking-row > div { height: 9px; border-radius: 3px; background: color-mix(in srgb, var(--sova-surface-soft) 80%, transparent); overflow: hidden; }
+.sova-ranking-row span { display: block; height: 100%; border-radius: 3px; }
+.sova-ranking-row em { color: var(--sova-muted); font-size: 11px; font-style: normal; }

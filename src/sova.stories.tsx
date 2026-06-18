@@ -21,6 +21,7 @@ import {
   SovaPageHeader,
   SovaProgressList,
   SovaRadarChart,
+  SovaRankingChart,
   SovaProvider,
   SovaSettingsList,
   SovaShell,
@@ -195,8 +196,8 @@ export const AnalyticsCharts = () => (
         <SovaChartCard title="Composition" description="Spend, source quality, signal buckets.">
           <SovaDonutChart center={<><span>52%</span><small style={{ color: 'var(--sova-muted)', fontSize: 11 }}>ready</small></>} segments={mixSegments} />
         </SovaChartCard>
-        <SovaChartCard title="Comparison" description="Categories, sources, symbols, stages.">
-          <SovaBarChart items={[{ label: 'Food', value: 42, tone: 'warn' }, { label: 'Jobs', value: 31, tone: 'accent' }, { label: 'BTC', value: 26, tone: 'good' }, { label: 'Ops', value: 18, tone: 'bad' }]} />
+        <SovaChartCard title="Comparison" description="One unified ranking plot, no per-metric bubbles.">
+          <SovaRankingChart items={[{ label: 'Food', value: 42, hint: '₴42k', tone: 'warn' }, { label: 'Jobs', value: 31, hint: '31 hits', tone: 'accent' }, { label: 'BTC', value: 26, hint: '+26%', tone: 'good' }, { label: 'Ops', value: 18, hint: '18 tasks', tone: 'bad' }]} />
         </SovaChartCard>
         <SovaChartCard title="Part to whole" description="Compact stacked distribution.">
           <SovaStackedBar label="Pipeline mix" value="100%" segments={mixSegments} />

@@ -120,18 +120,24 @@ function toneHex(tone: SovaTone | undefined) {
 export function SovaLineChart({ points, tone = 'accent', height = 140, area = true }: { points: number[]; tone?: SovaTone; height?: number; area?: boolean }) {
   const safePoints = points.length ? points : [0]
   const width = 360
-  const pad = 10
+  const pad = 12
   const min = Math.min(...safePoints, 0)
   const max = Math.max(...safePoints, 1)
   const span = Math.max(1, max - min)
   const coords = safePoints.map((value, index) => {
     const x = pad + (index / Math.max(1, safePoints.length - 1)) * (width - pad * 2)
     const y = pad + ((max - value) / span) * (height - pad * 2)
-    return [x, y]
+    return [x, y] as const
   })
-  const line = coords.map(([x, y]) => `${x},${y}`).join(' ')
-  const areaPoints = `${pad},${height - pad} ${line} ${width - pad},${height - pad}`
-  return <svg className="sova-line-chart" viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Line chart" style={{ color: toneVar(tone) }}>{area ? <polygon points={areaPoints} /> : null}<polyline points={line} /><line x1={pad} x2={width - pad} y1={height - pad} y2={height - pad} /></svg>
+  const path = coords.map(([x, y], index) => {
+    if (index === 0) return `M ${x} ${y}`
+    const [prevX, prevY] = coords[index - 1]
+    const midX = (prevX + x) / 2
+    return `C ${midX} ${prevY}, ${midX} ${y}, ${x} ${y}`
+  }).join(' ')
+  const areaPath = `${path} L ${width - pad} ${height - pad} L ${pad} ${height - pad} Z`
+  const id = `sova-line-${tone}-${safePoints.length}-${Math.round(max * 10)}`
+  return <svg className="sova-line-chart" viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Trend chart" style={{ color: toneVar(tone) }}><defs><linearGradient id={id} x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stopColor="currentColor" stopOpacity="0.22" /><stop offset="100%" stopColor="currentColor" stopOpacity="0" /></linearGradient></defs><line x1={pad} x2={width - pad} y1={height - pad} y2={height - pad} /> <line className="sova-line-chart-grid" x1={pad} x2={width - pad} y1={(height - pad) * 0.5} y2={(height - pad) * 0.5} />{area ? <path className="sova-line-area" d={areaPath} fill={`url(#${id})`} /> : null}<path className="sova-line-path" d={path} /><circle cx={coords[coords.length - 1][0]} cy={coords[coords.length - 1][1]} r="4" /></svg>
 }
 
 export type SovaDonutSegment = { label: ReactNode; value: number; tone?: SovaTone }
@@ -152,6 +158,12 @@ export function SovaBarChart({ items, height = 150 }: { items: SovaBarItem[]; he
   const safeItems = items.length ? items : [{ label: '—', value: 0 }]
   const max = Math.max(1, ...safeItems.map((item) => Math.abs(item.value)))
   return <div className="sova-bar-chart" style={{ minHeight: height }}>{safeItems.map((item, index) => <div key={index} className="sova-bar-item"><div className="sova-bar-column"><span style={{ height: `${Math.max(6, Math.round((Math.abs(item.value) / max) * height))}px`, background: toneVar(item.tone) }} /></div><strong>{item.label}</strong><em>{item.value}</em></div>)}</div>
+}
+
+export type SovaRankingItem = { label: ReactNode; value: number; hint?: ReactNode; tone?: SovaTone }
+export function SovaRankingChart({ items }: { items: SovaRankingItem[] }) {
+  const max = Math.max(1, ...items.map((item) => Math.abs(item.value)))
+  return <div className="sova-ranking-chart">{items.map((item, index) => <div className="sova-ranking-row" key={index}><strong>{item.label}</strong><div><span style={{ width: `${Math.max(3, Math.round((Math.abs(item.value) / max) * 100))}%`, background: toneVar(item.tone) }} /></div><em>{item.hint ?? item.value}</em></div>)}</div>
 }
 
 export type SovaStackedSegment = { label: ReactNode; value: number; tone?: SovaTone }
