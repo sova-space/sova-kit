@@ -474,10 +474,12 @@
 .sova-divider { display: flex; align-items: center; gap: 10px; color: var(--sova-muted); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
 .sova-divider::before, .sova-divider::after { content: ""; height: 1px; flex: 1; background: var(--sova-border); }
 .sova-divider:empty::before { flex: 1; } .sova-divider:empty::after { display: none; }
-.sova-form-group { display: grid; gap: 10px; min-width: 0; margin: 0; padding: 12px; border: 1px solid var(--sova-border); border-radius: var(--sova-radius-lg); background: color-mix(in srgb, var(--sova-surface) 76%, var(--sova-bg)); }
-.sova-form-group legend { padding: 0 4px; color: var(--sova-text); font-size: 13px; font-weight: 820; }
-.sova-form-group > p { margin: -4px 0 0; color: var(--sova-muted); font-size: 12px; }
-.sova-form-group > div { display: grid; gap: 10px; }
+.sova-form-group { display: grid; gap: 12px; min-width: 0; margin: 0; padding: 14px; border: 1px solid var(--sova-border); border-radius: var(--sova-radius-lg); background: color-mix(in srgb, var(--sova-surface) 76%, var(--sova-bg)); }
+.sova-form-group-head { display: grid; gap: 3px; min-width: 0; }
+.sova-form-group-head strong { color: var(--sova-text); font-size: 13px; font-weight: 820; line-height: 1.2; }
+.sova-form-group-head p { margin: 0; color: var(--sova-muted); font-size: 12px; line-height: 1.35; }
+.sova-form-group-body { display: grid; gap: 10px; min-width: 0; }
+.sova-form-group .sova-field, .sova-form-group .sova-searchbar { min-width: 0; }
 
 
 .sova-date-input { min-width: 0; color-scheme: light; }
@@ -510,10 +512,12 @@
 @media (max-width: 860px) { .sova-system-page { padding: 12px; } .sova-system-page .sova-chart-card-wide { grid-column: span 1; } }
 
 
-.sova-core-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 14px; align-items: stretch; }
-.sova-core-grid > .sova-card, .sova-component-card { height: 100%; min-height: 0; }
+.sova-core-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 14px; align-items: stretch; grid-auto-flow: row; }
+.sova-core-grid > .sova-card, .sova-component-card { height: 100%; min-height: 0; display: flex; flex-direction: column; }
+.sova-component-card > :last-child { flex: 1; min-width: 0; }
 .sova-component-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; align-content: flex-start; }
-.sova-component-stack { display: grid; gap: 12px; align-content: start; }
+.sova-component-stack { display: grid; gap: 12px; align-content: start; min-width: 0; }
+.sova-component-stack > *, .sova-component-row > * { max-width: 100%; }
 .sova-logo-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
 .sova-project-logo { display: grid; gap: 8px; justify-items: center; align-content: center; min-height: 118px; border: 1px solid var(--sova-border); border-radius: 14px; background: var(--sova-surface-soft); padding: 14px; }
 .sova-project-logo img { width: 62px; height: 62px; object-fit: contain; border-radius: 16px; box-shadow: var(--sova-shadow-soft); }

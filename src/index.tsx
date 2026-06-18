@@ -78,7 +78,7 @@ export function SovaDivider({ label }: { label?: ReactNode }) {
 }
 
 export function SovaFormGroup({ title, description, children }: { title?: ReactNode; description?: ReactNode; children: ReactNode }) {
-  return <fieldset className="sova-form-group">{title ? <legend>{title}</legend> : null}{description ? <p>{description}</p> : null}<div>{children}</div></fieldset>
+  return <div className="sova-form-group" role="group" aria-label={typeof title === 'string' ? title : undefined}>{title || description ? <div className="sova-form-group-head">{title ? <strong>{title}</strong> : null}{description ? <p>{description}</p> : null}</div> : null}<div className="sova-form-group-body">{children}</div></div>
 }
 
 export type SovaSelectOption = { label: ReactNode; value: string }
