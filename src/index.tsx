@@ -1,5 +1,5 @@
 import type { EChartsOption, EChartsType } from 'echarts'
-import { useEffect, useRef, type ButtonHTMLAttributes, type HTMLAttributes, type InputHTMLAttributes, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ButtonHTMLAttributes, type HTMLAttributes, type InputHTMLAttributes, type ReactNode } from 'react'
 
 export const SOVA_KIT_VERSION = '0.1.0'
 
@@ -8,6 +8,16 @@ export type SovaTone = 'neutral' | 'accent' | 'good' | 'warn' | 'bad'
 
 function cx(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(' ')
+}
+
+function useDemoValue<T>(value: T | undefined, fallback: T, onChange?: (value: T) => void) {
+  const [localValue, setLocalValue] = useState(value ?? fallback)
+  const currentValue = onChange ? value ?? fallback : localValue
+  const setValue = (nextValue: T) => {
+    if (!onChange) setLocalValue(nextValue)
+    onChange?.(nextValue)
+  }
+  return [currentValue, setValue] as const
 }
 
 export function SovaProvider({ theme, children, className }: { theme: SovaTheme; children: ReactNode; className?: string }) {
@@ -85,15 +95,18 @@ export function SovaFormGroup({ title, description, children }: { title?: ReactN
 
 export type SovaSelectOption = { label: ReactNode; value: string }
 export function SovaSelect({ label, value, options, onChange, hint }: { label?: ReactNode; value?: string; options: SovaSelectOption[]; onChange?: (value: string) => void; hint?: ReactNode }) {
-  return <label className="sova-field"><span>{label}</span><select className="sova-input" value={value} onChange={(event) => onChange?.(event.currentTarget.value)}>{options.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select>{hint ? <small>{hint}</small> : null}</label>
+  const [currentValue, setCurrentValue] = useDemoValue(value, options[0]?.value ?? '', onChange)
+  return <label className="sova-field"><span>{label}</span><select className="sova-input" value={currentValue} onChange={(event) => setCurrentValue(event.currentTarget.value)}>{options.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select>{hint ? <small>{hint}</small> : null}</label>
 }
 
 export function SovaDatePicker({ label, value, onChange, hint, min, max }: { label?: ReactNode; value?: string; onChange?: (value: string) => void; hint?: ReactNode; min?: string; max?: string }) {
-  return <label className="sova-field"><span>{label}</span><input className="sova-input sova-date-input" type="date" value={value} min={min} max={max} onChange={(event) => onChange?.(event.currentTarget.value)} />{hint ? <small>{hint}</small> : null}</label>
+  const [currentValue, setCurrentValue] = useDemoValue(value, '', onChange)
+  return <label className="sova-field"><span>{label}</span><input className="sova-input sova-date-input" type="date" value={currentValue} min={min} max={max} onChange={(event) => setCurrentValue(event.currentTarget.value)} />{hint ? <small>{hint}</small> : null}</label>
 }
 
 export function SovaDateRangePicker({ label = 'Date range', start, end, onChange, hint, min, max }: { label?: ReactNode; start?: string; end?: string; onChange?: (range: { start: string; end: string }) => void; hint?: ReactNode; min?: string; max?: string }) {
-  return <div className="sova-field sova-date-range"><span>{label}</span><div><input aria-label="Start date" className="sova-input sova-date-input" type="date" value={start} min={min} max={max} onChange={(event) => onChange?.({ start: event.currentTarget.value, end: end ?? '' })} /><em aria-hidden="true">→</em><input aria-label="End date" className="sova-input sova-date-input" type="date" value={end} min={min} max={max} onChange={(event) => onChange?.({ start: start ?? '', end: event.currentTarget.value })} /></div>{hint ? <small>{hint}</small> : null}</div>
+  const [range, setRange] = useDemoValue({ start: start ?? '', end: end ?? '' }, { start: '', end: '' }, onChange)
+  return <div className="sova-field sova-date-range"><span>{label}</span><div><input aria-label="Start date" className="sova-input sova-date-input" type="date" value={range.start} min={min} max={max} onChange={(event) => setRange({ start: event.currentTarget.value, end: range.end })} /><em aria-hidden="true">→</em><input aria-label="End date" className="sova-input sova-date-input" type="date" value={range.end} min={min} max={max} onChange={(event) => setRange({ start: range.start, end: event.currentTarget.value })} /></div>{hint ? <small>{hint}</small> : null}</div>
 }
 
 export type SovaChecklistCoverageItem = { name: ReactNode; covered?: boolean; component?: ReactNode; note?: ReactNode }
@@ -102,20 +115,23 @@ export function SovaChecklistCoverage({ items }: { items: SovaChecklistCoverageI
 }
 
 export function SovaCheckbox({ label, description, checked, onChange, disabled }: { label: ReactNode; description?: ReactNode; checked?: boolean; onChange?: (checked: boolean) => void; disabled?: boolean }) {
-  return <label className={cx('sova-choice', disabled && 'sova-disabled')}><input type="checkbox" checked={checked} disabled={disabled} onChange={(event) => onChange?.(event.currentTarget.checked)} /><span><strong>{label}</strong>{description ? <small>{description}</small> : null}</span></label>
+  const [currentChecked, setCurrentChecked] = useDemoValue(checked, false, onChange)
+  return <label className={cx('sova-choice', disabled && 'sova-disabled')}><input type="checkbox" checked={currentChecked} disabled={disabled} onChange={(event) => setCurrentChecked(event.currentTarget.checked)} /><span><strong>{label}</strong>{description ? <small>{description}</small> : null}</span></label>
 }
 
 export function SovaRadio({ label, description, name, value, checked, onChange, disabled }: { label: ReactNode; description?: ReactNode; name: string; value: string; checked?: boolean; onChange?: (value: string) => void; disabled?: boolean }) {
-  return <label className={cx('sova-choice', disabled && 'sova-disabled')}><input type="radio" name={name} value={value} checked={checked} disabled={disabled} onChange={(event) => onChange?.(event.currentTarget.value)} /><span><strong>{label}</strong>{description ? <small>{description}</small> : null}</span></label>
+  return <label className={cx('sova-choice', disabled && 'sova-disabled')}><input type="radio" name={name} value={value} checked={onChange ? checked : undefined} defaultChecked={onChange ? undefined : checked} disabled={disabled} onChange={(event) => onChange?.(event.currentTarget.value)} /><span><strong>{label}</strong>{description ? <small>{description}</small> : null}</span></label>
 }
 
 export function SovaToggle({ label, description, checked, onChange, disabled }: { label: ReactNode; description?: ReactNode; checked?: boolean; onChange?: (checked: boolean) => void; disabled?: boolean }) {
-  return <label className={cx('sova-toggle-row', disabled && 'sova-disabled')}><span><strong>{label}</strong>{description ? <small>{description}</small> : null}</span><button type="button" role="switch" aria-checked={Boolean(checked)} disabled={disabled} onClick={() => onChange?.(!checked)} className="sova-toggle"><i /></button></label>
+  const [currentChecked, setCurrentChecked] = useDemoValue(checked, false, onChange)
+  return <label className={cx('sova-toggle-row', disabled && 'sova-disabled')}><span><strong>{label}</strong>{description ? <small>{description}</small> : null}</span><button type="button" role="switch" aria-checked={Boolean(currentChecked)} disabled={disabled} onClick={() => setCurrentChecked(!currentChecked)} className="sova-toggle"><i /></button></label>
 }
 
 export type SovaTabItem = { label: ReactNode; value: string; badge?: ReactNode }
 export function SovaTabs({ items, value, onChange }: { items: SovaTabItem[]; value: string; onChange?: (value: string) => void }) {
-  return <div className="sova-tabs" role="tablist">{items.map((item) => <button key={item.value} type="button" role="tab" aria-selected={item.value === value} onClick={() => onChange?.(item.value)}>{item.label}{item.badge ? <span>{item.badge}</span> : null}</button>)}</div>
+  const [currentValue, setCurrentValue] = useDemoValue(value, items[0]?.value ?? '', onChange)
+  return <div className="sova-tabs" role="tablist">{items.map((item) => <button key={item.value} type="button" role="tab" aria-selected={item.value === currentValue} onClick={() => setCurrentValue(item.value)}>{item.label}{item.badge ? <span>{item.badge}</span> : null}</button>)}</div>
 }
 
 export function SovaBanner({ tone = 'accent', title, description, actions, onDismiss }: { tone?: SovaTone; title: ReactNode; description?: ReactNode; actions?: ReactNode; onDismiss?: () => void }) {
@@ -153,7 +169,8 @@ export function SovaToast({ tone = 'neutral', title, description, action }: { to
 }
 
 export function SovaSlider({ label, value, min = 0, max = 100, onChange }: { label?: ReactNode; value: number; min?: number; max?: number; onChange?: (value: number) => void }) {
-  return <label className="sova-slider"><span>{label}<em>{value}</em></span><input type="range" min={min} max={max} value={value} onChange={(event) => onChange?.(Number(event.currentTarget.value))} /></label>
+  const [currentValue, setCurrentValue] = useDemoValue(value, min, onChange)
+  return <label className="sova-slider"><span>{label}<em>{currentValue}</em></span><input type="range" min={min} max={max} value={currentValue} onChange={(event) => setCurrentValue(Number(event.currentTarget.value))} /></label>
 }
 
 export function SovaCarousel({ items }: { items: ReactNode[] }) {
