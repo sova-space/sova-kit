@@ -70,6 +70,11 @@
   font-variant-numeric: tabular-nums;
 }
 
+.sova-root,
+.sova-root * {
+  box-sizing: border-box;
+}
+
 .sova-shell {
   min-height: 100vh;
   display: grid;
@@ -475,8 +480,8 @@
 .sova-avatar img { width: 100%; height: 100%; border-radius: inherit; object-fit: cover; }
 .sova-avatar i { position: absolute; right: -1px; bottom: -1px; width: 9px; height: 9px; border: 2px solid var(--sova-surface); border-radius: 999px; background: var(--sova-muted); }
 .sova-avatar-good { background: var(--sova-good) !important; } .sova-avatar-warn { background: var(--sova-warn) !important; } .sova-avatar-bad { background: var(--sova-bad) !important; } .sova-avatar-accent { background: var(--sova-accent) !important; }
-.sova-field { display: grid; gap: 6px; color: var(--sova-text); font-size: 12px; font-weight: 750; }
-.sova-input, .sova-searchbar input { width: 100%; border: 1px solid var(--sova-border); border-radius: 12px; background: var(--sova-surface); color: var(--sova-text); padding: 9px 11px; font: inherit; font-size: 13px; outline: none; }
+.sova-field { display: grid; gap: 6px; min-width: 0; color: var(--sova-text); font-size: 12px; font-weight: 750; }
+.sova-input, .sova-searchbar input { width: 100%; max-width: 100%; min-width: 0; border: 1px solid var(--sova-border); border-radius: 12px; background: var(--sova-surface); color: var(--sova-text); padding: 9px 11px; font: inherit; font-size: 13px; outline: none; }
 .sova-input:focus, .sova-searchbar input:focus { border-color: var(--sova-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--sova-accent) 12%, transparent); }
 .sova-field small { color: var(--sova-muted); font-weight: 500; } .sova-field em { color: var(--sova-bad); font-style: normal; font-weight: 650; }
 .sova-field-error .sova-input { border-color: var(--sova-bad); }
@@ -561,13 +566,13 @@
 /* Core components story polish */
 .sova-section-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
 .sova-section-heading h2 { margin: 0; font-size: 20px; letter-spacing: -.035em; }
-.sova-core-hero { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr); gap: 14px; align-items: stretch; }
-.sova-component-card-feature { position: relative; overflow: hidden; background: radial-gradient(circle at 12% 0%, color-mix(in srgb, var(--sova-accent) 13%, transparent), transparent 42%), var(--sova-surface); }
+.sova-core-hero { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr); gap: 14px; align-items: start; }
+.sova-component-card-feature { position: relative; overflow: hidden; isolation: isolate; background: radial-gradient(circle at 12% 0%, color-mix(in srgb, var(--sova-accent) 13%, transparent), transparent 42%), var(--sova-surface); }
 .sova-component-card-feature::after { content: ""; position: absolute; inset: auto 18px 18px auto; width: 120px; height: 120px; border-radius: 999px; background: color-mix(in srgb, var(--sova-accent) 6%, transparent); pointer-events: none; }
 .sova-action-strip { position: relative; z-index: 1; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 12px; border: 1px solid var(--sova-border); border-radius: 16px; background: color-mix(in srgb, var(--sova-surface) 72%, transparent); }
 .sova-identity-row { position: relative; z-index: 1; display: grid; grid-template-columns: auto auto minmax(0, 1fr) auto; align-items: center; gap: 12px; margin-top: 14px; padding: 12px; border: 1px solid var(--sova-border); border-radius: 16px; background: color-mix(in srgb, var(--sova-surface-soft) 58%, transparent); }
 .sova-identity-row strong { display: block; font-size: 13px; color: var(--sova-text); }
-.sova-identity-row span { display: block; margin-top: 2px; color: var(--sova-muted); font-size: 12px; }
+.sova-identity-row > div > span { display: block; margin-top: 2px; color: var(--sova-muted); font-size: 12px; }
 .sova-form-layout { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr); gap: 14px; align-items: start; }
 .sova-form-panel { min-width: 0; }
 .sova-form-panel .sova-card-description { max-width: 520px; }
