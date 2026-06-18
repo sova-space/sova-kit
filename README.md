@@ -7,7 +7,7 @@ Live demo: https://sova-space.github.io/sova-kit/
 Current scope: Sova Operator UI foundation.
 
 - React UI primitives
-- Dashboard blocks: KPI row, toolbar, inspector, activity feed, progress list, spark bars, line chart, donut chart
+- Dashboard blocks: KPI row, toolbar, inspector, activity feed, progress list, spark bars, line chart, donut chart, bar chart, stacked bar, heatmap, flow chart, chart card
 - Product themes: jobs, finance, trading, brain
 - Shared CSS tokens, including font tokens (`--sova-font-sans`, `--sova-font-display`, `--sova-font-mono`)
 - Better badges: soft/solid/outline variants with optional status dots

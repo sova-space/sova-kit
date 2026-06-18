@@ -138,6 +138,35 @@ export function SovaDonutChart({ segments, center, size = 136 }: { segments: Sov
   return <div className="sova-donut-wrap"><div className="sova-donut" style={{ width: size, height: size, background: `conic-gradient(${stops})` }}><div>{center}</div></div><div className="sova-donut-legend">{segments.map((segment, index) => <div key={index}><span style={{ background: toneVar(segment.tone) }} /><strong>{segment.label}</strong><em>{segment.value}</em></div>)}</div></div>
 }
 
+export type SovaBarItem = { label: ReactNode; value: number; tone?: SovaTone }
+export function SovaBarChart({ items, height = 150 }: { items: SovaBarItem[]; height?: number }) {
+  const safeItems = items.length ? items : [{ label: '—', value: 0 }]
+  const max = Math.max(1, ...safeItems.map((item) => Math.abs(item.value)))
+  return <div className="sova-bar-chart" style={{ minHeight: height }}>{safeItems.map((item, index) => <div key={index} className="sova-bar-item"><div className="sova-bar-column"><span style={{ height: `${Math.max(6, Math.round((Math.abs(item.value) / max) * height))}px`, background: toneVar(item.tone) }} /></div><strong>{item.label}</strong><em>{item.value}</em></div>)}</div>
+}
+
+export type SovaStackedSegment = { label: ReactNode; value: number; tone?: SovaTone }
+export function SovaStackedBar({ segments, label, value }: { segments: SovaStackedSegment[]; label?: ReactNode; value?: ReactNode }) {
+  const total = Math.max(1, segments.reduce((sum, segment) => sum + Math.max(0, segment.value), 0))
+  return <div className="sova-stacked"><div className="sova-stacked-head">{label ? <strong>{label}</strong> : <span />}{value ? <em>{value}</em> : null}</div><div className="sova-stacked-track">{segments.map((segment, index) => <span key={index} title={String(segment.label)} style={{ width: `${(Math.max(0, segment.value) / total) * 100}%`, background: toneVar(segment.tone) }} />)}</div><div className="sova-stacked-legend">{segments.map((segment, index) => <span key={index}><i style={{ background: toneVar(segment.tone) }} />{segment.label}</span>)}</div></div>
+}
+
+export type SovaHeatmapCell = { label: ReactNode; value: number; tone?: SovaTone }
+export function SovaHeatmap({ cells, columns = 7 }: { cells: SovaHeatmapCell[]; columns?: number }) {
+  const max = Math.max(1, ...cells.map((cell) => Math.abs(cell.value)))
+  return <div className="sova-heatmap" style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}>{cells.map((cell, index) => <div key={index} title={`${String(cell.label)}: ${cell.value}`} style={{ background: `color-mix(in srgb, ${toneVar(cell.tone || 'accent')} ${Math.max(10, Math.round((Math.abs(cell.value) / max) * 88))}%, var(--sova-surface-soft))` }}><span>{cell.label}</span><strong>{cell.value}</strong></div>)}</div>
+}
+
+export type SovaFlowItem = { label: ReactNode; value: number; tone?: SovaTone }
+export function SovaFlowChart({ source, center, items }: { source: ReactNode; center: ReactNode; items: SovaFlowItem[] }) {
+  const max = Math.max(1, ...items.map((item) => Math.abs(item.value)))
+  return <div className="sova-flow"><div className="sova-flow-node">{source}</div><div className="sova-flow-center">{center}</div><div className="sova-flow-lines">{items.map((item, index) => <div key={index} className="sova-flow-line"><span style={{ height: `${Math.max(4, Math.round((Math.abs(item.value) / max) * 18))}px`, background: toneVar(item.tone) }} /><strong>{item.label}</strong><em>{item.value}</em></div>)}</div></div>
+}
+
+export function SovaChartCard({ title, description, children, footer, className }: { title: ReactNode; description?: ReactNode; children: ReactNode; footer?: ReactNode; className?: string }) {
+  return <SovaCard className={cx('sova-chart-card', className)}><div className="sova-chart-card-head"><div><h2 className="sova-card-title">{title}</h2>{description ? <p className="sova-card-description">{description}</p> : null}</div>{footer ? <div className="sova-chart-card-footer">{footer}</div> : null}</div>{children}</SovaCard>
+}
+
 export function SovaSplitCard({ title, description, main, side }: { title: ReactNode; description?: ReactNode; main: ReactNode; side: ReactNode }) {
   return <SovaCard className="sova-split-card"><div className="sova-split-head"><div><h2 className="sova-card-title">{title}</h2>{description ? <p className="sova-card-description">{description}</p> : null}</div></div><div className="sova-split-body"><div>{main}</div><aside>{side}</aside></div></SovaCard>
 }

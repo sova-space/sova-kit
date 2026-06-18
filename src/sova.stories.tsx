@@ -2,12 +2,16 @@ import type { ReactNode } from 'react'
 import {
   SovaActivityFeed,
   SovaBadge,
+  SovaBarChart,
   SovaBrand,
   SovaButton,
   SovaCard,
+  SovaChartCard,
   SovaDashboardGrid,
   SovaDonutChart,
   SovaEmptyState,
+  SovaFlowChart,
+  SovaHeatmap,
   SovaInspector,
   SovaKpiRow,
   SovaLineChart,
@@ -19,6 +23,7 @@ import {
   SovaShell,
   SovaSplitCard,
   SovaStat,
+  SovaStackedBar,
   SovaTable,
   SovaToolbar,
   SovaTopbar,
@@ -66,6 +71,9 @@ const toneByTheme = {
   trading: { title: 'Trader', mark: 'TR', eyebrow: 'paper bot', primary: 'Paper PnL', value: '+18.4', money: 'USDT' },
   brain: { title: 'Brain', mark: 'SB', eyebrow: 'operator', primary: 'Next actions', value: '5', money: 'today' },
 }
+
+const weeklyCells = ['M', 'T', 'W', 'T', 'F', 'S', 'S', 'M', 'T', 'W', 'T', 'F', 'S', 'S'].map((label, index) => ({ label, value: [4, 8, 5, 11, 14, 6, 2, 7, 10, 13, 9, 16, 5, 3][index] }))
+const mixSegments = [{ label: 'Ready', value: 52, tone: 'good' as const }, { label: 'Watch', value: 31, tone: 'warn' as const }, { label: 'Blocked', value: 17, tone: 'bad' as const }]
 
 function DashboardTemplate({ theme }: { theme: SovaTheme }) {
   const copy = toneByTheme[theme]
@@ -166,6 +174,34 @@ export const Components = () => (
         <SovaCard title="Badges"><div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}><SovaBadge dot>neutral</SovaBadge><SovaBadge dot tone="accent">accent</SovaBadge><SovaBadge dot tone="good">good</SovaBadge><SovaBadge dot tone="warn">warn</SovaBadge><SovaBadge dot tone="bad">bad</SovaBadge><SovaBadge variant="solid" tone="accent">solid</SovaBadge><SovaBadge variant="outline" tone="good">outline</SovaBadge></div></SovaCard>
         <SovaCard title="Actions"><div style={{ display: 'flex', gap: 8 }}><SovaButton variant="primary">Primary</SovaButton><SovaButton>Secondary</SovaButton></div></SovaCard>
         <SovaCard title="Empty"><SovaEmptyState title="Nothing here" description="Sync or add a source first." /></SovaCard>
+      </div>
+    </div>
+  </StoryFrame>
+)
+
+export const AnalyticsCharts = () => (
+  <StoryFrame theme="finance">
+    <div style={storyWrap}>
+      <SovaPageHeader eyebrow="analytics kit" title="Best default chart set" description="Trend, composition, comparison, part-to-whole, heatmap, and flow primitives for Sova portals." meta={<SovaBadge dot tone="accent">dependency-free</SovaBadge>} />
+      <div className="sova-analytics-grid">
+        <SovaChartCard className="sova-chart-card-wide" title="Trend" description="For PnL, balance, job volume, automation health." footer={<SovaBadge tone="good" dot>+18%</SovaBadge>}>
+          <SovaLineChart points={[12, 16, 13, 18, 21, 19, 26, 24, 31, 36, 34, 42]} tone="accent" height={150} />
+        </SovaChartCard>
+        <SovaChartCard title="Composition" description="Spend, source quality, signal buckets.">
+          <SovaDonutChart center={<><span>52%</span><small style={{ color: 'var(--sova-muted)', fontSize: 11 }}>ready</small></>} segments={mixSegments} />
+        </SovaChartCard>
+        <SovaChartCard title="Comparison" description="Categories, sources, symbols, stages.">
+          <SovaBarChart items={[{ label: 'Food', value: 42, tone: 'warn' }, { label: 'Jobs', value: 31, tone: 'accent' }, { label: 'BTC', value: 26, tone: 'good' }, { label: 'Ops', value: 18, tone: 'bad' }]} />
+        </SovaChartCard>
+        <SovaChartCard title="Part to whole" description="Compact stacked distribution.">
+          <SovaStackedBar label="Pipeline mix" value="100%" segments={mixSegments} />
+        </SovaChartCard>
+        <SovaChartCard title="Heatmap" description="Calendar/day intensity, scan volume, habits.">
+          <SovaHeatmap cells={weeklyCells} columns={7} />
+        </SovaChartCard>
+        <SovaChartCard className="sova-chart-card-wide" title="Flow" description="Cashflow, funnel, source → decision movement.">
+          <SovaFlowChart source="Income" center="Cashflow" items={[{ label: 'Food', value: 42, tone: 'warn' }, { label: 'Savings', value: 31, tone: 'good' }, { label: 'Bills', value: 24, tone: 'accent' }, { label: 'Other', value: 12, tone: 'bad' }]} />
+        </SovaChartCard>
       </div>
     </div>
   </StoryFrame>
