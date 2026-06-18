@@ -498,3 +498,13 @@
 .sova-token-swatch i { display: block; height: 28px; border-radius: 8px; border: 1px solid var(--sova-border); }
 .sova-token-swatch strong { font-size: 12px; }
 @media (max-width: 640px) { .sova-date-range > div { grid-template-columns: 1fr; } .sova-date-range em { display: none; } }
+
+
+.sova-system-page { display: grid; gap: 28px; padding: 24px; max-width: 1560px; margin: 0 auto; }
+.sova-system-page .sova-system-section { display: grid; gap: 14px; }
+.sova-system-page .sova-system-section > h2 { font-size: 18px; letter-spacing: -.02em; }
+.sova-system-grid-large { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 14px; }
+.sova-system-page .sova-card { min-width: 0; }
+.sova-system-page .sova-chart-card { min-height: 260px; }
+.sova-system-page .sova-chart-card-wide { grid-column: span 2; }
+@media (max-width: 860px) { .sova-system-page { padding: 12px; } .sova-system-page .sova-chart-card-wide { grid-column: span 1; } }

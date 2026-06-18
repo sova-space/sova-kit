@@ -22,6 +22,7 @@ import {
   SovaDonutChart,
   SovaDrawer,
   SovaEmptyState,
+  SovaFooter,
   SovaFlowChart,
   SovaFormGroup,
   SovaGaugeChart,
@@ -47,6 +48,7 @@ import {
   SovaShell,
   SovaSkeleton,
   SovaSlider,
+  SovaSparkBars,
   SovaSankeyChart,
   SovaScatterChart,
   SovaSplitCard,
@@ -208,185 +210,144 @@ function DashboardTemplate({ theme }: { theme: SovaTheme }) {
   )
 }
 
-export const Themes = () => (
-  <div style={storyWrap}>
-    <div style={grid}>
-      <StoryFrame theme="jobs"><SovaCard title="Jobs" description="Linear-ish light triage."><SovaStat label="Good fits" value="7" tone="good" /></SovaCard></StoryFrame>
-      <StoryFrame theme="finance"><SovaCard title="Finance" description="Warm personal money OS."><SovaStat label="This month" value="₴42.8k" tone="accent" /></SovaCard></StoryFrame>
-      <StoryFrame theme="trading"><SovaCard title="Trading" description="Dark dense operator dashboard."><SovaStat label="Paper PnL" value="+18.4 USDT" tone="good" /></SovaCard></StoryFrame>
-      <StoryFrame theme="brain"><SovaCard title="Brain" description="Warm minimal inbox/actions."><SovaStat label="Next actions" value="5" tone="accent" /></SovaCard></StoryFrame>
-    </div>
-  </div>
-)
-
-export const Components = () => (
-  <StoryFrame theme="jobs">
-    <div style={storyWrap}>
-      <SovaKpiRow items={[{ label: 'Neutral', value: '12' }, { label: 'Good', value: '+24%', tone: 'good' }, { label: 'Warn', value: '3', tone: 'warn' }, { label: 'Bad', value: '-2', tone: 'bad' }]} />
-      <SovaSplitCard title="Mini chart" description="Line + donut primitives for compact dashboards." main={<div className="sova-chart-grid"><SovaLineChart points={[3, 8, 6, 10, 9, 14, 13, 18]} /><SovaDonutChart center="72%" segments={[{ label: 'Ready', value: 72, tone: 'good' }, { label: 'Watch', value: 18, tone: 'warn' }, { label: 'Blocked', value: 10, tone: 'bad' }]} /></div>} side={<SovaProgressList items={[{ label: 'Done', value: '80%', percent: 80, tone: 'good' }, { label: 'Watch', value: '20%', percent: 20, tone: 'warn' }]} />} />
-      <div style={grid}>
-        <SovaCard title="Badges"><div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}><SovaBadge size="xs">xs</SovaBadge><SovaBadge dot pulse tone="good">live</SovaBadge><SovaBadge icon="↗" tone="accent">signal</SovaBadge><SovaBadge dot tone="warn">watch</SovaBadge><SovaBadge dot tone="bad">blocked</SovaBadge><SovaBadge variant="solid" tone="accent">solid</SovaBadge><SovaBadge variant="outline" tone="good">outline</SovaBadge><SovaBadge variant="ghost">ghost</SovaBadge></div></SovaCard>
-        <SovaCard title="Actions"><div style={{ display: 'flex', gap: 8 }}><SovaButton variant="primary">Primary</SovaButton><SovaButton>Secondary</SovaButton></div></SovaCard>
-        <SovaCard title="Empty"><SovaEmptyState title="Nothing here" description="Sync or add a source first." /></SovaCard>
-      </div>
-    </div>
-  </StoryFrame>
-)
-
-export const ProductionCommon = () => (
-  <StoryFrame theme="jobs">
-    <div style={storyWrap}>
-      <SovaPageHeader eyebrow="common components" title="Production-ready defaults" description="Badges and tables are shared across Jobs, Finance, Trading and Brain. Keep apps domain-specific, but reuse these surfaces." meta={<SovaBadge dot pulse tone="good">ready</SovaBadge>} />
-      <div style={grid}>
-        <SovaCard title="Badge system" description="Status metadata, filters and compact labels.">
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            <SovaBadge size="xs">tiny</SovaBadge><SovaBadge>neutral</SovaBadge><SovaBadge dot pulse tone="good">live</SovaBadge><SovaBadge dot tone="warn">watch</SovaBadge><SovaBadge dot tone="bad">blocked</SovaBadge><SovaBadge icon="↗" tone="accent">signal</SovaBadge><SovaBadge variant="solid" tone="good">solid</SovaBadge><SovaBadge variant="outline" tone="accent">filter</SovaBadge><SovaBadge variant="ghost">quiet</SovaBadge>
-          </div>
-        </SovaCard>
-        <SovaTableCard
-          title="Common table component"
-          description="Typed columns, rendered cells, alignment, mono numbers, empty state. Use this before app-specific table work."
-          actions={<SovaBadge variant="outline" tone="accent">shared</SovaBadge>}
-          density="compact"
-          caption="Reusable table surface"
-          columns={[{ key: 'name', header: 'Name' }, { key: 'status', header: 'Status' }, { key: 'score', header: 'Score', align: 'right', mono: true }]}
-          rows={[{ name: 'Arize AI', status: <SovaBadge tone="good">good fit</SovaBadge>, score: '82' }, { name: 'Revolut', status: <SovaBadge tone="warn">watch</SovaBadge>, score: '71' }]}
-        />
-      </div>
-      <SovaCard title="Empty table"><SovaTable columns={[{ key: 'name', header: 'Name' }, { key: 'status', header: 'Status' }]} rows={[]} empty="No matching rows" /></SovaCard>
-    </div>
-  </StoryFrame>
-)
-
-export const ChecklistComponents = () => (
-  <StoryFrame theme="jobs">
-    <div style={storyWrap}>
-      <SovaPageHeader eyebrow="component checklist" title="Checklist.design coverage" description="Production-oriented primitives for the common component collection: forms, feedback, overlays, navigation, loading and content containers." meta={<SovaBadge tone="accent" variant="outline">expanded</SovaBadge>} />
-      <SovaBanner tone="accent" title="Shared component set" description="Use these before inventing one-off app UI." actions={<SovaButton>Action</SovaButton>} />
-      <SovaCard title="Checklist.design coverage" description="Explicit coverage map for the requested component/foundation checklist.">
-        <SovaChecklistCoverage items={checklistCoverage} />
-      </SovaCard>
-      <div style={grid}>
-        <SovaCard title="Forms"><div style={{ display: 'grid', gap: 12 }}><SovaFormGroup title="Form group" description="Grouped related inputs"><SovaInput label="Input field" placeholder="Type value" hint="Label, hint, error states" /><SovaSelect label="Dropdown" value="ready" options={[{ label: 'Ready', value: 'ready' }, { label: 'Watch', value: 'watch' }]} /><SovaDatePicker label="Date picker" value="2026-06-18" /><SovaDateRangePicker label="Date range" start="2026-06-01" end="2026-06-18" hint="Single and range date controls share field styling." /></SovaFormGroup><SovaDivider label="choices" /><SovaSearchBar placeholder="Search rows" actions={<SovaBadge>⌘K</SovaBadge>} /><SovaCheckbox label="Checkbox" description="Multi-select option" checked /><SovaRadio name="demo-radio" value="one" label="Radio" description="Single choice" checked /><SovaToggle label="Toggle" description="Fast on/off state" checked /><SovaSlider label="Threshold" value={64} /></div></SovaCard>
-        <SovaCard title="Identity + metadata"><div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}><SovaAvatar name="Nazar Khimin" status="good" /><SovaIcon tone="accent">↗</SovaIcon><SovaTooltip label="Helpful context"><SovaBadge variant="outline">tooltip</SovaBadge></SovaTooltip><SovaLoading label="Syncing" /></div></SovaCard>
-        <SovaCard title="Navigation"><div style={{ display: 'grid', gap: 12 }}><SovaTabs value="one" items={[{ label: 'Overview', value: 'one' }, { label: 'Queue', value: 'two', badge: <SovaBadge size="xs">3</SovaBadge> }]} /><SovaAccordion items={[{ title: 'Accordion row', content: 'Expandable content for dense settings and help.', defaultOpen: true }]} /></div></SovaCard>
-        <SovaCard title="Loading + feedback"><div style={{ display: 'grid', gap: 12 }}><SovaSkeleton lines={3} /><SovaToast tone="good" title="Saved" description="Changes were persisted." /></div></SovaCard>
-        <SovaCard title="Overlays"><div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}><SovaBadge variant="outline">Modal</SovaBadge><SovaBadge variant="outline">Drawer</SovaBadge><SovaModal open={false} title="Modal" description="Dialog structure" actions={<SovaButton>Done</SovaButton>}><p style={{ margin: 0, color: 'var(--sova-muted)' }}>Modal content area.</p></SovaModal><SovaDrawer open={false} title="Drawer"><p style={{ margin: 0, color: 'var(--sova-muted)' }}>Drawer content area.</p></SovaDrawer></div></SovaCard>
-        <SovaCard title="Carousel"><SovaCarousel items={[<SovaCard key="a"><SovaStat label="One" value="1" /></SovaCard>, <SovaCard key="b"><SovaStat label="Two" value="2" /></SovaCard>]} /></SovaCard>
-      </div>
-    </div>
-  </StoryFrame>
-)
-
-export const AnalyticsCharts = () => (
-  <StoryFrame theme="finance">
-    <div style={storyWrap}>
-      <SovaPageHeader eyebrow="analytics kit" title="Best default chart set" description="Trend, composition, comparison, part-to-whole, heatmap, lightweight flow, and ECharts Sankey for Sova portals." meta={<SovaBadge dot tone="accent">ECharts powered</SovaBadge>} />
-      <div className="sova-analytics-grid">
-        <SovaChartCard className="sova-chart-card-wide" title="Trend" description="For PnL, balance, job volume, automation health." footer={<SovaBadge tone="good" dot>+18%</SovaBadge>}>
-          <SovaLineChart points={[12, 16, 13, 18, 21, 19, 26, 24, 31, 36, 34, 42]} tone="accent" height={150} />
-        </SovaChartCard>
-        <SovaChartCard title="Composition" description="Spend, source quality, signal buckets.">
-          <SovaDonutChart center={<><span>52%</span><small style={{ color: 'var(--sova-muted)', fontSize: 11 }}>ready</small></>} segments={mixSegments} />
-        </SovaChartCard>
-        <SovaChartCard title="Comparison" description="One unified ranking plot, no per-metric bubbles.">
-          <SovaRankingChart items={[{ label: 'Food', value: 42, hint: '₴42k', tone: 'warn' }, { label: 'Jobs', value: 31, hint: '31 hits', tone: 'accent' }, { label: 'BTC', value: 26, hint: '+26%', tone: 'good' }, { label: 'Ops', value: 18, hint: '18 tasks', tone: 'bad' }]} />
-        </SovaChartCard>
-        <SovaChartCard title="Part to whole" description="Compact stacked distribution.">
-          <SovaStackedBar label="Pipeline mix" value="100%" segments={mixSegments} />
-        </SovaChartCard>
-        <SovaChartCard title="Heatmap" description="Calendar/day intensity, scan volume, habits.">
-          <SovaHeatmap cells={weeklyCells} columns={7} />
-        </SovaChartCard>
-        <SovaChartCard className="sova-chart-card-wide" title="Lite flow" description="Small dependency-free flow for quick summaries.">
-          <SovaFlowChart source="Income" center="Cashflow" items={[{ label: 'Food', value: 42, tone: 'warn' }, { label: 'Savings', value: 31, tone: 'good' }, { label: 'Bills', value: 24, tone: 'accent' }, { label: 'Other', value: 12, tone: 'bad' }]} />
-        </SovaChartCard>
-        <SovaChartCard className="sova-chart-card-wide" title="Sankey" description="ECharts-powered Sankey for real cashflow/funnel/multi-stage analytics.">
-          <SovaSankeyChart
-            height={320}
-            nodes={[
-              { name: 'Salary', tone: 'good' }, { name: 'Cashflow', tone: 'accent' }, { name: 'Food', tone: 'warn' }, { name: 'Bills', tone: 'accent' }, { name: 'Savings', tone: 'good' }, { name: 'Other', tone: 'bad' },
-            ]}
-            links={[
-              { source: 'Salary', target: 'Cashflow', value: 100 },
-              { source: 'Cashflow', target: 'Food', value: 32 },
-              { source: 'Cashflow', target: 'Bills', value: 24 },
-              { source: 'Cashflow', target: 'Savings', value: 31 },
-              { source: 'Cashflow', target: 'Other', value: 13 },
-            ]}
-          />
-        </SovaChartCard>
-        <SovaChartCard className="sova-chart-card-wide" title="Area trend" description="ECharts area line for richer time-series, balances and PnL.">
-          <SovaAreaChart labels={['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']} values={[12, 18, 15, 27, 24, 34]} />
-        </SovaChartCard>
-        <SovaChartCard className="sova-chart-card-wide" title="Multi-series trend" description="Compare volume, quality and risk over the same timeline.">
-          <SovaMultiLineChart labels={['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']} series={[{ name: 'Volume', values: [12, 18, 15, 27, 24, 34], tone: 'accent' }, { name: 'Quality', values: [8, 12, 17, 19, 22, 26], tone: 'good' }, { name: 'Risk', values: [6, 9, 7, 13, 10, 8], tone: 'warn' }]} />
-        </SovaChartCard>
-        <SovaChartCard title="Gauge" description="Single health/confidence score.">
-          <SovaGaugeChart value={74} label="Health" tone="good" />
-        </SovaChartCard>
-        <SovaChartCard title="Scatter" description="Risk/reward, salary/fit, confidence/return.">
-          <SovaScatterChart points={[{ x: 12, y: 72, label: 'A', tone: 'good' }, { x: 22, y: 48, label: 'B', tone: 'warn' }, { x: 30, y: 82, label: 'C', tone: 'accent' }, { x: 41, y: 35, label: 'D', tone: 'bad' }]} />
-        </SovaChartCard>
-        <SovaChartCard title="Radar" description="Multi-metric fit/health scoring.">
-          <SovaRadarChart metrics={[{ label: 'Fit', value: 86, max: 100 }, { label: 'Salary', value: 72, max: 100 }, { label: 'Remote', value: 92, max: 100 }, { label: 'Risk', value: 34, max: 100 }, { label: 'Speed', value: 68, max: 100 }]} />
-        </SovaChartCard>
-        <SovaChartCard title="Treemap" description="Dense composition when many buckets exist.">
-          <SovaTreemapChart items={[{ name: 'Food', value: 42, tone: 'warn' }, { name: 'Housing', value: 31, tone: 'accent' }, { name: 'Savings', value: 27, tone: 'good' }, { name: 'Other', value: 12, tone: 'bad' }]} />
-        </SovaChartCard>
-        <SovaChartCard className="sova-chart-card-wide" title="Candlestick" description="Trading-specific chart primitive for OHLC data.">
-          <SovaCandlestickChart points={[{ label: 'Mon', open: 12, close: 18, low: 10, high: 20 }, { label: 'Tue', open: 18, close: 16, low: 14, high: 21 }, { label: 'Wed', open: 16, close: 24, low: 15, high: 26 }, { label: 'Thu', open: 24, close: 21, low: 19, high: 28 }, { label: 'Fri', open: 21, close: 29, low: 20, high: 31 }]} />
-        </SovaChartCard>
-      </div>
-    </div>
-  </StoryFrame>
-)
-
 export const SovaSystem = () => (
   <StoryFrame theme="brain">
-    <div style={storyWrap}>
-      <SovaPageHeader eyebrow="single source" title="Sova System" description="One page for foundation tokens, common components, data surfaces and reusable charts." meta={<SovaBadge dot pulse tone="good">production v1</SovaBadge>} />
-      <SovaCard title="Checklist.design coverage" description="Coverage map for the requested shared UI checklist.">
-        <SovaChecklistCoverage items={checklistCoverage} />
-      </SovaCard>
+    <div className="sova-system-page">
+      <SovaPageHeader
+        eyebrow="single source"
+        title="Sova System"
+        description="One expanded page for foundation, layout, navigation, common components, tables, states and reusable charts. This replaces the old separate Analytics/Checklist partial pages."
+        meta={<SovaBadge dot pulse tone="good">production v1</SovaBadge>}
+        actions={<><SovaButton variant="primary">Primary action</SovaButton><SovaButton>Secondary</SovaButton></>}
+      />
+
       <section className="sova-system-section">
-        <h2>Foundation</h2>
-        <div className="sova-token-grid">
-          <div className="sova-token-swatch"><i style={{ background: 'var(--sova-accent)' }} /><strong>Accent</strong></div>
-          <div className="sova-token-swatch"><i style={{ background: 'var(--sova-good)' }} /><strong>Good</strong></div>
-          <div className="sova-token-swatch"><i style={{ background: 'var(--sova-warn)' }} /><strong>Warn</strong></div>
-          <div className="sova-token-swatch"><i style={{ background: 'var(--sova-bad)' }} /><strong>Bad</strong></div>
+        <h2>Foundation: typography, colors, spacing</h2>
+        <div className="sova-system-grid-large">
+          <SovaCard title="Typography">
+            <div style={{ display: 'grid', gap: 10 }}>
+              <p className="sova-eyebrow">eyebrow / metadata</p>
+              <h1 className="sova-page-title" style={{ margin: 0 }}>Operator title</h1>
+              <p className="sova-page-description" style={{ margin: 0 }}>Compact, calm, information-dense text rhythm for internal dashboards.</p>
+              <SovaStat label="Mono metric" value="₴42,180" tone="accent" />
+            </div>
+          </SovaCard>
+          <SovaCard title="Color tokens">
+            <div className="sova-token-grid">
+              <div className="sova-token-swatch"><i style={{ background: 'var(--sova-accent)' }} /><strong>Accent</strong></div>
+              <div className="sova-token-swatch"><i style={{ background: 'var(--sova-good)' }} /><strong>Good</strong></div>
+              <div className="sova-token-swatch"><i style={{ background: 'var(--sova-warn)' }} /><strong>Warn</strong></div>
+              <div className="sova-token-swatch"><i style={{ background: 'var(--sova-bad)' }} /><strong>Bad</strong></div>
+            </div>
+          </SovaCard>
         </div>
         <SovaKpiRow items={[{ label: 'Open', value: '12' }, { label: 'Good', value: '+24%', tone: 'good' }, { label: 'Warn', value: '3', tone: 'warn' }, { label: 'Bad', value: '-2', tone: 'bad' }]} />
       </section>
+
       <section className="sova-system-section">
-        <h2>Components</h2>
-        <div style={grid}>
-          <SovaCard title="Buttons / badges"><div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}><SovaButton variant="primary">Primary</SovaButton><SovaButton>Secondary</SovaButton><SovaBadge dot pulse tone="good">live</SovaBadge><SovaBadge variant="outline" tone="accent">filter</SovaBadge></div></SovaCard>
-          <SovaCard title="Forms"><div style={{ display: 'grid', gap: 10 }}><SovaInput label="Textfield" placeholder="Search or enter value" /><SovaSelect label="Dropdown" value="ready" options={[{ label: 'Ready', value: 'ready' }, { label: 'Watch', value: 'watch' }]} /><SovaDateRangePicker start="2026-06-01" end="2026-06-18" /></div></SovaCard>
-          <SovaCard title="Choices"><div style={{ display: 'grid', gap: 10 }}><SovaCheckbox label="Checkbox" checked /><SovaRadio name="system-radio" value="one" label="Radio" checked /><SovaToggle label="Toggle" checked /></div></SovaCard>
-          <SovaCard title="Feedback"><div style={{ display: 'grid', gap: 10 }}><SovaBanner title="Banner" description="Important message" /><SovaToast title="Toast" description="Short status feedback" /><SovaSkeleton lines={2} /></div></SovaCard>
+        <h2>Checklist.design coverage</h2>
+        <SovaChecklistCoverage items={checklistCoverage} />
+      </section>
+
+      <section className="sova-system-section">
+        <h2>Layout and navigation</h2>
+        <SovaShell
+          sidebar={<><SovaBrand mark="S" eyebrow="sova" title="Operator" /><SovaNav items={[{ label: 'Overview', active: true, icon: <SovaIcon size={16}>⌂</SovaIcon> }, { label: 'Queue', icon: <SovaIcon size={16}>≡</SovaIcon> }, { label: 'Settings', icon: <SovaIcon size={16}>⚙</SovaIcon> }]} /></>}
+        >
+          <SovaTopbar eyebrow="topbar" title="Responsive shell" actions={<SovaBadge dot tone="good">live</SovaBadge>}>
+            <p className="sova-page-description">Sidebar, topbar, nav, page header and responsive grid in one layout surface.</p>
+          </SovaTopbar>
+          <SovaDashboardGrid inspector={<SovaInspector title="Inspector" subtitle="Right rail" sections={[{ title: 'Context', content: <p>Dense details without leaving the page.</p> }, { title: 'Status', content: <SovaBadge tone="good">ready</SovaBadge> }]} />}>
+            <SovaCard title="Main area"><SovaLineChart points={[4, 8, 6, 12, 11, 18, 16]} height={120} /></SovaCard>
+            <SovaSplitCard title="Split card" description="Main + side content" main={<SovaProgressList items={[{ label: 'Coverage', value: '92%', percent: 92, tone: 'good' }, { label: 'Risk', value: '18%', percent: 18, tone: 'warn' }]} />} side={<SovaSparkBars points={[{ value: 2 }, { value: 7, tone: 'good' }, { value: -3, tone: 'bad' }, { value: 8, tone: 'accent' }]} />} />
+          </SovaDashboardGrid>
+        </SovaShell>
+      </section>
+
+      <section className="sova-system-section">
+        <h2>Core components</h2>
+        <div className="sova-system-grid-large">
+          <SovaCard title="Buttons, badges, icons, avatar">
+            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
+              <SovaButton variant="primary">Primary</SovaButton><SovaButton>Secondary</SovaButton>
+              <SovaBadge dot pulse tone="good">live</SovaBadge><SovaBadge variant="outline" tone="accent">filter</SovaBadge><SovaBadge variant="ghost">quiet</SovaBadge>
+              <SovaIcon tone="accent">↗</SovaIcon><SovaAvatar name="Nazar Khimin" status="good" />
+              <SovaTooltip label="Tooltip text"><SovaBadge variant="outline">hover/focus</SovaBadge></SovaTooltip>
+            </div>
+          </SovaCard>
+          <SovaCard title="Forms and controls">
+            <SovaFormGroup title="Filter group" description="Textfields, dropdowns, single dates and ranges.">
+              <SovaInput label="Textfield" placeholder="Search or enter value" hint="Hint copy" />
+              <SovaSearchBar placeholder="Search rows" actions={<SovaBadge>⌘K</SovaBadge>} />
+              <SovaSelect label="Dropdown" value="ready" options={[{ label: 'Ready', value: 'ready' }, { label: 'Watch', value: 'watch' }]} />
+              <SovaDatePicker label="Single date" value="2026-06-18" />
+              <SovaDateRangePicker label="Date range" start="2026-06-01" end="2026-06-18" />
+            </SovaFormGroup>
+          </SovaCard>
+          <SovaCard title="Choices and sliders">
+            <div style={{ display: 'grid', gap: 12 }}>
+              <SovaCheckbox label="Checkbox" description="Multi-select item" checked />
+              <SovaRadio name="system-radio" value="one" label="Radio" description="Single choice" checked />
+              <SovaToggle label="Toggle" description="Fast on/off setting" checked />
+              <SovaSlider label="Threshold" value={64} />
+              <SovaTabs value="overview" items={[{ label: 'Overview', value: 'overview' }, { label: 'Queue', value: 'queue', badge: <SovaBadge size="xs">3</SovaBadge> }]} />
+            </div>
+          </SovaCard>
+          <SovaCard title="Feedback and states">
+            <div style={{ display: 'grid', gap: 12 }}>
+              <SovaBanner title="Banner" description="Important persistent feedback." />
+              <SovaToast tone="good" title="Toast" description="Short status feedback." />
+              <SovaLoading label="Syncing" />
+              <SovaSkeleton lines={3} />
+              <SovaEmptyState title="No rows" description="Empty state copy with next action nearby." />
+            </div>
+          </SovaCard>
+          <SovaCard title="Disclosure / overlays / carousel">
+            <div style={{ display: 'grid', gap: 12 }}>
+              <SovaAccordion items={[{ title: 'Accordion row', content: 'Expandable dense content.', defaultOpen: true }]} />
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}><SovaBadge variant="outline">Modal</SovaBadge><SovaBadge variant="outline">Drawer</SovaBadge><SovaModal open={false} title="Modal"><p>Modal body</p></SovaModal><SovaDrawer open={false} title="Drawer"><p>Drawer body</p></SovaDrawer></div>
+              <SovaCarousel items={[<SovaCard key="a"><SovaStat label="Slide A" value="1" /></SovaCard>, <SovaCard key="b"><SovaStat label="Slide B" value="2" /></SovaCard>, <SovaCard key="c"><SovaStat label="Slide C" value="3" /></SovaCard>]} />
+            </div>
+          </SovaCard>
+          <SovaCard title="Divider and footer">
+            <div style={{ display: 'grid', gap: 12 }}><SovaDivider label="section" /><SovaFooter brand="Sova Kit" links={[{ label: 'Docs', href: '#' }, { label: 'Demo', href: '#' }]} /></div>
+          </SovaCard>
         </div>
       </section>
+
       <section className="sova-system-section">
-        <h2>Tables and common surfaces</h2>
-        <SovaTableCard title="Common table" description="Use this for queues, transactions, positions and task lists." density="compact" columns={[{ key: 'name', header: 'Name' }, { key: 'status', header: 'Status' }, { key: 'score', header: 'Score', align: 'right', mono: true }]} rows={[{ name: 'Jobs queue', status: <SovaBadge tone="good">ready</SovaBadge>, score: '91' }, { name: 'Finance review', status: <SovaBadge tone="warn">watch</SovaBadge>, score: '73' }]} />
+        <h2>Tables and common data surfaces</h2>
+        <SovaToolbar left={<SovaSearchBar placeholder="Search table" />} right={<><SovaBadge variant="outline">All</SovaBadge><SovaButton>Export</SovaButton></>} />
+        <SovaTableCard title="Common table card" description="Recommended table wrapper for queues, transactions, positions and task lists." density="compact" stickyHeader columns={[{ key: 'name', header: 'Name' }, { key: 'status', header: 'Status' }, { key: 'source', header: 'Source' }, { key: 'score', header: 'Score', align: 'right', mono: true }]} rows={[{ name: 'Jobs queue', status: <SovaBadge tone="good">ready</SovaBadge>, source: 'career-ops', score: '91' }, { name: 'Finance review', status: <SovaBadge tone="warn">watch</SovaBadge>, source: 'transactions', score: '73' }, { name: 'Trading paper', status: <SovaBadge tone="accent">paper</SovaBadge>, source: 'okx', score: '68' }]} />
+        <div className="sova-system-grid-large">
+          <SovaCard title="Raw table"><SovaTable columns={[{ key: 'name', header: 'Name' }, { key: 'value', header: 'Value', align: 'right', mono: true }]} rows={[{ name: 'Alpha', value: '12' }, { name: 'Beta', value: '24' }]} /></SovaCard>
+          <SovaCard title="Activity / settings"><div style={{ display: 'grid', gap: 14 }}><SovaActivityFeed items={[{ title: 'Synced jobs', detail: '7 exported', time: 'now', tone: 'good' }, { title: 'Finance review', detail: '3 uncategorized', time: '2m', tone: 'warn' }]} /><SovaSettingsList items={[{ label: 'Notifications', description: 'Send only useful signals', control: <SovaToggle label="" checked /> }, { label: 'Language', description: 'Shared router setting', control: <SovaBadge>UA/EN</SovaBadge> }]} /></div></SovaCard>
+        </div>
       </section>
+
       <section className="sova-system-section">
-        <h2>Charts</h2>
+        <h2>Reusable charts</h2>
         <div className="sova-analytics-grid">
-          <SovaChartCard title="Ranking"><SovaRankingChart items={[{ label: 'Jobs', value: 31, tone: 'accent' }, { label: 'Finance', value: 24, tone: 'good' }, { label: 'Trading', value: 18, tone: 'warn' }]} /></SovaChartCard>
+          <SovaChartCard className="sova-chart-card-wide" title="Trend"><SovaLineChart points={[12, 16, 13, 18, 21, 19, 26, 24, 31, 36, 34, 42]} tone="accent" height={150} /></SovaChartCard>
           <SovaChartCard title="Donut"><SovaDonutChart center={<span>64%</span>} segments={mixSegments} /></SovaChartCard>
-          <SovaChartCard className="sova-chart-card-wide" title="Multi-line"><SovaMultiLineChart labels={['Mon', 'Tue', 'Wed', 'Thu']} series={[{ name: 'Volume', values: [12, 18, 15, 22], tone: 'accent' }, { name: 'Quality', values: [9, 12, 17, 19], tone: 'good' }]} /></SovaChartCard>
+          <SovaChartCard title="Ranking"><SovaRankingChart items={[{ label: 'Jobs', value: 31, tone: 'accent' }, { label: 'Finance', value: 24, tone: 'good' }, { label: 'Trading', value: 18, tone: 'warn' }]} /></SovaChartCard>
+          <SovaChartCard title="Vertical bars"><SovaBarChart items={[{ label: 'Mon', value: 12 }, { label: 'Tue', value: 18, tone: 'good' }, { label: 'Wed', value: 9, tone: 'warn' }, { label: 'Thu', value: 22, tone: 'accent' }]} /></SovaChartCard>
+          <SovaChartCard title="Stacked"><SovaStackedBar label="Mix" value="100%" segments={mixSegments} /></SovaChartCard>
+          <SovaChartCard title="Heatmap"><SovaHeatmap cells={weeklyCells} columns={7} /></SovaChartCard>
+          <SovaChartCard className="sova-chart-card-wide" title="Flow"><SovaFlowChart source="Input" center="System" items={[{ label: 'Jobs', value: 31, tone: 'accent' }, { label: 'Finance', value: 24, tone: 'good' }, { label: 'Trading', value: 18, tone: 'warn' }]} /></SovaChartCard>
+          <SovaChartCard className="sova-chart-card-wide" title="Sankey"><SovaSankeyChart height={260} nodes={[{ name: 'Input', tone: 'accent' }, { name: 'Review', tone: 'warn' }, { name: 'Done', tone: 'good' }, { name: 'Drop', tone: 'bad' }]} links={[{ source: 'Input', target: 'Review', value: 40 }, { source: 'Review', target: 'Done', value: 28 }, { source: 'Review', target: 'Drop', value: 12 }]} /></SovaChartCard>
+          <SovaChartCard className="sova-chart-card-wide" title="Area"><SovaAreaChart labels={['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']} values={[12, 18, 15, 27, 24, 34]} /></SovaChartCard>
+          <SovaChartCard className="sova-chart-card-wide" title="Multi-line"><SovaMultiLineChart labels={['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']} series={[{ name: 'Volume', values: [12, 18, 15, 27, 24, 34], tone: 'accent' }, { name: 'Quality', values: [8, 12, 17, 19, 22, 26], tone: 'good' }, { name: 'Risk', values: [6, 9, 7, 13, 10, 8], tone: 'warn' }]} /></SovaChartCard>
           <SovaChartCard title="Gauge"><SovaGaugeChart value={74} label="Health" tone="good" /></SovaChartCard>
-          <SovaChartCard title="Heatmap"><SovaHeatmap cells={weeklyCells.slice(0, 14)} columns={7} /></SovaChartCard>
-          <SovaChartCard className="sova-chart-card-wide" title="Sankey"><SovaSankeyChart height={260} nodes={[{ name: 'Input', tone: 'accent' }, { name: 'Review', tone: 'warn' }, { name: 'Done', tone: 'good' }]} links={[{ source: 'Input', target: 'Review', value: 40 }, { source: 'Review', target: 'Done', value: 28 }]} /></SovaChartCard>
+          <SovaChartCard title="Scatter"><SovaScatterChart points={[{ x: 12, y: 72, label: 'A', tone: 'good' }, { x: 22, y: 48, label: 'B', tone: 'warn' }, { x: 30, y: 82, label: 'C', tone: 'accent' }, { x: 41, y: 35, label: 'D', tone: 'bad' }]} /></SovaChartCard>
+          <SovaChartCard title="Radar"><SovaRadarChart metrics={[{ label: 'Fit', value: 86, max: 100 }, { label: 'Salary', value: 72, max: 100 }, { label: 'Remote', value: 92, max: 100 }, { label: 'Risk', value: 34, max: 100 }, { label: 'Speed', value: 68, max: 100 }]} /></SovaChartCard>
+          <SovaChartCard title="Treemap"><SovaTreemapChart items={[{ name: 'Food', value: 42, tone: 'warn' }, { name: 'Housing', value: 31, tone: 'accent' }, { name: 'Savings', value: 27, tone: 'good' }, { name: 'Other', value: 12, tone: 'bad' }]} /></SovaChartCard>
+          <SovaChartCard className="sova-chart-card-wide" title="Candlestick"><SovaCandlestickChart points={[{ label: 'Mon', open: 12, close: 18, low: 10, high: 20 }, { label: 'Tue', open: 18, close: 16, low: 14, high: 21 }, { label: 'Wed', open: 16, close: 24, low: 15, high: 26 }, { label: 'Thu', open: 24, close: 21, low: 19, high: 28 }, { label: 'Fri', open: 21, close: 29, low: 20, high: 31 }]} /></SovaChartCard>
         </div>
       </section>
     </div>
   </StoryFrame>
 )
-
 export const DashboardJobs = () => <DashboardTemplate theme="jobs" />
 export const DashboardFinance = () => <DashboardTemplate theme="finance" />
 export const DashboardTrading = () => <DashboardTemplate theme="trading" />
